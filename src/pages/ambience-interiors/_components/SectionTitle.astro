@@ -1,0 +1,22 @@
+---
+interface Props {
+  subtitle?: string; // dòng nhỏ trên (ví dụ: "Bộ sưu tập")
+  title: string; // heading chính
+}
+
+const { subtitle, title } = Astro.props;
+---
+
+<div class="text-center mb-12">
+  {
+    subtitle && (
+      <span class="text-xs tracking-[0.3em] text-ai-mocha uppercase font-sans">
+        {subtitle}
+      </span>
+    )
+  }
+  <h2 class="mt-3 font-sans text-4xl md:text-5xl text-gray-800 tracking-tight">
+    {title}
+  </h2>
+  <div class="mt-4 mx-auto w-12 h-1 bg-ai-mocha"></div>
+</div>

@@ -1,0 +1,146 @@
+---
+import SectionTitle from "../SectionTitle.astro";
+import news1 from "../../_assets/about-1.png";
+import news2 from "../../_assets/about-2.png";
+import news3 from "../../_assets/about-3.png";
+import news4 from "../../_assets/about-5.png";
+
+const articles = [
+  {
+    id: 1,
+    tag: "Xu hướng",
+    title: "Phong cách Bắc Âu — Vẻ đẹp tối giản chinh phục không gian sống hiện đại",
+    excerpt:
+      "Thiết kế Bắc Âu (Scandinavian) lấy cảm hứng từ thiên nhiên, đề cao sự tối giản và công năng, tạo nên những không gian ấm áp, thanh lịch và đậm chất nghệ thuật.",
+    date: "20 tháng 7, 2026",
+    readTime: "5 phút đọc",
+    image: news1,
+    featured: true,
+  },
+  {
+    id: 2,
+    tag: "Thiết kế",
+    title: "Gỗ Walnut — Chất liệu hoàng gia trong nội thất đương đại",
+    excerpt:
+      "Gỗ Walnut với vân gỗ đặc trưng và màu nâu sẫm sang trọng đang trở thành lựa chọn hàng đầu cho những không gian nội thất cao cấp.",
+    date: "15 tháng 7, 2026",
+    readTime: "4 phút đọc",
+    image: news2,
+    featured: false,
+  },
+  {
+    id: 3,
+    tag: "Mẹo hay",
+    title: "5 bí quyết chọn sofa phù hợp với diện tích căn phòng",
+    excerpt:
+      "Chọn sofa không chỉ dừng lại ở thẩm mỹ — kích thước, chất liệu và màu sắc đều ảnh hưởng trực tiếp đến cảm giác tổng thể của không gian.",
+    date: "10 tháng 7, 2026",
+    readTime: "3 phút đọc",
+    image: news3,
+    featured: false,
+  },
+  {
+    id: 4,
+    tag: "Sự kiện",
+    title: "Ambience Interiors khai trương showroom mới tại trung tâm thành phố",
+    excerpt:
+      "Không gian trưng bày rộng hơn 500m² với hơn 200 mẫu nội thất cao cấp, mang đến trải nghiệm khám phá phong cách sống đẳng cấp.",
+    date: "5 tháng 7, 2026",
+    readTime: "2 phút đọc",
+    image: news4,
+    featured: false,
+  },
+];
+
+const featured = articles.find((a) => a.featured)!;
+const rest = articles.filter((a) => !a.featured);
+---
+
+<section class="py-20 px-6 bg-[#faf8f5]">
+  <div class="max-w-7xl mx-auto">
+    <SectionTitle subtitle="Cập nhật" title="Tin Tức Mới Nhất" />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8">
+
+      <!-- ── Featured article (trái) ── -->
+      <a href="/ambience-interiors/news/" class="group flex flex-col h-full">
+        <!-- Ảnh featured -->
+        <div class="overflow-hidden flex-1 min-h-[280px]">
+          <img
+            src={featured.image.src}
+            alt={featured.title}
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        </div>
+        <!-- Content -->
+        <div class="mt-5">
+          <span class="text-[10px] tracking-[0.3em] uppercase text-ai-mocha font-sans">
+            {featured.tag}
+          </span>
+          <h3 class="mt-2 font-sans text-2xl md:text-3xl text-gray-800 leading-snug group-hover:text-ai-mocha transition-colors duration-200">
+            {featured.title}
+          </h3>
+          <p class="mt-3 text-sm text-gray-500 font-sans leading-relaxed line-clamp-3">
+            {featured.excerpt}
+          </p>
+          <div class="mt-4 flex items-center gap-3 text-xs text-gray-400 font-sans">
+            <span>{featured.date}</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span>{featured.readTime}</span>
+          </div>
+          <!-- CTA -->
+          <div class="mt-5 inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-ai-mocha font-sans group-hover:gap-4 transition-all duration-300">
+            Đọc thêm
+            <svg width="28" height="1" viewBox="0 0 28 1" class="stroke-current">
+              <line x1="0" y1="0.5" x2="28" y2="0.5" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- ── 3 bài nhỏ (phải) ── -->
+      <div class="flex flex-col divide-y divide-gray-200 mt-8 md:mt-0">
+        {
+          rest.map((article) => (
+            <a href="/ambience-interiors/news/" class="group flex gap-4 py-5 first:pt-0 last:pb-0">
+              <!-- Thumbnail -->
+              <div class="shrink-0 w-24 h-24 md:w-28 md:h-28 overflow-hidden">
+                <img
+                  src={article.image.src}
+                  alt={article.title}
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <!-- Text -->
+              <div class="flex flex-col justify-center min-w-0">
+                <span class="text-[10px] tracking-[0.25em] uppercase text-ai-mocha font-sans">
+                  {article.tag}
+                </span>
+                <h4 class="mt-1 font-sans text-sm md:text-base text-gray-800 leading-snug line-clamp-2 group-hover:text-ai-mocha transition-colors duration-200">
+                  {article.title}
+                </h4>
+                <div class="mt-2 flex items-center gap-2 text-xs text-gray-400 font-sans">
+                  <span>{article.date}</span>
+                  <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+                  <span>{article.readTime}</span>
+                </div>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+    </div>
+
+    <!-- Xem tất cả -->
+    <div class="mt-12 text-center">
+      <a
+        href="/ambience-interiors/news/"
+        class="inline-flex items-center gap-3 px-8 py-3 border border-ai-mocha text-ai-mocha text-xs tracking-[0.2em] uppercase font-sans hover:bg-ai-mocha hover:text-white transition-all duration-300"
+      >
+        Xem tất cả tin tức
+      </a>
+    </div>
+
+  </div>
+</section>

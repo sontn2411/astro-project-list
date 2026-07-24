@@ -1,0 +1,53 @@
+---
+import designBg from "../../_assets/design-1.png";
+---
+
+<section
+  class="relative w-full min-h-[420px] md:min-h-[600px] flex items-center justify-center overflow-hidden -mt-10"
+>
+  <!-- Ảnh nền full cover -->
+  <img
+    src={designBg.src}
+    alt="Cảm hứng nội thất Ambience"
+    class="absolute inset-0 w-full h-full object-cover"
+  />
+
+  <!-- Overlay tối nhẹ -->
+  <div class="absolute inset-0 bg-black/55"></div>
+
+  <!-- Nội dung căn giữa -->
+  <div class="relative z-10 text-center px-6 max-w-2xl mx-auto">
+    <!-- Title chính -->
+    <h2 class="font-sans text-4xl md:text-5xl text-white leading-tight">
+      Cảm Hứng Nội Thất
+    </h2>
+
+    <!-- Subtitle nhỏ uppercase -->
+    <p
+      class="mt-2 text-xs md:text-sm tracking-[0.4em] uppercase text-white/80 font-sans"
+    >
+      Furniture Inspiration
+    </p>
+
+    <!-- Divider -->
+    <div class="mt-5 mx-auto w-10 h-px bg-white/50"></div>
+
+    <!-- Mô tả -->
+    <p
+      class="mt-5 text-sm md:text-base text-white/75 font-sans leading-relaxed"
+    >
+      Cảm hứng đến từ thiên nhiên — những đường nét mềm mại, thanh lịch, từ ghế
+      sofa, bàn ghế đến tủ kệ và tay vịn cầu thang.
+    </p>
+
+    <!-- Button -->
+    <div class="mt-8">
+      <a
+        href="/ambience-interiors/products/"
+        class="inline-block px-10 py-3 bg-ai-mocha text-white text-xs tracking-[0.25em] uppercase font-sans hover:bg-ai-mocha/80 transition-colors duration-300"
+      >
+        Khám Phá Thêm
+      </a>
+    </div>
+  </div>
+</section>

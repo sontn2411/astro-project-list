@@ -1,0 +1,60 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  totalSlides: number;
+}
+
+const { totalSlides } = Astro.props;
+---
+
+<!-- Bottom bar: Prev · Counter · Next ←────────────→ Dots -->
+<div
+  class="absolute bottom-5 left-0 right-0 flex items-center justify-between px-8 md:px-16"
+>
+  <!-- Trái: prev + counter + next -->
+  <div class="flex items-center gap-3">
+    <button
+      id="hero-prev"
+      aria-label="Slide trước"
+      class="w-7 h-7 flex items-center justify-center text-white hover:text-ai-mocha transition-colors duration-200"
+    >
+      <Icon name="lucide:arrow-left" class="w-4 h-4" />
+    </button>
+
+    <span
+      id="hero-counter"
+      class="text-xs tracking-[0.25em] text-white font-sans tabular-nums"
+    >
+      01 / {String(totalSlides).padStart(2, "0")}
+    </span>
+
+    <button
+      id="hero-next"
+      aria-label="Slide tiếp theo"
+      class="w-7 h-7 flex items-center justify-center text-white hover:text-ai-mocha transition-colors duration-200"
+    >
+      <Icon name="lucide:arrow-right" class="w-4 h-4" />
+    </button>
+  </div>
+
+  <!-- Phải (mobile) / Giữa (desktop): dots -->
+  <div
+    class="flex gap-2 md:absolute md:left-1/2 md:-translate-x-1/2"
+    role="tablist"
+    id="hero-dots"
+  >
+    {
+      Array.from({ length: totalSlides }).map((_, i) => (
+        <button
+          role="tab"
+          aria-label={`Slide ${i + 1}`}
+          data-dot={i}
+          class={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+            i === 0 ? "bg-ai-mocha" : "bg-white hover:bg-ai-mocha/60"
+          }`}
+        />
+      ))
+    }
+  </div>
+</div>

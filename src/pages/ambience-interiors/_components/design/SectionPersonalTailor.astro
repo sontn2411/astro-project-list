@@ -1,0 +1,88 @@
+---
+import SectionTitle from "../SectionTitle.astro";
+import d1 from "../../_assets/design/design-1.png";
+import d2 from "../../_assets/design/design-2.png";
+import d3 from "../../_assets/design/design-3.png";
+import d4 from "../../_assets/design/design-4.png";
+
+const steps = [
+  {
+    num: "01",
+    title: "Nhà thiết kế đưa ra phương án thiết kế sơ bộ",
+    desc: "Phân tích không gian, lắng nghe mong muốn và phác thảo ý tưởng ban đầu để định hình phong cách.",
+    image: d1,
+  },
+  {
+    num: "02",
+    title: "Lựa chọn chất liệu và quy trình gia công",
+    desc: "Tuyển chọn các loại vật liệu cao cấp, đảm bảo tính thẩm mỹ hoàn hảo và độ bền vượt thời gian.",
+    image: d2,
+  },
+  {
+    num: "03",
+    title: "Tùy chỉnh các chi tiết",
+    desc: "Tinh chỉnh cẩn thận từng chi tiết từ kích thước, màu sắc đến kiểu dáng để phù hợp với cá tính riêng.",
+    image: d3,
+  },
+  {
+    num: "04",
+    title: "Kiểm tra chất lượng và bàn giao",
+    desc: "Quy trình kiểm tra khắt khe trước khi bàn giao, mang đến một không gian sống hoàn mỹ nhất.",
+    image: d4,
+  },
+];
+---
+
+<section class="py-20 px-4 md:px-6">
+  <div class="max-w-7xl mx-auto">
+    <SectionTitle subtitle="Thiết kế theo yêu cầu" title="Personal Tailor" />
+
+    <!-- Danh sách các bước thiết kế -->
+    <div class="mt-16 flex flex-col gap-16 md:gap-28">
+      {
+        steps.map((step, index) => {
+          const isEven = index % 2 !== 0; // Bước 02, 04
+
+          return (
+            <div class="relative max-w-7xl mx-auto w-full">
+              <!-- Nền Beige mờ nằm phía sau, cao hụt hơn ảnh một chút -->
+              <div class="absolute top-[20%] bottom-0 left-0 right-0 bg-[#F9EBDC] h-full -z-10 hidden md:block" />
+              <!-- Nền Beige cho mobile (thụt xuống từ trên để ảnh lồi lên) -->
+              <div class="absolute top-[15%] bottom-0 left-0 right-0 bg-[#F9EBDC] -z-10 md:hidden" />
+
+             <div class='max-w-6xl mx-auto w-full'>
+               <div class="flex flex-col md:flex-row items-center">
+                <!-- Cột hình ảnh -->
+                <div class={`w-full md:w-[45%] ${isEven ? "md:order-2" : "md:order-1"} px-4 md:px-0`}>
+                  <div class="overflow-hidden aspect-video shadow-lg">
+                    <img
+                      src={step.image.src}
+                      alt={step.title}
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                <!-- Cột nội dung text -->
+                <div class={`w-full md:w-[55%] flex flex-col p-8 md:p-12 lg:p-16 ${isEven ? "md:order-1" : "md:order-2"}`}>
+                  <div class="w-full flex justify-end mb-6">
+                    <span class="text-4xl md:text-5xl font-sans text-[#9a7b66]">
+                      {step.num}
+                    </span>
+                  </div>
+                  <h3 class="text-lg md:text-xl font-sans text-gray-800 mb-4 md:mb-6 font-medium">
+                    {step.title}
+                  </h3>
+                  <p class="text-sm md:text-base text-gray-600 font-sans leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+             </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

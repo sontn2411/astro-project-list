@@ -1,0 +1,98 @@
+---
+// SectionContact — Đặt lịch tư vấn
+
+const services = [
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`,
+    label: "Tư Vấn Giải Pháp",
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path d="M12 3a9 9 0 0 1 9 9M3 12a9 9 0 0 0 9 9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12H5M19 12h2"/></svg>`,
+    label: "Thiết Kế Phương Án",
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="10" rx="1"/><rect x="14" y="17" width="7" height="4" rx="1"/></svg>`,
+    label: "Phát Triển Sản Phẩm",
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/></svg>`,
+    label: "Bảo Hành & Hỗ Trợ",
+  },
+];
+---
+
+<section class="max-w-7xl mx-auto mt-20">
+  <div class="py-16 px-6 bg-[#f2f0ed]">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <div class="mb-8">
+        <span
+          class="text-xs tracking-[0.3em] uppercase text-ai-mocha font-sans"
+        >
+          Đặt Tư Vấn Miễn Phí
+        </span>
+        <h2
+          class="mt-2 font-sans text-2xl md:text-3xl text-gray-800 leading-snug max-w-xl"
+        >
+          Giải pháp nội thất toàn diện cho không gian sống của bạn
+        </h2>
+      </div>
+
+      <!-- Form -->
+      <form class="space-y-4">
+        <!-- Row 1: 3 inputs -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <input
+            type="text"
+            placeholder="Họ và Tên *"
+            class="w-full bg-white border border-gray-200 px-4 py-3 text-sm text-gray-700 font-sans placeholder-gray-400 outline-none focus:border-ai-mocha transition-colors duration-200"
+          />
+          <input
+            type="tel"
+            placeholder="Số điện thoại *"
+            class="w-full bg-white border border-gray-200 px-4 py-3 text-sm text-gray-700 font-sans placeholder-gray-400 outline-none focus:border-ai-mocha transition-colors duration-200"
+          />
+          <input
+            type="email"
+            placeholder="Email *"
+            class="w-full bg-white border border-gray-200 px-4 py-3 text-sm text-gray-700 font-sans placeholder-gray-400 outline-none focus:border-ai-mocha transition-colors duration-200"
+          />
+        </div>
+
+        <!-- Textarea -->
+        <textarea
+          rows="5"
+          placeholder="Yêu cầu của bạn *"
+          class="w-full bg-white border border-gray-200 px-4 py-3 text-sm text-gray-700 font-sans placeholder-gray-400 outline-none focus:border-ai-mocha transition-colors duration-200 resize-none"
+        ></textarea>
+
+        <!-- Submit -->
+        <div>
+          <button
+            type="submit"
+            class="px-12 py-3 bg-ai-mocha text-white text-xs tracking-[0.25em] uppercase font-sans hover:bg-ai-mocha/85 transition-colors duration-300"
+          >
+            Đặt Lịch Miễn Phí
+          </button>
+        </div>
+      </form>
+
+      <!-- Divider -->
+      <div class="mt-10 border-t border-gray-300"></div>
+
+      <!-- Service icons -->
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+        {
+          services.map((s, i) => (
+            <div
+              class={`flex items-center gap-3 ${i < services.length - 1 ? "md:border-r md:border-gray-300 md:pr-6" : ""}`}
+            >
+              <span class="text-ai-mocha shrink-0" set:html={s.icon} />
+              <span class="text-sm text-gray-700 font-sans">{s.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

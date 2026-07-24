@@ -1,0 +1,68 @@
+---
+import SectionTitle from "../SectionTitle.astro";
+import icon1 from "../../_assets/icons/service-4.png";
+import icon2 from "../../_assets/icons/service-1.png";
+import icon3 from "../../_assets/icons/service-3.png";
+import icon4 from "../../_assets/icons/service-2.png";
+
+const services = [
+  {
+    icon: icon1,
+    title: "Mua Sắm Nội Thất",
+    desc: "Lựa chọn qua các nền tảng hoặc showroom chuyên dụng",
+  },
+  {
+    icon: icon2,
+    title: "Đo Đạc Tận Nơi",
+    desc: "Khảo sát và đo đạc thực tế không gian tại công trình",
+  },
+  {
+    icon: icon3,
+    title: "Lắp Đặt Chuyên Nghiệp",
+    desc: "Thi công và lắp ráp tận nơi bởi đội ngũ kỹ thuật",
+  },
+  {
+    icon: icon4,
+    title: "Nghiệm Thu Chất Lượng",
+    desc: "Kiểm tra và nghiệm thu kỹ lưỡng sau khi hoàn thiện",
+  },
+];
+---
+
+<section class="py-20 px-4 md:px-6 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <!-- Có thể chỉnh lại chữ title/subtitle cho phù hợp sau -->
+    <SectionTitle subtitle="Quy trình của chúng tôi" title="Service Workflow" />
+
+    <!-- Content -->
+    <div class="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+      {
+        services.map((service) => (
+          <div class="flex flex-col items-center text-center group cursor-pointer">
+            <!-- Icon -->
+            <div class="h-20 flex items-center justify-center mb-6">
+              <img
+                src={service.icon.src}
+                alt={service.title}
+                class="h-14 w-auto object-contain   group-hover:-translate-y-2 transition-all duration-300"
+              />
+            </div>
+
+            <!-- Title -->
+            <h3 class="text-lg font-sans text-gray-800 font-medium">
+              {service.title}
+            </h3>
+
+            <!-- Divider -->
+            <div class="w-6 h-[1px] bg-gray-300 my-4 group-hover:w-12 group-hover:bg-ai-mocha transition-all duration-300" />
+
+            <!-- Description -->
+            <p class="text-sm text-gray-500 font-sans leading-relaxed px-4 md:px-2">
+              {service.desc}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

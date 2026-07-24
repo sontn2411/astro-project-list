@@ -1,0 +1,64 @@
+---
+import SectionTitle from "../SectionTitle.astro";
+import img1 from "../../_assets/about-1.png";
+import img2 from "../../_assets/about-2.png";
+import img3 from "../../_assets/about-3.png";
+
+const items = [
+  {
+    title: "Brand Introduction",
+    desc: "Ambience Interiors là thương hiệu thiết kế và thi công nội thất cao cấp, mang đến những giải pháp không gian toàn diện. Chúng tôi không chỉ tạo ra những căn nhà đẹp, mà còn kiến tạo nên phong cách sống đẳng cấp, mang đậm dấu ấn cá nhân của từng gia chủ.",
+    image: img1,
+  },
+  {
+    title: "Brand Story",
+    desc: "Khởi nguồn từ niềm đam mê mãnh liệt với cái đẹp và nghệ thuật kiến trúc, Ambience Interiors ra đời với sứ mệnh đánh thức vẻ đẹp tiềm ẩn của mỗi không gian. Trải qua nhiều năm phát triển, chúng tôi tự hào đã đồng hành cùng hàng trăm gia đình trong hành trình xây dựng tổ ấm mơ ước.",
+    image: img2,
+  },
+  {
+    title: "The idea Ambience Interiors",
+    desc: "Triết lý của chúng tôi là sự kết hợp hài hòa giữa công năng tiện dụng và giá trị thẩm mỹ vượt thời gian. Mỗi chi tiết thiết kế đều được tính toán kỹ lưỡng, từ vật liệu đến ánh sáng, nhằm mang lại một 'Ambience' (Bầu không khí) hoàn hảo và tinh tế nhất cho không gian sống của bạn.",
+    image: img3,
+  },
+];
+---
+
+<section class="py-20 px-4 md:px-6 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <SectionTitle subtitle="Câu chuyện thương hiệu" title="About Us" />
+
+    <!-- Danh sách About Items -->
+    <div class="mt-20 flex flex-col gap-10 md:gap-20">
+      {
+        items.map((item, index) => {
+          const isEven = index % 2 !== 0; // index 1 (item thứ 2) là số chẵn
+          return (
+            <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-16">
+              <!-- Image Column -->
+              <div class={`w-full md:w-1/2 ${isEven ? "md:order-2" : "md:order-1"}`}>
+                <div class="overflow-hidden shadow-lg aspect-video md:aspect-[4/3] w-full group">
+                  <img
+                    src={item.image.src}
+                    alt={item.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+              </div>
+
+              <!-- Text Column -->
+              <div class={`w-full md:w-1/2 flex flex-col ${isEven ? "md:order-1 md:pr-10" : "md:order-2 md:pl-10"}`}>
+                <h3 class="text-2xl md:text-3xl font-sans text-gray-800 mb-6 font-medium relative inline-block">
+                  {item.title}
+                  <span class="block w-12 h-[2px] bg-ai-mocha mt-4"></span>
+                </h3>
+                <p class="text-base text-gray-600 leading-relaxed font-sans text-justify md:text-left">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

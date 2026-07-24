@@ -1,0 +1,118 @@
+---
+import heroItem1 from "../../_assets/hero-item-1.png";
+import heroItem2 from "../../_assets/hero-item-2.png";
+import heroItem3 from "../../_assets/hero-item-3.png";
+import HeroSlide      from "./HeroSlide.astro";
+import HeroNavigation from "./HeroNavigation.astro";
+import HeroSocial     from "./HeroSocial.astro";
+
+const slides = [
+  {
+    id: 1,
+    name: "Sofa Góc Bắc Âu Cao Cấp",
+    desc: "Thiết kế tối giản, chất liệu cao cấp cho phòng khách hiện đại.",
+    price: "12.500.000 ₫",
+    images: [heroItem1.src, heroItem2.src, heroItem3.src],
+  },
+  {
+    id: 2,
+    name: "Bàn Ăn Walnut",
+    desc: "Gỗ óc chó nguyên khối, đường vân tự nhiên độc đáo.",
+    price: "8.900.000 ₫",
+    images: [heroItem1.src, heroItem2.src, heroItem3.src],
+  },
+  {
+    id: 3,
+    name: "Giường Oak",
+    desc: "Khung gỗ sồi vững chắc, mang lại giấc ngủ hoàn hảo.",
+    price: "15.200.000 ₫",
+    images: [heroItem1.src, heroItem2.src, heroItem3.src],
+  },
+  {
+    id: 4,
+    name: "Tủ Bếp Tần Bì",
+    desc: "Hệ tủ bếp gỗ tần bì bền đẹp, tối ưu không gian lưu trữ.",
+    price: "21.000.000 ₫",
+    images: [heroItem1.src, heroItem2.src, heroItem3.src],
+  },
+  {
+    id: 5,
+    name: "Kệ Trang Trí",
+    desc: "Điểm nhấn tinh tế cho mọi góc không gian trong nhà bạn.",
+    price: "6.750.000 ₫",
+    images: [heroItem1.src, heroItem2.src, heroItem3.src],
+  },
+];
+---
+
+<section class="h-[90vh] bg-[#d9c7ab]">
+  <div
+    class="max-w-7xl mx-auto w-full h-full overflow-hidden relative"
+  >
+    <!-- Slides -->
+    <div class="w-full h-full relative" id="hero-carousel" aria-live="polite">
+      {
+        slides.map((slide, i) => (
+          <HeroSlide slide={slide} index={i} isActive={i === 0} />
+        ))
+      }
+    </div>
+
+    <!-- Navigation (arrows + dots + counter) -->
+    <HeroNavigation totalSlides={slides.length} />
+
+    <!-- Social sidebar -->
+    <HeroSocial />
+
+  </div>
+</section>
+
+<script>
+  function initCarousel() {
+    const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
+    const dots = document.querySelectorAll<HTMLButtonElement>("[data-dot]");
+    const prev = document.getElementById("hero-prev");
+    const next = document.getElementById("hero-next");
+
+    if (!slides.length) return;
+
+    let current = 0;
+
+    function goTo(idx: number) {
+      slides[current].classList.remove("opacity-100", "translate-y-0");
+      slides[current].classList.add(
+        "opacity-0",
+        "translate-y-8",
+        "pointer-events-none",
+      );
+      dots[current].classList.remove("bg-ai-mocha");
+      dots[current].classList.add("bg-white");
+
+      current = (idx + slides.length) % slides.length;
+
+      slides[current].classList.remove(
+        "opacity-0",
+        "translate-y-8",
+        "pointer-events-none",
+      );
+      slides[current].classList.add("opacity-100", "translate-y-0");
+      dots[current].classList.remove("bg-white");
+      dots[current].classList.add("bg-ai-mocha");
+
+      const counterText = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+      const counter   = document.getElementById("hero-counter");
+      const counterVt = document.getElementById("hero-counter-vt");
+      if (counter)   counter.textContent   = counterText;
+      if (counterVt) counterVt.textContent = counterText;
+    }
+
+    prev?.addEventListener("click", () => goTo(current - 1));
+    next?.addEventListener("click", () => goTo(current + 1));
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => goTo(Number(dot.dataset.dot)));
+    });
+  }
+
+  initCarousel();
+  document.addEventListener("astro:after-swap", initCarousel);
+</script>

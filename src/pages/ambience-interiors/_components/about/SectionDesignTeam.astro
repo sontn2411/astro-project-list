@@ -1,0 +1,52 @@
+---
+import SectionTitle from "../SectionTitle.astro";
+import img1 from "../../_assets/about-1.png"; // Placeholder
+import img2 from "../../_assets/about-2.png"; // Placeholder
+import img3 from "../../_assets/about-3.png"; // Placeholder
+
+const team = [
+  { name: "Lê Quỳnh Hương", role: "NHÀ THIẾT KẾ CAO CẤP", image: img1 },
+  { name: "Trần Minh Hoàng", role: "NHÀ THIẾT KẾ CAO CẤP", image: img2 },
+  { name: "Phạm Diệp Anh", role: "NHÀ THIẾT KẾ CAO CẤP", image: img3 },
+];
+---
+
+<section class="py-20 px-4 md:px-6 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <SectionTitle subtitle="Design Team" title="Đội ngũ thiết kế" />
+
+    <div class="relative mt-20 z-0">
+      <!-- Khối nền Beige ngang nằm dưới một phần ảnh và dưới tên -->
+      <div class="absolute bottom-0 left-0 right-0 h-32 md:h-40 bg-[#d9c7ab] -z-10"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+        {
+          team.map((member) => (
+            <div class="flex flex-col items-center text-center">
+              <!-- Image -->
+              <div class="w-full aspect-[4/5] overflow-hidden ">
+                <img
+                  src={member.image.src}
+                  alt={member.name}
+                  class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </div>
+              
+              <!-- Vietnamese Name (On top of Beige strip) -->
+              <h4 class="text-base md:text-lg font-sans text-ai-mocha  font-bold my-2">
+                {member.name}
+              </h4>
+              
+              <!-- English Name & Role (Below Beige strip) -->
+              <div class="flex flex-col items-center justify-center pb-2">
+                <span class="text-[9px] md:text-[10px] text-gray-900 tracking-[0.2em] uppercase">
+                  {member.role}
+                </span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

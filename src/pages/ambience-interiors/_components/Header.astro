@@ -1,0 +1,172 @@
+---
+import "../_styles/project-1.css";
+import { Icon } from "astro-icon/components";
+
+const navLinks = [
+  { href: "/ambience-interiors/", label: "Trang chủ" },
+  { href: "/ambience-interiors/products/", label: "Sản phẩm" },
+  { href: "/ambience-interiors/news/", label: "Tin tức" },
+  { href: "/ambience-interiors/design/", label: "Thiết kế" },
+  { href: "/ambience-interiors/about/", label: "Về chúng tôi" },
+  { href: "/ambience-interiors/contact/", label: "Liên hệ" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!-- ====== DESKTOP & MOBILE HEADER ====== -->
+<header class="w-full bg-white sticky top-0 z-50">
+  <!-- Desktop row -->
+  <div
+    class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between gap-4 md:grid md:grid-cols-[auto_1fr_auto] md:gap-6"
+  >
+    <!-- Brand name -->
+    <a
+      href="/ambience-interiors/"
+      class="shrink-0 text-ai-mocha font-semibold text-lg tracking-wide"
+    >
+      Ambience Interiors
+    </a>
+
+    <!-- Nav links — ẩn trên mobile -->
+    <nav class="hidden md:flex items-center justify-center gap-7">
+      {
+        navLinks.map((link) => {
+          const isActive = currentPath === link.href;
+          return (
+            <a
+              href={link.href}
+              class={`relative text-sm whitespace-nowrap pb-1 transition-colors duration-200 font-medium ${
+                isActive ? "text-ai-mocha" : "text-gray-500 hover:text-ai-mocha"
+              }`}
+            >
+              {link.label}
+              {isActive && (
+                <span
+                  class="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-[120%] bg-ai-mocha"
+                  transition:name="nav-indicator"
+                />
+              )}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <!-- Right side -->
+    <div class="flex items-center gap-2 shrink-0">
+      <!-- Search — ẩn trên mobile -->
+      <div class="relative hidden md:flex items-center">
+        <input
+          type="search"
+          placeholder="Tìm kiếm"
+          class="w-36 pl-3 pr-8 py-1 text-xs border border-ai-sand bg-white text-gray-600 placeholder-gray-400 focus:outline-none focus:border-ai-mocha transition"
+        />
+        <Icon
+          name="lucide:search"
+          class="absolute right-2.5 w-3.5 h-3.5 text-gray-400 pointer-events-none"
+        />
+      </div>
+
+      <!-- User icon -->
+      <button
+        aria-label="Tài khoản"
+        class="p-1.5 text-gray-500 hover:text-ai-mocha transition-colors"
+      >
+        <Icon name="lucide:user" class="w-[18px] h-[18px]" />
+      </button>
+
+      <!-- Cart icon -->
+      <button
+        aria-label="Giỏ hàng"
+        class="p-1.5 text-gray-500 hover:text-ai-mocha transition-colors"
+      >
+        <Icon name="lucide:shopping-bag" class="w-[18px] h-[18px]" />
+      </button>
+
+      <!-- Hamburger — chỉ hiện trên mobile -->
+      <button
+        id="menu-toggle"
+        aria-label="Mở menu"
+        aria-expanded="false"
+        class="md:hidden p-1.5 text-gray-500 hover:text-ai-mocha transition-colors"
+      >
+        <Icon id="icon-open" name="lucide:menu" class="w-5 h-5" />
+        <Icon id="icon-close" name="lucide:x" class="w-5 h-5 hidden" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu dropdown -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden border-t border-ai-sand bg-white"
+  >
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
+      {
+        navLinks.map((link) => {
+          const isActive = currentPath === link.href;
+          return (
+            <a
+              href={link.href}
+              class={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                isActive
+                  ? "text-ai-mocha bg-ai-cream"
+                  : "text-gray-600 hover:text-ai-mocha hover:bg-ai-cream/50"
+              }`}
+            >
+              {link.label}
+            </a>
+          );
+        })
+      }
+
+      <!-- Search trong mobile menu -->
+      <div class="relative mt-3">
+        <input
+          type="search"
+          placeholder="Tìm kiếm..."
+          class="w-full pl-4 pr-10 py-2 text-sm border border-ai-sand bg-white text-gray-600 placeholder-gray-400 focus:outline-none focus:border-ai-mocha transition"
+        />
+        <Icon
+          name="lucide:search"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+        />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  function initMenu() {
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const iconOpen = document.getElementById("icon-open");
+    const iconClose = document.getElementById("icon-close");
+
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener("click", () => {
+      const isOpen = !menu.classList.contains("hidden");
+
+      menu.classList.toggle("hidden", isOpen);
+      iconOpen?.classList.toggle("hidden", !isOpen);
+      iconClose?.classList.toggle("hidden", isOpen);
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    // Đóng menu khi click nav link (View Transitions)
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        menu.classList.add("hidden");
+        iconOpen?.classList.remove("hidden");
+        iconClose?.classList.add("hidden");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  // Chạy khi trang load và sau mỗi View Transition
+  initMenu();
+  document.addEventListener("astro:after-swap", initMenu);
+</script>

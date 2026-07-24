@@ -1,0 +1,147 @@
+---
+import about1 from "../../_assets/about-1.png";
+import about2 from "../../_assets/about-2.png";
+import about3 from "../../_assets/about-3.png";
+import about5 from "../../_assets/about-5.png";
+import SectionTitle from "../SectionTitle.astro";
+---
+
+<section class="py-20 px-6">
+  <div class="max-w-7xl mx-auto">
+    <SectionTitle subtitle="Our Story" title="Về Chúng Tôi" />
+
+    <!-- Grid 5 ô: 2 trên · 3 dưới -->
+    <div class="grid grid-cols-1 md:grid-cols-6 md:grid-rows-[360px_260px]">
+      <!-- ── Ô 1: Hình ảnh phòng ngủ full cover ── -->
+      <div class="h-[280px] md:h-auto col-span-1 md:col-span-3 overflow-hidden">
+        <img
+          src={about1.src}
+          alt="Nội thất Ambience"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- ── Ô 2: Hình ảnh full + text overlay ── -->
+      <div
+        class="h-[280px] md:h-auto col-span-1 md:col-span-3 overflow-hidden relative"
+      >
+        <!-- Ảnh nền full cover -->
+        <img
+          src={about2.src}
+          alt="Nội thất Ambience"
+          class="w-full h-full object-cover"
+        />
+        <!-- Overlay nhẹ -->
+        <div class="absolute inset-0 bg-white/50"></div>
+        <!-- Text nằm trên ảnh -->
+        <div
+          class="absolute inset-0 flex flex-col justify-center px-10 py-8 z-10"
+        >
+          <p
+            class="text-[10px] tracking-[0.3em] text-ai-mocha uppercase font-sans mb-2"
+          >
+            Thương hiệu
+          </p>
+          <h3
+            class="font-sans text-3xl md:text-4xl text-gray-800 leading-tight"
+          >
+            Ambience<br />Interiors
+          </h3>
+          <p
+            class="mt-1 text-xs tracking-[0.25em] text-ai-mocha font-sans uppercase"
+          >
+            AMBIENCE
+          </p>
+          <div class="mt-4 w-8 h-px bg-ai-mocha"></div>
+          <p
+            class="mt-4 text-sm text-gray-600 font-sans leading-relaxed max-w-[280px]"
+          >
+            Thương hiệu nội thất cao cấp — kết hợp thiết kế tinh tế, sản xuất
+            hiện đại và dịch vụ tận tâm hướng đến không gian sống đẳng cấp.
+          </p>
+          <a
+            href="/ambience-interiors/about/"
+            class="mt-5 inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-ai-mocha font-sans hover:gap-4 transition-all duration-300"
+          >
+            Tìm hiểu thêm
+            <svg width="32" height="1" viewBox="0 0 32 1" class="stroke-current"
+              ><line x1="0" y1="0.5" x2="32" y2="0.5" stroke-width="1"
+              ></line></svg
+            >
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Ô 3: Hình ảnh + text overlay ── -->
+      <div
+        class="h-[220px] md:h-auto col-span-1 md:col-span-2 overflow-hidden relative group"
+      >
+        <img
+          src={about3.src}
+          alt="Phục vụ tận tâm"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        <!-- Overlay gradient -->
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent"
+        >
+        </div>
+        <!-- Text overlay -->
+        <div class="absolute top-6 left-6 text-white">
+          <p class="font-sans text-2xl leading-tight">Tận Tâm<br />Phục Vụ</p>
+          <p
+            class="mt-1 text-[10px] tracking-[0.3em] uppercase font-sans text-white/70"
+          >
+            SERVICE
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Ô 4: Text dịch vụ ── -->
+      <div
+        class="col-span-1 md:col-span-2 bg-[#d9c7ab] flex flex-col justify-center px-8 py-10 md:py-6"
+      >
+        <p
+          class="text-[10px] tracking-[0.3em] text-ai-mocha uppercase font-sans mb-2"
+        >
+          Cam kết
+        </p>
+        <h3 class="font-sans text-2xl md:text-3xl text-gray-800">
+          Dịch Vụ<br />Chất Lượng
+        </h3>
+        <div class="mt-4 space-y-2">
+          <p class="text-xs text-gray-800 font-sans leading-relaxed">
+            Lấy khách hàng làm trung tâm, dịch vụ là trách nhiệm
+          </p>
+          <p class="text-xs text-gray-800 font-sans leading-relaxed">
+            Sự hài lòng bắt đầu từ từng chi tiết nhỏ nhất
+          </p>
+          <p class="text-xs text-gray-800 font-sans leading-relaxed">
+            Chuyên nghiệp và chân thành trong mọi giải pháp
+          </p>
+        </div>
+        <a
+          href="/ambience-interiors/about/"
+          class="mt-5 inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-ai-mocha font-sans hover:gap-4 transition-all duration-300"
+        >
+          Tìm hiểu thêm
+          <svg width="32" height="1" viewBox="0 0 32 1" class="stroke-current"
+            ><line x1="0" y1="0.5" x2="32" y2="0.5" stroke-width="1"
+            ></line></svg
+          >
+        </a>
+      </div>
+
+      <!-- ── Ô 5: Hình ảnh phòng khách full cover ── -->
+      <div
+        class="h-[220px] md:h-auto col-span-1 md:col-span-2 overflow-hidden group"
+      >
+        <img
+          src={about5.src}
+          alt="Không gian nội thất"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+      </div>
+    </div>
+  </div>
+</section>

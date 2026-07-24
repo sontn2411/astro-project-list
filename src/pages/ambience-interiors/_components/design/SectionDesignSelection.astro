@@ -1,0 +1,120 @@
+---
+import SectionTitle from "../SectionTitle.astro";
+import { Icon } from "astro-icon/components";
+import d1 from "../../_assets/design/design-1.png";
+import d2 from "../../_assets/design/design-2.png";
+import d3 from "../../_assets/design/design-3.png";
+import d4 from "../../_assets/design/design-4.png";
+
+const slides = [
+  { id: 1, image: d1, tag: "Phong cách Bắc Âu",   title: "Không Gian Tối Giản" },
+  { id: 2, image: d2, tag: "Nội thất cao cấp",     title: "Tinh Tế Từng Chi Tiết" },
+  { id: 3, image: d3, tag: "Không gian sống",      title: "Đẳng Cấp & Bền Vững" },
+  { id: 4, image: d4, tag: "Thiết kế riêng",       title: "Cá Nhân Hóa Không Gian" },
+];
+---
+
+<section class="py-20 px-6">
+  <div class="max-w-7xl mx-auto">
+    <SectionTitle subtitle="Tinh hoa thiết kế" title="Design Selection" />
+
+    <!-- Swiper container + side nav -->
+    <div class="relative mt-8 group/slider">
+      <!-- Prev button -->
+      <button
+        id="design-prev"
+        aria-label="Trước"
+        class="absolute left-0 top-[40%] -translate-x-1/2 z-10 w-11 h-11 rounded-full hover:cursor-pointer bg-ai-mocha text-white border border-ai-mocha/30 flex items-center justify-center hover:bg-ai-mocha hover:text-white shadow-md transition-all duration-200"
+      >
+        <Icon name="lucide:chevron-left" class="w-5 h-5" />
+      </button>
+
+      <!-- Next button -->
+      <button
+        id="design-next"
+        aria-label="Tiếp theo"
+        class="absolute right-0 top-[40%] translate-x-1/2 z-10 w-11 h-11 rounded-full hover:cursor-pointer bg-ai-mocha text-white border border-ai-mocha/30 flex items-center justify-center hover:bg-ai-mocha hover:text-white shadow-md transition-all duration-200"
+      >
+        <Icon name="lucide:chevron-right" class="w-5 h-5" />
+      </button>
+      <div class="swiper design-swiper overflow-hidden">
+        <div class="swiper-wrapper">
+          {
+            slides.map((s) => (
+              <div class="swiper-slide">
+                <div class="group">
+                  <!-- Image -->
+                  <div class="overflow-hidden aspect-[4/5]">
+                    <img
+                      src={s.image.src}
+                      alt={s.title}
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <!-- Text -->
+                  <div class="bg-[#f5f0ea] px-4 py-3">
+                    <span class="text-[10px] tracking-[0.3em] uppercase text-ai-mocha font-sans">
+                      {s.tag}
+                    </span>
+                    <h3 class="mt-1 font-sans text-lg text-gray-800">{s.title}</h3>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <!-- Pagination dots — chỉ hiện trên mobile -->
+        <div class="swiper-pagination block md:hidden"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Pagination } from "swiper/modules";
+  import "swiper/css";
+  import "swiper/css/pagination";
+
+  new Swiper(".design-swiper", {
+    modules: [Navigation, Pagination],
+    slidesPerView: 1,
+    spaceBetween: 20,
+    grabCursor: true,
+    loop: true,
+    navigation: {
+      prevEl: "#design-prev",
+      nextEl: "#design-next",
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 24,
+      },
+    },
+  });
+</script>
+
+<style is:global>
+  .design-swiper .swiper-pagination-bullet {
+    background: #8c6e56;
+    opacity: 0.35;
+  }
+  .design-swiper .swiper-pagination-bullet-active {
+    background: #8c6e56;
+    opacity: 1;
+  }
+  .design-swiper .swiper-pagination {
+    position: static;
+    margin-top: 16px;
+  }
+</style>

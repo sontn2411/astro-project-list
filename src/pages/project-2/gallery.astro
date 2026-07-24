@@ -1,0 +1,25 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+
+const navLinks = [
+  { href: '/project-2/', label: 'Tổng quan' },
+  { href: '/project-2/gallery/', label: 'Gallery' },
+  { href: '/project-2/docs/', label: 'Tài liệu' },
+];
+---
+
+<ProjectLayout
+  projectName="Project 2"
+  projectSlug="project-2"
+  title="Gallery"
+  description="Gallery của Project 2"
+  navLinks={navLinks}
+>
+  <div class="space-y-6">
+    <h1 class="text-4xl font-bold text-white">Gallery</h1>
+    <p class="text-gray-400">Trang gallery của Project 2.</p>
+    <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-emerald-300 text-sm">
+      💡 Thêm nội dung vào file <code class="font-mono">src/pages/project-2/gallery.astro</code>
+    </div>
+  </div>
+</ProjectLayout>

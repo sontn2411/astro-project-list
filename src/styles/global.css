@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@source "../**/*.{astro,html,js,ts,tsx}";
+
+/* Import styles của từng project */
+@import "../pages/ambience-interiors/_styles/project-1.css";

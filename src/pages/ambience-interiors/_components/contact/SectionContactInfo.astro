@@ -1,0 +1,163 @@
+---
+import contactImg from "../../_assets/about-1.png"; // Placeholder
+import { Icon } from "astro-icon/components";
+---
+
+<section class="py-20 px-4 md:px-6 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <!-- Top Section: Contact Info -->
+    <div class="flex flex-col items-center text-center">
+      <!-- Title Block -->
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Liên hệ</h2>
+      <span
+        class="text-sm font-semibold tracking-widest text-gray-400 uppercase mb-4"
+        >Contact Information</span
+      >
+      <div class="w-8 h-[2px] bg-[#BFA588] mb-8"></div>
+
+      <p class="text-sm text-gray-500 mb-4">
+        Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi. Chúng tôi sẵn
+        lòng phục vụ 24/7.
+      </p>
+
+      <div class="text-3xl md:text-4xl font-sans text-gray-900 tracking-wider">
+        +84 901 234 567
+      </div>
+
+      <!-- 3 Info Boxes -->
+      <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <!-- Box 1: Phone -->
+        <div class="border border-[#BFA588] p-6 flex flex-row items-center justify-center gap-6">
+          <Icon name="lucide:phone" class="text-[#BFA588] w-7 h-7 flex-shrink-0" />
+          <div class="text-left flex flex-col gap-1">
+            <span class="text-sm font-medium text-gray-600">Điện thoại liên hệ</span>
+            <span class="text-sm text-gray-400">+84 901 234 567</span>
+          </div>
+        </div>
+
+        <!-- Box 2: Address -->
+        <div class="border border-[#BFA588] p-6 flex flex-row items-center justify-center gap-6">
+          <Icon name="lucide:map-pin" class="text-[#BFA588] w-7 h-7 flex-shrink-0" />
+          <div class="text-left flex flex-col gap-1">
+            <span class="text-sm font-medium text-gray-600">Địa chỉ công ty</span>
+            <span class="text-sm text-gray-400">123 Nguyễn Huệ, Quận 1, HCM</span>
+          </div>
+        </div>
+
+        <!-- Box 3: Email -->
+        <!-- Box 3: Email -->
+        <div class="border border-[#BFA588] p-6 flex flex-row items-center justify-center gap-6">
+          <Icon name="lucide:mail" class="text-[#BFA588] w-7 h-7 flex-shrink-0" />
+          <div class="text-left flex flex-col gap-1">
+            <span class="text-sm font-medium text-gray-600">Email liên hệ</span>
+            <span class="text-sm text-gray-400">hello@ambienceinteriors.vn</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Section: Form & Image Overlay -->
+    <div
+      class="mt-24 grid grid-cols-1 lg:grid-cols-[4fr_2fr] gap-16 lg:gap-12 items-start"
+    >
+      <!-- Cột trái: Ảnh và text đè -->
+      <div class="relative w-full flex items-end">
+        <!-- Khối Beige nền -->
+        <div
+          class="absolute right-0 bottom-0 top-[20%] w-[75%] bg-[#F9F6F3] z-0 p-8 md:p-12 flex flex-col justify-center"
+          style="padding-left: calc(30% + 1rem);"
+        >
+          <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Tư vấn trực tuyến
+          </h3>
+          <p class="text-xs text-gray-400 leading-relaxed">
+            Chào mừng bạn đến với dịch vụ tư vấn trực tuyến của Ambience
+            Interiors. Nếu bạn có bất kỳ thắc mắc nào về sản phẩm hoặc dịch vụ,
+            chúng tôi rất hân hạnh được hỗ trợ và giải đáp. Vui lòng cho chúng
+            tôi biết nhu cầu của bạn, chúng tôi sẽ phản hồi trong thời gian sớm
+            nhất.
+          </p>
+        </div>
+
+        <!-- Ảnh đè lên bên trái -->
+        <div class="w-[55%] relative z-10 overflow-hidden shadow-md">
+          <img
+            src={contactImg.src}
+            alt="Tư vấn trực tuyến"
+            class="w-full object-cover aspect-[4/5]"
+          />
+        </div>
+      </div>
+
+      <!-- Cột phải: Form -->
+      <div class="w-full flex flex-col pt-8 lg:pt-0">
+        <h3 class="text-lg font-bold text-gray-600 mb-8">Nội dung tư vấn</h3>
+
+        <form class="flex flex-col gap-5" method="post" action="#">
+          <!-- Họ tên -->
+          <div class="flex flex-col gap-2">
+            <label class="text-xs text-gray-500" for="fullname">Họ tên</label>
+            <input
+              id="fullname"
+              type="text"
+              name="fullname"
+              placeholder="Vui lòng nhập họ tên của bạn"
+              class="w-full border border-[#BFA588] bg-transparent px-4 py-3 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-[#BFA588] transition-all rounded-none"
+              required
+            />
+          </div>
+
+          <!-- Số điện thoại -->
+          <div class="flex flex-col gap-2">
+            <label class="text-xs text-gray-500" for="phone"
+              >Số điện thoại</label
+            >
+            <input
+              id="phone"
+              type="tel"
+              name="phone"
+              placeholder="Vui lòng nhập số điện thoại"
+              class="w-full border border-[#BFA588] bg-transparent px-4 py-3 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-[#BFA588] transition-all rounded-none"
+              required
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="flex flex-col gap-2">
+            <label class="text-xs text-gray-500" for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="Vui lòng nhập địa chỉ email"
+              class="w-full border border-[#BFA588] bg-transparent px-4 py-3 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-[#BFA588] transition-all rounded-none"
+              required
+            />
+          </div>
+
+          <!-- Nội dung -->
+          <div class="flex flex-col gap-2">
+            <label class="text-xs text-gray-500" for="message"
+              >Nội dung tư vấn</label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              placeholder="Vui lòng nhập nội dung bạn cần hỗ trợ"
+              class="w-full border border-[#BFA588] bg-transparent px-4 py-3 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-[#BFA588] transition-all resize-none rounded-none"
+              required></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="mt-2 w-full py-3.5 bg-[#BFA588] text-white text-sm font-medium hover:bg-[#a68e74] transition-colors duration-300 rounded-none"
+          >
+            Gửi ngay
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

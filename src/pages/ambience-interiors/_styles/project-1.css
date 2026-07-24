@@ -1,0 +1,23 @@
+/* =============================================
+   Ambience Interiors — Brand Tokens
+   File này được @import từ global.css
+
+   Colors:
+     text-ai-cream | text-ai-sand | text-ai-mocha
+     bg-ai-cream   | bg-ai-sand   | bg-ai-mocha
+
+   Fonts:
+     font-sans  → Mulish (body)
+     font-sans → Cormorant Garamond (headings)
+   ============================================= */
+
+@theme {
+  /* Brand colors */
+  --color-ai-cream: #fdeed7;
+  --color-ai-sand:  #e1d2bb;
+  --color-ai-mocha: #8c6e56;
+
+  /* Fonts — chỉ áp dụng khi Google Fonts được load trong project này */
+  --font-sans:  "Mulish", ui-sans-serif, system-ui, sans-serif;
+
+}
