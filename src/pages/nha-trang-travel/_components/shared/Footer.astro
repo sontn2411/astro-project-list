@@ -1,0 +1,180 @@
+---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import logo from "../../_assets/images/logo-footer.png";
+import tramHuong from "../../_assets/images/tram-huong.png";
+import hoaSen from "../../_assets/images/hoa-sen.png";
+---
+
+<footer
+  class="bg-travel-primary text-white pt-16 pb-8 mt-auto relative overflow-hidden"
+>
+  <!-- Decorative Patterns -->
+  <!-- <div
+    class="object-contain absolute bottom-0 left-0 pointer-events-none w-[250px] md:w-[400px] -translate-x-1/4 md:-translate-x-1/5"
+  >
+    <Image src={tramHuong} alt="" class="w-full h-auto" />
+  </div>
+  <div
+    class="object-contain absolute bottom-0 right-0 pointer-events-none w-[250px] md:w-[400px] translate-x-1/4 md:translate-x-1/5"
+  >
+    <Image src={hoaSen} alt="" class="w-full h-auto" />
+  </div> -->
+
+  <div class="max-w-7xl mx-auto px-4 relative z-10">
+    <!-- Main Footer Content -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-12"
+    >
+      <!-- Brand & About -->
+      <div class="flex flex-col gap-6 lg:pr-8">
+        <a href="/nha-trang-travel/" class="inline-block">
+          <Image src={logo} alt="Nha Trang Travel Logo" class="h-10 w-auto" />
+        </a>
+        <p class="text-white/70 text-sm leading-relaxed">
+          Đồng hành cùng bạn trên mọi nẻo đường khám phá vẻ đẹp của thành phố
+          biển Nha Trang xinh đẹp. Chúng tôi mang đến những trải nghiệm du lịch
+          tuyệt vời nhất.
+        </p>
+        <div class="flex items-center gap-3">
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber-500 transition-colors"
+          >
+            <Icon name="lucide:facebook" class="w-4 h-4" />
+          </a>
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber-500 transition-colors"
+          >
+            <Icon name="lucide:instagram" class="w-4 h-4" />
+          </a>
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber-500 transition-colors"
+          >
+            <Icon name="lucide:youtube" class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3
+          class="text-base font-bold mb-6 uppercase tracking-wider text-white/90"
+        >
+          Liên kết nhanh
+        </h3>
+        <ul class="flex flex-col gap-3 text-sm text-white/60">
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Về chúng tôi</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Cẩm nang du lịch</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Khách sạn & Lưu trú</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Ưu đãi mới nhất</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Hỗ trợ khách hàng</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Destinations -->
+      <div>
+        <h3
+          class="text-base font-bold mb-6 uppercase tracking-wider text-white/90"
+        >
+          Điểm đến nổi bật
+        </h3>
+        <ul class="flex flex-col gap-3 text-sm text-white/60">
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >VinWonders Nha Trang</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Tháp Bà Ponagar</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Đảo Hòn Mun</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Chợ Đầm</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition-colors"
+              >Vịnh Ninh Vân</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3
+          class="text-base font-bold mb-6 uppercase tracking-wider text-white/90"
+        >
+          Liên hệ
+        </h3>
+        <ul class="flex flex-col gap-4 text-sm text-white/60">
+          <li class="flex items-start gap-3">
+            <Icon
+              name="lucide:map-pin"
+              class="w-5 h-5 shrink-0 text-amber-500"
+            />
+            <span class="leading-relaxed"
+              >123 Trần Phú, Lộc Thọ,<br />Nha Trang, Khánh Hòa</span
+            >
+          </li>
+          <li class="flex items-center gap-3">
+            <Icon name="lucide:phone" class="w-5 h-5 shrink-0 text-amber-500" />
+            <span>+84 123 456 789</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <Icon name="lucide:mail" class="w-5 h-5 shrink-0 text-amber-500" />
+            <span>hello@nhatrangtravel.com</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="h-px w-full bg-white/10 mb-8"></div>
+
+    <!-- Bottom Footer -->
+    <div
+      class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/40"
+    >
+      <p>© 2026 Nha Trang Travel. All rights reserved.</p>
+      <div class="flex items-center gap-6 font-medium">
+        <a href="#" class="hover:text-white transition-colors"
+          >Điều khoản sử dụng</a
+        >
+        <a href="#" class="hover:text-white transition-colors"
+          >Chính sách bảo mật</a
+        >
+      </div>
+    </div>
+  </div>
+</footer>

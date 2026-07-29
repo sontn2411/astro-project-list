@@ -1,0 +1,107 @@
+---
+import { Icon } from "astro-icon/components";
+
+const itineraries = [
+  {
+    image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=600&h=400&fit=crop",
+    title: "Khám phá Vịnh biển Nha Trang",
+    desc: "Trải nghiệm lặn ngắm san hô, tắm bùn khoáng và thưởng thức hải sản tươi sống.",
+    price: "2.900.000 đ",
+    duration: "3N2D",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=600&h=400&fit=crop",
+    title: "Nghỉ dưỡng Vinpearl Land",
+    desc: "Tận hưởng không gian sang trọng và vui chơi thỏa thích tại công viên giải trí.",
+    price: "4.500.000 đ",
+    duration: "4N3D",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&h=400&fit=crop",
+    title: "Tour 4 đảo Nha Trang",
+    desc: "Hành trình khám phá các hòn đảo hoang sơ tuyệt đẹp: Hòn Mun, Hòn Một, Hòn Tằm.",
+    price: "1.200.000 đ",
+    duration: "1 Ngày",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=600&h=400&fit=crop",
+    title: "Trải nghiệm văn hóa Chăm Pa",
+    desc: "Tham quan Tháp Bà Ponagar, tìm hiểu văn hóa và kiến trúc độc đáo của người Chăm.",
+    price: "1.800.000 đ",
+    duration: "2N1D",
+  }
+];
+---
+
+<section class="py-6 md:py-14 px-4">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 md:mb-12">
+      <div>
+        <p class="font-allura text-xl md:text-2xl text-amber-500 italic mb-2">
+          Lên kế hoạch
+        </p>
+        <h2 class="text-2xl md:text-4xl font-bold text-travel-primary">
+          Gợi ý hành trình
+        </h2>
+      </div>
+      
+      <a
+        href="#itineraries"
+        class="inline-flex items-center gap-2 text-sm md:text-base font-semibold text-travel-primary hover:text-amber-500 transition-colors group"
+      >
+        Xem tất cả hành trình
+        <Icon
+          name="lucide:arrow-right"
+          class="w-4 h-4 transition-transform group-hover:translate-x-1"
+        />
+      </a>
+    </div>
+
+    <!-- Itineraries Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {itineraries.map((item) => (
+        <a href="#" class="group bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col h-full border border-gray-100">
+          <!-- Image & Badge -->
+          <div class="relative h-[200px] overflow-hidden">
+            <img 
+              src={item.image} 
+              alt={item.title} 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-travel-primary text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+              {item.duration}
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="p-5 flex flex-col flex-1">
+            <h3 class="text-lg font-bold text-travel-primary mb-2 line-clamp-2 group-hover:text-amber-600 transition-colors">
+              {item.title}
+            </h3>
+            <p class="text-sm text-gray-600 mb-4 line-clamp-2 flex-1">
+              {item.desc}
+            </p>
+            
+            <!-- Divider -->
+            <div class="w-full h-px bg-gray-100 mb-4"></div>
+            
+            <!-- Price & Action -->
+            <div class="flex items-center justify-between mt-auto">
+              <div>
+                <span class="text-xs text-gray-500 block mb-0.5">Giá từ</span>
+                <div class="font-bold text-amber-500 text-lg">
+                  {item.price} <span class="text-xs text-gray-500 font-normal">/ người</span>
+                </div>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-travel-primary/5 flex items-center justify-center text-travel-primary group-hover:bg-travel-primary group-hover:text-white transition-colors">
+                <Icon name="lucide:arrow-right" class="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform" />
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

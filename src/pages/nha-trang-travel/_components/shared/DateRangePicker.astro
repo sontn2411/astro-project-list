@@ -39,8 +39,8 @@ const {
 
   {
     mode === "range" ? (
-      <div class="flex items-center gap-2">
-        <div class="flex-1">
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-end gap-2">
+        <div>
           {!label && (
             <label class="block text-sm font-semibold text-travel-primary/90 mb-1">
               {labelFrom}
@@ -67,7 +67,7 @@ const {
             />
           </div>
         </div>
-        <div class="shrink-0 mt-5 text-gray-300">
+        <div class="shrink-0 hidden md:block mt-5 text-gray-300">
           <svg
             class="w-4 h-4"
             fill="none"
@@ -78,7 +78,7 @@ const {
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </div>
-        <div class="flex-1">
+        <div>
           {!label && (
             <label class="block text-sm font-semibold text-travel-primary/90 mb-1">
               {labelTo}

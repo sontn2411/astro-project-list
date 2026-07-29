@@ -1,10 +1,18 @@
 ---
 import BannerHero from "./_components/home/BannerHero.astro";
+import LocationHighlightSection from "./_components/home/LocationHighlightSection.astro";
+import WhyChooseUs from "./_components/home/WhyChooseUs.astro";
+import SpecialOffersSection from "./_components/home/SpecialOffersSection.astro";
+import SuggestedItinerarySection from "./_components/home/SuggestedItinerarySection.astro";
+import TravelGuideSection from "./_components/home/TravelGuideSection.astro";
 import Layout from "./_components/shared/Layout.astro";
 ---
 
 <Layout title="Nha Trang Travel">
-  <div class="min-h-[200vh]">
-    <BannerHero />
-  </div>
+  <BannerHero />
+  <WhyChooseUs />
+  <LocationHighlightSection />
+  <SuggestedItinerarySection />
+  <SpecialOffersSection />
+  <TravelGuideSection />
 </Layout>

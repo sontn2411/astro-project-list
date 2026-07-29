@@ -12,8 +12,17 @@ const navLinks = [
 ];
 ---
 
-<header class="fixed z-10 w-full top-0">
-  <div class="px-4 py-3 flex items-center justify-between max-w-7xl mx-auto">
+<header id="main-header" class="fixed z-20 w-full top-0">
+  <!-- Gradient Background Overlay -->
+  <div
+    id="header-bg"
+    class="absolute inset-0 bg-gradient-to-r from-white via-white to-emerald-50/50 shadow-[0_4px_20px_rgba(0,0,0,0.02)] -translate-y-full transition-transform duration-500 ease-in-out pointer-events-none"
+  >
+  </div>
+
+  <div
+    class="relative px-4 py-3 flex items-center justify-between max-w-7xl mx-auto"
+  >
     <a href="/nha-trang-travel/" class="logo">
       <Image src={logo} alt="Nha Trang Travel Logo" class="h-12 w-auto" />
     </a>
@@ -115,5 +124,25 @@ const navLinks = [
     closeMenuBtn.addEventListener("click", () => {
       mobileMenu.classList.add("translate-x-full");
     });
+  }
+
+  // Script xử lý animation background mờ trượt xuống
+  const headerBg = document.getElementById("header-bg");
+  if (headerBg) {
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (window.scrollY > 20) {
+          // Cuộn xuống: Trượt nền mờ xuống (hiện)
+          headerBg.classList.remove("-translate-y-full");
+          headerBg.classList.add("translate-y-0");
+        } else {
+          // Cuộn lên đỉnh: Trượt nền mờ lên (ẩn)
+          headerBg.classList.remove("translate-y-0");
+          headerBg.classList.add("-translate-y-full");
+        }
+      },
+      { passive: true },
+    );
   }
 </script>

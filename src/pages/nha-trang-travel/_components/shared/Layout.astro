@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../../layouts/Layout.astro";
 import Header from "./Header.astro";
+import Footer from "./Footer.astro";
 
 interface Props {
   title: string;
@@ -20,8 +21,11 @@ const { title, desc } = Astro.props;
       rel="stylesheet"
     />
   </Fragment>
-  <Header />
-  <main transition:animate="fade" class="font-nunito space-y-10 mb-20">
-    <slot />
-  </main>
+  <div class="bg-[#FAFAFA] min-h-screen flex flex-col">
+    <Header />
+    <main transition:animate="fade" class="font-nunito space-y-10 flex-1 pb-20">
+      <slot />
+    </main>
+    <Footer />
+  </div>
 </Layout>
