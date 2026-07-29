@@ -1,0 +1,241 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import bannerImage from "../../_assets/images/banner-hero.png";
+import FlightSearchPanel from "./FlightSearchPanel.astro";
+import HotelSearchPanel from "./HotelSearchPanel.astro";
+
+const tabs = [
+  {
+    id: "flights",
+    label: "Tìm chuyến bay",
+    icon: "lucide:plane",
+    active: true,
+  },
+  {
+    id: "hotels",
+    label: "Khách sạn",
+    icon: "lucide:building-2",
+    active: false,
+  },
+];
+---
+
+<section class="relative">
+  <div
+    class="relative w-full min-h-[50vh] md:min-h-[80vh] flex items-center overflow-hidden rounded-b-[10%] md:rounded-b-[20%]"
+  >
+    <div
+      class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none bg-amber-100"
+    >
+    </div>
+    <div class="relative z-10 w-full container mx-auto px-4">
+      <p class="font-allura text-3xl md:text-5xl text-amber-600">Xin chào</p>
+      <h1
+        class="font-allura text-5xl md:text-8xl text-travel-primary -mt-2 md:-mt-4"
+      >
+        Nha Trang!
+      </h1>
+      <p
+        class="mt-3 md:mt-4 text-sm md:text-base text-gray-600 max-w-sm leading-relaxed"
+      >
+        Thành phố biển xinh đẹp với nắng vàng, biển xanh và những trải nghiệm
+        không thể bỏ lỡ. Hãy để chúng tôi đồng hành cùng bạn!
+      </p>
+      <a
+        href="#explore"
+        class="inline-flex items-center gap-2 mt-4 md:mt-5 px-6 py-2.5 bg-travel-primary text-white text-sm font-semibold rounded-full hover:bg-travel-primary/90 active:scale-95 transition-all duration-200 shadow-md group"
+      >
+        Khám phá Nha Trang
+        <Icon
+          name="lucide:arrow-right"
+          class="w-4 h-4 transition-transform group-hover:translate-x-1"
+        />
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-0 translate-y-1/2 w-full px-4 md:px-6">
+    <div class="max-w-7xl w-full mx-auto">
+      <!-- TAB BAR -->
+      <div class="relative h-[48px] md:h-[56px]">
+        <!-- Tab bar shape: hidden on mobile, shown on md+ -->
+        <div class="absolute inset-0 bg-travel-primary rounded-t-2xl md:hidden">
+        </div>
+        <svg
+          viewBox="0 0 1240 56"
+          preserveAspectRatio="none"
+          class="absolute inset-0 w-full h-full hidden md:block"
+        >
+          <path
+            fill="#184843"
+            d="
+              M 28 0
+              H 870
+              C 910 0, 960 56, 1000 56
+              H 1240
+              V 56
+              H 0
+              V 28
+              Q 0 0, 28 0
+              Z
+            "
+          ></path>
+        </svg>
+
+        <div class="relative z-10 h-full flex items-end pl-3 md:pl-6 gap-1">
+          {
+            tabs.map((tab) => (
+              <button
+                data-tab={tab.id}
+                class:list={[
+                  "tab-item relative flex items-center gap-1.5 md:gap-2 px-3 md:px-5 rounded-t-[12px] md:rounded-t-[16px] cursor-pointer select-none transition-all duration-200",
+                  tab.active
+                    ? "tab-item--active h-[38px] md:h-[44px]"
+                    : "h-[30px] md:h-[36px] bg-transparent text-white hover:text-white mb-1",
+                ]}
+                style={tab.active ? "anchor-name: --active-option" : ""}
+              >
+                <Icon
+                  name={tab.icon}
+                  class:list={[
+                    "tab-icon relative z-10 w-4 h-4 md:w-5 md:h-5 shrink-0 transition-colors duration-200",
+                    tab.active ? "text-orange-400" : "text-white",
+                  ]}
+                  stroke-width="2"
+                />
+                <span
+                  class:list={[
+                    "relative z-10 text-sm md:text-base font-semibold whitespace-nowrap transition-colors duration-200",
+                    tab.active ? "text-travel-primary" : "text-white",
+                  ]}
+                >
+                  {tab.label}
+                </span>
+              </button>
+            ))
+          }
+          <div class="indicator"></div>
+        </div>
+      </div>
+
+      <!-- Góc xanh nhỏ top-left: chỉ 28x28px, bị cắt bởi rounded-tl của content -->
+      <div class="relative -mt-px">
+        <div class="absolute -top-px left-0 w-7 h-8 bg-travel-primary"></div>
+        <div
+          class="relative bg-[#FFFCF5] rounded-[16px] md:rounded-[28px] px-4 py-4 md:px-8 md:py-6 min-h-[80px] md:min-h-[100px] shadow-[0_8px_32px_-4px_rgba(0,0,0,0.12)]"
+        >
+          <!-- Panel: Chuyến bay -->
+          <div data-panel="flights" class="search-panel">
+            <FlightSearchPanel />
+          </div>
+
+          <!-- Panel: Khách sạn -->
+          <div data-panel="hotels" class="search-panel hidden">
+            <HotelSearchPanel />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  :root {
+    --nav-indicator-active: #fffcf5;
+    --nav-indicator-radius: 16px;
+    --nav-indicator-inverted-radius: calc(var(--nav-indicator-radius) / 1.5);
+    --nav-indicator-inverted-width-before: 0px;
+    --nav-indicator-inverted-width-after: var(--nav-indicator-inverted-radius);
+
+    --nav-trans-duration: 350ms;
+    --nav-trans-easing: ease-in-out;
+  }
+
+  .indicator {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    background: var(--nav-indicator-active);
+    border-radius: var(--nav-indicator-radius) var(--nav-indicator-radius) 0 0;
+    transition-property: top, right, bottom, left;
+    transition-duration: var(--nav-trans-duration);
+    transition-timing-function: var(--nav-trans-easing);
+    position-anchor: --active-option;
+    top: anchor(top);
+    left: anchor(left);
+    right: anchor(right);
+    bottom: calc(anchor(bottom) - 1px);
+    /* inverted corners either side of active tab */
+    @supports (position-anchor: --test) and (corner-shape: scoop) {
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        aspect-ratio: 1;
+        background-color: inherit;
+        corner-shape: scoop;
+        transition: width var(--nav-trans-duration) linear;
+      }
+      &::before {
+        right: 100%;
+        width: var(--nav-indicator-inverted-width-before);
+        border-radius: var(--nav-indicator-inverted-radius) 0 0 0;
+      }
+      &::after {
+        left: 100%;
+        width: var(--nav-indicator-inverted-width-after);
+        border-radius: 0 var(--nav-indicator-inverted-radius) 0 0;
+      }
+    }
+  }
+</style>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".tab-item");
+  const panels = document.querySelectorAll<HTMLElement>(".search-panel");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const tabId = tab.dataset.tab;
+
+      // Reset tất cả tab về inactive
+      tabs.forEach((t) => {
+        t.classList.remove("tab-item--active", "h-[38px]", "md:h-[44px]");
+        t.classList.add("h-[30px]", "md:h-[36px]", "bg-transparent", "mb-1");
+        t.style.removeProperty("anchor-name");
+        // Đổi màu icon và text
+        const icon = t.querySelector(".tab-icon");
+        const label = t.querySelector("span:last-child");
+        icon?.classList.replace("text-orange-400", "text-white");
+        label?.classList.replace("text-travel-primary", "text-white");
+      });
+
+      // Set tab được click thành active
+      tab.classList.add("tab-item--active", "h-[38px]", "md:h-[44px]");
+      tab.classList.remove("h-[30px]", "md:h-[36px]", "bg-transparent", "mb-1");
+      tab.style.setProperty("anchor-name", "--active-option");
+      // Đổi màu icon và text
+      const icon = tab.querySelector(".tab-icon");
+      const label = tab.querySelector("span:last-child");
+      icon?.classList.replace("text-white", "text-orange-400");
+      label?.classList.replace("text-white", "text-travel-primary");
+
+      // Ẩn inverted corner bên trái nếu là tab đầu
+      const tabIndex = Array.from(tabs).indexOf(tab);
+      const indicator = document.querySelector<HTMLElement>(".indicator");
+      if (indicator) {
+        indicator.style.setProperty(
+          "--nav-indicator-inverted-width-before",
+          tabIndex === 0 ? "0px" : "var(--nav-indicator-inverted-radius)",
+        );
+      }
+
+      // Switch panel tương ứng
+      panels.forEach((p) => {
+        p.classList.toggle("hidden", p.dataset.panel !== tabId);
+      });
+    });
+  });
+</script>

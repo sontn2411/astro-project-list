@@ -1,0 +1,252 @@
+---
+// Select.astro — Reusable searchable select dropdown
+
+interface Option {
+  value: string;
+  label: string;
+  description?: string;
+  badge?: string; // short text displayed in badge (e.g. airport code)
+}
+
+interface Props {
+  label?: string;
+  placeholder?: string;
+  name: string; // unique identifier
+  options: Option[];
+  searchable?: boolean;
+  searchPlaceholder?: string;
+  icon?: string; // raw SVG string for left icon
+  class?: string; // extra wrapper classes
+}
+
+const {
+  label,
+  placeholder = "Chọn...",
+  name,
+  options,
+  searchable = true,
+  searchPlaceholder = "Tìm kiếm...",
+  icon,
+  class: className = "",
+} = Astro.props;
+---
+
+<div class:list={["custom-select relative", className]} data-select={name}>
+  {
+    label && (
+      <label class="block text-sm font-semibold text-travel-primary/90 mb-1">
+        {label}
+      </label>
+    )
+  }
+
+  <!-- Trigger -->
+  <div
+    class="select-trigger flex items-center gap-2 border border-gray-200 rounded-xl px-3 py-2.5 bg-white/60 cursor-pointer hover:border-travel-primary/40 transition-colors"
+  >
+    {icon && <Fragment set:html={icon} />}
+    <input
+      type="text"
+      placeholder={placeholder}
+      class="select-display flex-1 bg-transparent text-sm text-gray-800 placeholder:text-gray-400 outline-none cursor-pointer"
+      autocomplete="off"
+      readonly
+    />
+    <input type="hidden" class="select-value" name={name} />
+    <svg
+      class="w-3.5 h-3.5 text-gray-400 shrink-0 transition-transform duration-200 select-chevron"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg
+    >
+  </div>
+
+  <!-- Dropdown -->
+  <div
+    class="select-dropdown hidden absolute z-50 mt-1 left-0 right-0 min-w-[220px] bg-white rounded-2xl shadow-[0_12px_40px_-8px_rgba(0,0,0,0.15)] border border-gray-100 overflow-hidden"
+  >
+    {
+      searchable && (
+        <div class="p-2.5 border-b border-gray-100">
+          <div class="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+            <svg
+              class="w-3.5 h-3.5 text-gray-400 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <>
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </>
+            </svg>
+            <input
+              type="text"
+              placeholder={searchPlaceholder}
+              class="select-search flex-1 bg-transparent text-xs text-gray-700 placeholder:text-gray-400 outline-none"
+            />
+          </div>
+        </div>
+      )
+    }
+    <div class="select-options max-h-[240px] overflow-y-auto py-1">
+      {
+        options.map((opt) => (
+          <button
+            type="button"
+            class="select-opt w-full flex items-center gap-3 px-3 py-2.5 hover:bg-travel-primary/5 transition-colors text-left group"
+            data-value={opt.value}
+            data-label={opt.label}
+          >
+            {opt.badge && (
+              <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-travel-primary/8 text-travel-primary font-bold text-xs tracking-wider shrink-0 group-hover:bg-travel-primary/15 transition-colors">
+                {opt.badge}
+              </span>
+            )}
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-semibold text-gray-800 truncate">
+                {opt.label}
+              </div>
+              {opt.description && (
+                <div class="text-[11px] text-gray-400 truncate">
+                  {opt.description}
+                </div>
+              )}
+            </div>
+            <svg
+              class="w-4 h-4 text-travel-primary opacity-0 select-check shrink-0 transition-opacity"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+          </button>
+        ))
+      }
+      <div
+        class="select-empty hidden px-4 py-6 text-center text-xs text-gray-400"
+      >
+        Không tìm thấy kết quả
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .custom-select.open .select-chevron {
+    transform: rotate(180deg);
+  }
+  .custom-select.open .select-trigger {
+    border-color: rgba(24, 72, 67, 0.4);
+    box-shadow: 0 0 0 3px rgba(24, 72, 67, 0.08);
+  }
+  .select-opt.selected {
+    background-color: rgba(24, 72, 67, 0.06);
+  }
+  .select-opt.selected .select-check {
+    opacity: 0.7;
+  }
+  .select-opt.selected span:first-child {
+    background-color: rgba(24, 72, 67, 0.2);
+  }
+  .select-options::-webkit-scrollbar {
+    width: 4px;
+  }
+  .select-options::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .select-options::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+  }
+</style>
+
+<script>
+  function initCustomSelects() {
+    document
+      .querySelectorAll<HTMLElement>(".custom-select")
+      .forEach((wrapper) => {
+        if (wrapper.dataset.init) return;
+        wrapper.dataset.init = "1";
+
+        const trigger = wrapper.querySelector<HTMLElement>(".select-trigger")!;
+        const display =
+          wrapper.querySelector<HTMLInputElement>(".select-display")!;
+        const hiddenInput =
+          wrapper.querySelector<HTMLInputElement>(".select-value")!;
+        const dropdown =
+          wrapper.querySelector<HTMLElement>(".select-dropdown")!;
+        const search =
+          wrapper.querySelector<HTMLInputElement>(".select-search");
+        const options =
+          wrapper.querySelectorAll<HTMLButtonElement>(".select-opt");
+        const emptyMsg = wrapper.querySelector<HTMLElement>(".select-empty")!;
+
+        function open() {
+          wrapper.classList.add("open");
+          dropdown.classList.remove("hidden");
+          if (search) {
+            search.value = "";
+            filterOptions("");
+            requestAnimationFrame(() => search.focus());
+          }
+        }
+
+        function close() {
+          wrapper.classList.remove("open");
+          dropdown.classList.add("hidden");
+        }
+
+        function filterOptions(query: string) {
+          let count = 0;
+          options.forEach((opt) => {
+            const label = (opt.dataset.label || "").toLowerCase();
+            const value = (opt.dataset.value || "").toLowerCase();
+            const match =
+              !query || label.includes(query) || value.includes(query);
+            opt.classList.toggle("hidden", !match);
+            if (match) count++;
+          });
+          emptyMsg.classList.toggle("hidden", count > 0);
+        }
+
+        trigger.addEventListener("click", () => {
+          wrapper.classList.contains("open") ? close() : open();
+        });
+
+        search?.addEventListener("input", () => {
+          filterOptions(search.value.trim().toLowerCase());
+        });
+
+        search?.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") close();
+        });
+
+        options.forEach((opt) => {
+          opt.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const value = opt.dataset.value || "";
+            const label = opt.dataset.label || "";
+            display.value = label;
+            hiddenInput.value = value;
+            options.forEach((o) => o.classList.remove("selected"));
+            opt.classList.add("selected");
+            // Dispatch change event
+            hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
+            close();
+          });
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!wrapper.contains(e.target as Node)) close();
+        });
+      });
+  }
+
+  initCustomSelects();
+  document.addEventListener("astro:after-swap", initCustomSelects);
+</script>

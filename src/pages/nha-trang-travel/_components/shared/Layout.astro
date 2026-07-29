@@ -1,0 +1,27 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import Header from "./Header.astro";
+
+interface Props {
+  title: string;
+  desc?: string;
+}
+
+const { title, desc } = Astro.props;
+---
+
+<Layout title={title} description={desc}>
+  <!-- Inject Google Fonts chỉ cho project này -->
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Allura&family=Nunito+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+  <Header />
+  <main transition:animate="fade" class="font-nunito space-y-10 mb-20">
+    <slot />
+  </main>
+</Layout>

@@ -1,0 +1,346 @@
+---
+// DateRangePicker.astro — Reusable date range picker using Flatpickr
+
+interface Props {
+  label?: string;
+  labelFrom?: string;
+  labelTo?: string;
+  placeholderFrom?: string;
+  placeholderTo?: string;
+  name: string;
+  mode?: "single" | "range";
+  class?: string;
+}
+
+const {
+  label,
+  labelFrom = "Từ ngày",
+  labelTo = "Đến ngày",
+  placeholderFrom = "Chọn ngày",
+  placeholderTo = "Chọn ngày",
+  name,
+  mode = "range",
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class:list={["date-range-picker", className]}
+  data-picker={name}
+  data-mode={mode}
+>
+  {
+    label && (
+      <label class="block text-sm font-semibold text-travel-primary/90 mb-1">
+        {label}
+      </label>
+    )
+  }
+
+  {
+    mode === "range" ? (
+      <div class="flex items-center gap-2">
+        <div class="flex-1">
+          {!label && (
+            <label class="block text-sm font-semibold text-travel-primary/90 mb-1">
+              {labelFrom}
+            </label>
+          )}
+          <div class="picker-trigger flex items-center gap-2 border border-gray-200 rounded-xl px-3 py-2.5 bg-white/60 cursor-pointer hover:border-travel-primary/40 transition-colors">
+            <svg
+              class="w-4 h-4 text-travel-primary/50 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <>
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+              </>
+            </svg>
+            <input
+              type="text"
+              placeholder={placeholderFrom}
+              class="picker-input-from flex-1 bg-transparent text-sm text-gray-800 placeholder:text-gray-400 outline-none cursor-pointer"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="shrink-0 mt-5 text-gray-300">
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </div>
+        <div class="flex-1">
+          {!label && (
+            <label class="block text-sm font-semibold text-travel-primary/90 mb-1">
+              {labelTo}
+            </label>
+          )}
+          <div class="picker-trigger flex items-center gap-2 border border-gray-200 rounded-xl px-3 py-2.5 bg-white/60 cursor-pointer hover:border-travel-primary/40 transition-colors">
+            <svg
+              class="w-4 h-4 text-travel-primary/50 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <>
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+              </>
+            </svg>
+            <input
+              type="text"
+              placeholder={placeholderTo}
+              class="picker-input-to flex-1 bg-transparent text-sm text-gray-800 placeholder:text-gray-400 outline-none cursor-pointer"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div class="picker-trigger flex items-center gap-2 border border-gray-200 rounded-xl px-3 py-2.5 bg-white/60 cursor-pointer hover:border-travel-primary/40 transition-colors">
+        <svg
+          class="w-4 h-4 text-travel-primary/50 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <>
+            <rect x="3" y="4" width="18" height="18" rx="2" />
+            <path d="M16 2v4M8 2v4M3 10h18" />
+          </>
+        </svg>
+        <input
+          type="text"
+          placeholder={placeholderFrom}
+          class="picker-input-from flex-1 bg-transparent text-sm text-gray-800 placeholder:text-gray-400 outline-none cursor-pointer"
+          readonly
+        />
+      </div>
+    )
+  }
+
+  <input type="hidden" class="picker-value-from" name={`${name}-from`} />
+  <input type="hidden" class="picker-value-to" name={`${name}-to`} />
+</div>
+
+<style is:global>
+  /* ── Flatpickr Travel Theme ── */
+  .flatpickr-calendar {
+    border-radius: 16px !important;
+    box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.16) !important;
+    border: none !important;
+    font-family: inherit !important;
+    overflow: hidden;
+    padding: 0 !important;
+  }
+  /* Remove default arrows */
+  .flatpickr-calendar::before,
+  .flatpickr-calendar::after {
+    display: none !important;
+  }
+
+  /* ── Month Header ── */
+  .flatpickr-months {
+    background: #184843;
+    padding: 6px 0 0;
+  }
+  .flatpickr-months .flatpickr-month {
+    color: white !important;
+    fill: white !important;
+    height: 42px;
+  }
+  .flatpickr-current-month {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: white !important;
+    padding-top: 6px !important;
+  }
+  .flatpickr-current-month .flatpickr-monthDropdown-months {
+    background: transparent !important;
+    color: white !important;
+    font-weight: 600 !important;
+  }
+  .flatpickr-current-month input.cur-year {
+    color: white !important;
+    font-weight: 600 !important;
+  }
+  .flatpickr-current-month .arrowUp,
+  .flatpickr-current-month .arrowDown {
+    border-color: white !important;
+  }
+
+  /* ── Nav Arrows ── */
+  .flatpickr-months .flatpickr-prev-month,
+  .flatpickr-months .flatpickr-next-month {
+    fill: white !important;
+    color: white !important;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .flatpickr-months .flatpickr-prev-month:hover,
+  .flatpickr-months .flatpickr-next-month:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+  }
+  .flatpickr-months .flatpickr-prev-month svg,
+  .flatpickr-months .flatpickr-next-month svg {
+    fill: white !important;
+  }
+
+  /* ── Weekdays ── */
+  .flatpickr-weekdays {
+  }
+  span.flatpickr-weekday {
+    color: black !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+  }
+
+  /* ── Days Grid ── */
+  .flatpickr-innerContainer {
+    padding: 6px !important;
+    background: white;
+  }
+  .flatpickr-day {
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #1f2937 !important;
+    border: none !important;
+    transition:
+      background 0.1s,
+      color 0.1s;
+  }
+  .flatpickr-day:hover {
+    background: rgba(24, 72, 67, 0.08) !important;
+  }
+
+  /* Today */
+  .flatpickr-day.today {
+    color: #184843 !important;
+    font-weight: 700 !important;
+    background: rgba(24, 72, 67, 0.06) !important;
+  }
+  .flatpickr-day.today:hover {
+    background: rgba(24, 72, 67, 0.12) !important;
+  }
+
+  /* Selected & Range ends */
+  .flatpickr-day.selected,
+  .flatpickr-day.startRange,
+  .flatpickr-day.endRange {
+    background: #184843 !important;
+    color: white !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+  }
+  .flatpickr-day.selected:hover,
+  .flatpickr-day.startRange:hover,
+  .flatpickr-day.endRange:hover {
+    background: #1a5c55 !important;
+  }
+
+  /* In-range days */
+  .flatpickr-day.inRange {
+    background: rgba(24, 72, 67, 0.08) !important;
+    box-shadow:
+      -5px 0 0 rgba(24, 72, 67, 0.08),
+      5px 0 0 rgba(24, 72, 67, 0.08) !important;
+    border-radius: 0 !important;
+    color: #184843 !important;
+  }
+  .flatpickr-day.startRange {
+    border-radius: 8px 0 0 8px !important;
+  }
+  .flatpickr-day.endRange {
+    border-radius: 0 8px 8px 0 !important;
+  }
+  .flatpickr-day.startRange.endRange {
+    border-radius: 8px !important;
+  }
+
+  /* Disabled & other month */
+  .flatpickr-day.flatpickr-disabled,
+  .flatpickr-day.flatpickr-disabled:hover,
+  .flatpickr-day.prevMonthDay,
+  .flatpickr-day.nextMonthDay {
+    color: #d1d5db !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+</style>
+
+<script>
+  import flatpickr from "flatpickr";
+  import { Vietnamese } from "flatpickr/dist/l10n/vn.js";
+  import "flatpickr/dist/flatpickr.min.css";
+
+  function initDatePickers() {
+    document
+      .querySelectorAll<HTMLElement>(".date-range-picker")
+      .forEach((wrapper) => {
+        if (wrapper.dataset.init) return;
+        wrapper.dataset.init = "1";
+
+        const mode = wrapper.dataset.mode as "single" | "range";
+        const inputFrom =
+          wrapper.querySelector<HTMLInputElement>(".picker-input-from")!;
+        const inputTo =
+          wrapper.querySelector<HTMLInputElement>(".picker-input-to");
+        const hiddenFrom =
+          wrapper.querySelector<HTMLInputElement>(".picker-value-from")!;
+        const hiddenTo =
+          wrapper.querySelector<HTMLInputElement>(".picker-value-to")!;
+
+        const fp = flatpickr(inputFrom, {
+          mode: mode,
+          locale: Vietnamese,
+          dateFormat: "d/m/Y",
+          minDate: "today",
+          animate: true,
+          disableMobile: true,
+          onChange(selectedDates) {
+            if (mode === "range" && selectedDates.length === 2) {
+              const [start, end] = selectedDates;
+              const fmt = (d: Date) =>
+                d.toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                });
+              inputFrom.value = fmt(start);
+              if (inputTo) inputTo.value = fmt(end);
+              hiddenFrom.value = start.toISOString().split("T")[0];
+              hiddenTo.value = end.toISOString().split("T")[0];
+            } else if (mode === "single" && selectedDates.length === 1) {
+              hiddenFrom.value = selectedDates[0].toISOString().split("T")[0];
+            }
+          },
+        });
+
+        // Allow clicking the "to" input to open the picker too
+        inputTo?.addEventListener("click", () => {
+          fp.open();
+        });
+
+        // All trigger areas open the picker
+        wrapper.querySelectorAll(".picker-trigger").forEach((t) => {
+          t.addEventListener("click", () => fp.open());
+        });
+      });
+  }
+
+  initDatePickers();
+  document.addEventListener("astro:after-swap", initDatePickers);
+</script>

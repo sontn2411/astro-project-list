@@ -1,0 +1,25 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+
+const navLinks = [
+  { href: '/nha-trang-travel/', label: 'Tổng quan' },
+  { href: '/nha-trang-travel/gallery/', label: 'Gallery' },
+  { href: '/nha-trang-travel/docs/', label: 'Tài liệu' },
+];
+---
+
+<ProjectLayout
+  projectName="Nha Trang Travel"
+  projectSlug="nha-trang-travel"
+  title="Tài liệu"
+  description="Tài liệu của Nha Trang Travel"
+  navLinks={navLinks}
+>
+  <div class="space-y-6 max-w-2xl">
+    <h1 class="text-4xl font-bold text-white">Tài liệu</h1>
+    <p class="text-gray-400">Trang tài liệu của Nha Trang Travel.</p>
+    <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-emerald-300 text-sm">
+      💡 Thêm nội dung vào file <code class="font-mono">src/pages/nha-trang-travel/docs.astro</code>
+    </div>
+  </div>
+</ProjectLayout>

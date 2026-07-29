@@ -1,0 +1,119 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import logo from "../../_assets/images/logo-header.png";
+
+const navLinks = [
+  { label: "Điểm đến", href: "#" },
+  { label: "Trải nghiệm", href: "#" },
+  { label: "Khách sạn", href: "#" },
+  { label: "Ưu đãi", href: "#" },
+  { label: "Cẩm nang du lịch", href: "#" },
+];
+---
+
+<header class="fixed z-10 w-full top-0">
+  <div class="px-4 py-3 flex items-center justify-between max-w-7xl mx-auto">
+    <a href="/nha-trang-travel/" class="logo">
+      <Image src={logo} alt="Nha Trang Travel Logo" class="h-12 w-auto" />
+    </a>
+    <div class="flex items-center gap-4 md:gap-8">
+      <nav class="hidden md:flex items-center gap-8">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-black font-medium hover:text-travel-primary transition-colors drop-shadow-sm text-base tracking-wide"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <!-- Language Selector -->
+      <div
+        class="relative group cursor-pointer flex items-center gap-1 text-black hover:text-travel-primary transition-colors py-2"
+      >
+        <Icon name="lucide:globe" class="w-4 h-4" stroke-width="1.5" />
+        <span class="font-medium text-sm">VN</span>
+        <Icon name="lucide:chevron-down" class="w-4 h-4" stroke-width="1.5" />
+
+        <!-- Dropdown menu -->
+        <div
+          class="absolute top-full right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden transform origin-top-right group-hover:scale-100 scale-95"
+        >
+          <a
+            href="#"
+            class="flex items-center gap-2 px-4 py-2.5 text-sm text-travel-primary bg-emerald-50/50 font-medium"
+          >
+            <span class="text-base">🇻🇳</span> Tiếng Việt
+          </a>
+          <a
+            href="#"
+            class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 hover:bg-emerald-50/50 hover:text-travel-primary transition-colors"
+          >
+            <span class="text-base">🇬🇧</span> English
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden text-white hover:text-travel-primary p-2 -mr-2 bg-travel-primary rounded-full"
+      >
+        <Icon name="lucide:menu" class="w-6 h-6" stroke-width="1.5" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 bg-white z-50 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col"
+  >
+    <div
+      class="px-4 py-3 flex items-center justify-between border-b border-gray-100 shadow-sm"
+    >
+      <a href="/nha-trang-travel/" class="logo">
+        <Image src={logo} alt="Nha Trang Travel Logo" class="h-12 w-auto" />
+      </a>
+      <button
+        id="close-menu-btn"
+        class="text-black p-2 -mr-2 hover:text-travel-primary"
+      >
+        <Icon name="lucide:x" class="w-6 h-6" stroke-width="1.5" />
+      </button>
+    </div>
+    <nav class="flex flex-col p-6 gap-6 mt-2 overflow-y-auto">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-black font-medium text-lg uppercase tracking-wide border-b border-gray-50 pb-4 hover:text-travel-primary transition-colors"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Script xử lý mở/đóng menu trên mobile
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const closeMenuBtn = document.getElementById("close-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  if (mobileMenuBtn && closeMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      mobileMenu.classList.remove("translate-x-full");
+    });
+
+    closeMenuBtn.addEventListener("click", () => {
+      mobileMenu.classList.add("translate-x-full");
+    });
+  }
+</script>

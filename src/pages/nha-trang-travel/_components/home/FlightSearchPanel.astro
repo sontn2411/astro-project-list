@@ -1,0 +1,98 @@
+---
+// FlightSearchPanel.astro
+import AirportSelect from "../shared/AirportSelect.astro";
+import DateRangePicker from "../shared/DateRangePicker.astro";
+import Select from "../shared/Select.astro";
+---
+
+<div class="grid grid-cols-1 md:flex md:flex-wrap gap-3 items-end">
+  <!-- Điểm đi -->
+  <div class="md:flex-1 md:min-w-[180px]">
+    <AirportSelect
+      label="Điểm đi"
+      placeholder="Chọn điểm đi"
+      field="departure"
+      icon="origin"
+    />
+  </div>
+
+  <!-- Swap -->
+  <button
+    class="swap-btn shrink-0 mx-auto md:mx-0 md:mb-0.5 w-8 h-8 rounded-full border border-gray-200 bg-white flex items-center justify-center hover:bg-travel-primary hover:text-white hover:border-travel-primary transition-all group active:scale-90"
+  >
+    <svg
+      class="w-3.5 h-3.5 text-gray-400 group-hover:text-white transition-colors rotate-90 md:rotate-0"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      viewBox="0 0 24 24"
+      ><path d="M7 16V4m0 0L3 8m4-4 4 4M17 8v12m0 0 4-4m-4 4-4-4"></path></svg
+    >
+  </button>
+
+  <!-- Điểm đến -->
+  <div class="md:flex-1 md:min-w-[180px]">
+    <AirportSelect
+      label="Điểm đến"
+      placeholder="Chọn điểm đến"
+      field="arrival"
+      icon="destination"
+    />
+  </div>
+
+  <!-- Ngày đi -->
+  <div class="md:min-w-[130px]">
+    <DateRangePicker
+      label="Ngày đi"
+      name="flight-date"
+      mode="single"
+      placeholderFrom="Chọn ngày"
+    />
+  </div>
+
+  <!-- Hành khách -->
+  <div class="md:min-w-[140px]">
+    <Select
+      label="Hành khách"
+      name="passengers"
+      searchable={false}
+      placeholder="Chọn"
+      icon='<svg class="w-4 h-4 text-travel-primary/50 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg>'
+      options={[
+        { value: "1", label: "1 người lớn" },
+        { value: "2", label: "2 người lớn" },
+        { value: "3", label: "3 người lớn" },
+        { value: "4", label: "4 người lớn" },
+        { value: "5", label: "5 người lớn" },
+      ]}
+    />
+  </div>
+
+  <!-- Nút tìm -->
+  <button
+    class="shrink-0 w-full md:w-[48px] h-[42px] md:h-[48px] rounded-xl md:rounded-full bg-amber-600 text-white flex items-center justify-center gap-2 hover:bg-amber-700 active:scale-95 md:active:scale-90 transition-all shadow-lg shadow-amber-600/30"
+    aria-label="Tìm chuyến bay"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+    <span class="text-sm font-semibold md:hidden">Tìm chuyến bay</span>
+  </button>
+</div>
+
+<script>
+  // Swap button logic
+  document.querySelector(".swap-btn")?.addEventListener("click", () => {
+    const dep = document.querySelector<HTMLInputElement>(
+      '[data-field="departure"] .airport-input',
+    );
+    const arr = document.querySelector<HTMLInputElement>(
+      '[data-field="arrival"] .airport-input',
+    );
+    if (!dep || !arr) return;
+    const tmpVal = dep.value;
+    const tmpCode = dep.dataset.code || "";
+    dep.value = arr.value;
+    dep.dataset.code = arr.dataset.code || "";
+    arr.value = tmpVal;
+    arr.dataset.code = tmpCode;
+  });
+</script>

@@ -1,0 +1,55 @@
+---
+// AirportSelect.astro — Airport-specific wrapper around Select component
+import Select from "./Select.astro";
+
+interface Props {
+  label: string;
+  placeholder?: string;
+  field: string;
+  icon?: "origin" | "destination";
+}
+
+const {
+  label,
+  placeholder = "Chọn địa điểm",
+  field,
+  icon = "origin",
+} = Astro.props;
+
+const airports = [
+  { code: "HAN", city: "Hà Nội", airport: "Nội Bài" },
+  { code: "SGN", city: "TP. Hồ Chí Minh", airport: "Tân Sơn Nhất" },
+  { code: "DAD", city: "Đà Nẵng", airport: "Đà Nẵng" },
+  { code: "CXR", city: "Nha Trang", airport: "Cam Ranh" },
+  { code: "PQC", city: "Phú Quốc", airport: "Phú Quốc" },
+  { code: "HUI", city: "Huế", airport: "Phú Bài" },
+  { code: "DLI", city: "Đà Lạt", airport: "Liên Khương" },
+  { code: "HPH", city: "Hải Phòng", airport: "Cát Bi" },
+  { code: "VCA", city: "Cần Thơ", airport: "Cần Thơ" },
+  { code: "VII", city: "Vinh", airport: "Vinh" },
+  { code: "UIH", city: "Quy Nhơn", airport: "Phù Cát" },
+  { code: "VDO", city: "Quảng Ninh", airport: "Vân Đồn" },
+];
+
+const options = airports.map((ap) => ({
+  value: ap.code,
+  label: `${ap.city} (${ap.code})`,
+  description: `Sân bay ${ap.airport}`,
+  badge: ap.code,
+}));
+
+const iconSvg =
+  icon === "origin"
+    ? '<svg class="w-4 h-4 text-travel-primary/50 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v4m0 12v4M2 12h4m12 0h4"></path></svg>'
+    : '<svg class="w-4 h-4 text-travel-primary/50 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+---
+
+<Select
+  label={label}
+  placeholder={placeholder}
+  name={field}
+  options={options}
+  searchable={true}
+  searchPlaceholder="Tìm thành phố hoặc sân bay..."
+  icon={iconSvg}
+/>
