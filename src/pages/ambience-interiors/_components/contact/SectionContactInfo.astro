@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import contactImg from "../../_assets/about-1.png"; // Placeholder
 import { Icon } from "astro-icon/components";
 ---
@@ -81,7 +82,7 @@ import { Icon } from "astro-icon/components";
 
         <!-- Ảnh đè lên bên trái -->
         <div class="w-[55%] relative z-10 overflow-hidden shadow-md">
-          <img
+          <SafeImage
             src={contactImg.src}
             alt="Tư vấn trực tuyến"
             class="w-full object-cover aspect-[4/5]"

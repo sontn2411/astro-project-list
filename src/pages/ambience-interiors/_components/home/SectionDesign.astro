@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import designBg from "../../_assets/design-1.png";
 ---
 
@@ -6,7 +7,7 @@ import designBg from "../../_assets/design-1.png";
   class="relative w-full min-h-[420px] md:min-h-[600px] flex items-center justify-center overflow-hidden -mt-10"
 >
   <!-- Ảnh nền full cover -->
-  <img
+  <SafeImage
     src={designBg.src}
     alt="Cảm hứng nội thất Ambience"
     class="absolute inset-0 w-full h-full object-cover"

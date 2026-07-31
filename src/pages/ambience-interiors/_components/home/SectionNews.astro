@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import SectionTitle from "../SectionTitle.astro";
 import news1 from "../../_assets/about-1.png";
 import news2 from "../../_assets/about-2.png";
@@ -66,7 +67,7 @@ const rest = articles.filter((a) => !a.featured);
       <a href="/ambience-interiors/news/" class="group flex flex-col h-full">
         <!-- Ảnh featured -->
         <div class="overflow-hidden flex-1 min-h-[280px]">
-          <img
+          <SafeImage
             src={featured.image.src}
             alt={featured.title}
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -105,7 +106,7 @@ const rest = articles.filter((a) => !a.featured);
             <a href="/ambience-interiors/news/" class="group flex gap-4 py-5 first:pt-0 last:pb-0">
               <!-- Thumbnail -->
               <div class="shrink-0 w-24 h-24 md:w-28 md:h-28 overflow-hidden">
-                <img
+                <SafeImage
                   src={article.image.src}
                   alt={article.title}
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

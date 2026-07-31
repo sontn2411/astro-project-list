@@ -1,0 +1,163 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<section class="max-w-7xl mx-auto px-4 md:px-8 py-16 lg:py-24 relative">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+    
+    <!-- Cột trái: Nội dung chính (8 cols) -->
+    <div class="lg:col-span-8 space-y-16">
+      
+      <!-- Giới thiệu chung -->
+      <div>
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Về Tháp Bà Ponagar</h2>
+        <div class="text-gray-600 space-y-4 leading-relaxed lg:text-lg">
+          <p>
+            Nằm cách trung tâm thành phố Nha Trang khoảng 2km về phía Bắc, Tháp Bà Ponagar là một trong những quần thể kiến trúc văn hóa Chăm Pa quy mô nhất còn sót lại ở miền Trung Việt Nam. Quần thể này tọa lạc trên một ngọn đồi nhỏ cao khoảng 10-12 mét so với mực nước biển, ngay cửa sông Cái.
+          </p>
+          <p>
+            Được xây dựng từ khoảng thế kỷ 8 đến thế kỷ 13, thời kỳ đạo Hindu đang hưng thịnh tại vương quốc Chăm Pa cổ, nơi đây thờ nữ thần Ponagar (Thiên Y A Na) - người mẹ xứ sở đã dạy người dân cách cấy cày, dệt vải.
+          </p>
+        </div>
+      </div>
+
+      <!-- Trải nghiệm nổi bật (Bento Style) -->
+      <div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Trải nghiệm không thể bỏ lỡ</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Card 1 -->
+          <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-lg transition-all group">
+            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform" style="color: #E57B3E;">
+              <Icon name="lucide:camera" class="w-6 h-6 stroke-[1.5]" />
+            </div>
+            <h4 class="text-xl font-bold text-gray-900 mb-3">Kiến trúc độc đáo</h4>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Chiêm ngưỡng kỹ thuật xây dựng không cần chất kết dính bí ẩn của người Chăm cổ, với những viên gạch nung đỏ rực qua ngàn năm.
+            </p>
+          </div>
+          
+          <!-- Card 2 -->
+          <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-lg transition-all group">
+            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform" style="color: #E57B3E;">
+              <Icon name="lucide:music" class="w-6 h-6 stroke-[1.5]" />
+            </div>
+            <h4 class="text-xl font-bold text-gray-900 mb-3">Múa Chăm truyền thống</h4>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Thưởng thức những điệu múa uyển chuyển của các thiếu nữ Chăm trong trang phục truyền thống rực rỡ vào mỗi buổi chiều.
+            </p>
+          </div>
+          
+          <!-- Card 3 -->
+          <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-lg transition-all group md:col-span-2">
+            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform" style="color: #E57B3E;">
+              <Icon name="lucide:map" class="w-6 h-6 stroke-[1.5]" />
+            </div>
+            <h4 class="text-xl font-bold text-gray-900 mb-3">Toàn cảnh cửa sông Cái</h4>
+            <p class="text-sm text-gray-600 leading-relaxed max-w-2xl">
+              Từ đỉnh đồi tháp, bạn có thể phóng tầm mắt bao quát cả cửa sông Cái tấp nập thuyền bè, cầu Trần Phú và một góc biển xanh ngắt của Vịnh Nha Trang. Đây là góc chụp ảnh check-in hoàng hôn đẹp nhất thành phố.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <hr class="border-gray-100" />
+
+      <!-- Thông tin cần biết -->
+      <div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Thông tin hữu ích</h3>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-4 p-5 rounded-3xl bg-white border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+            <div class="mt-0.5" style="color: #E57B3E;">
+              <Icon name="lucide:ticket" class="w-6 h-6 stroke-[1.5]" />
+            </div>
+            <div>
+              <p class="font-bold text-gray-900">Giá vé tham quan</p>
+              <p class="text-sm text-gray-600 mt-1">30.000 VNĐ / người lớn. Trẻ em dưới 1.2m được miễn phí.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-4 p-5 rounded-3xl bg-white border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+            <div class="mt-0.5" style="color: #E57B3E;">
+              <Icon name="lucide:clock-4" class="w-6 h-6 stroke-[1.5]" />
+            </div>
+            <div>
+              <p class="font-bold text-gray-900">Giờ mở cửa</p>
+              <p class="text-sm text-gray-600 mt-1">08:00 - 18:00 tất cả các ngày trong tuần, kể cả Lễ Tết.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-4 p-5 rounded-3xl bg-white border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+            <div class="mt-0.5" style="color: #E57B3E;">
+              <Icon name="lucide:shirt" class="w-6 h-6 stroke-[1.5]" />
+            </div>
+            <div>
+              <p class="font-bold text-gray-900">Quy định trang phục</p>
+              <p class="text-sm text-gray-600 mt-1 leading-relaxed">Trang phục lịch sự, áo có tay, quần/váy dài qua gối khi vào dâng hương bên trong tháp. Ban quản lý có cho mượn áo tràng miễn phí tại lối vào.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Cột phải: Sticky Widget (4 cols) -->
+    <div class="lg:col-span-4 relative">
+      <div class="sticky top-32 bg-white rounded-[32px] p-6 lg:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.06)] border border-gray-100">
+        
+        <!-- Header widget -->
+        <div class="flex items-end justify-between border-b border-gray-100 pb-6 mb-6">
+          <div>
+            <p class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1.5">Giá vé từ</p>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-4xl font-extrabold text-gray-900 tracking-tight">30.000</span>
+              <span class="text-sm font-bold text-gray-900">VNĐ</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="flex items-center gap-1 justify-end text-sm font-bold text-gray-900">
+              <Icon name="lucide:star" class="w-4 h-4 fill-current" style="color: #F59E0B;" />
+              4.8
+            </div>
+            <a href="#reviews" class="text-xs text-gray-500 underline mt-1 hover:text-gray-900 transition-colors">526 đánh giá</a>
+          </div>
+        </div>
+
+        <!-- Form fields -->
+        <div class="space-y-4 mb-8">
+          <div class="p-3.5 rounded-2xl border border-gray-200 focus-within:border-[#E57B3E] focus-within:ring-1 focus-within:ring-[#E57B3E] transition-all bg-gray-50/50">
+            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Ngày tham quan</label>
+            <div class="flex items-center gap-2.5">
+              <Icon name="lucide:calendar" class="w-4 h-4 text-gray-400" />
+              <input type="date" class="w-full text-sm font-bold text-gray-900 outline-none bg-transparent" />
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-2xl border border-gray-200 hover:border-gray-300 transition-all bg-gray-50/50 cursor-pointer">
+            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Số lượng khách</label>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <Icon name="lucide:users" class="w-4 h-4 text-gray-400" />
+                <span class="text-sm font-bold text-gray-900">2 Người lớn</span>
+              </div>
+              <Icon name="lucide:chevron-down" class="w-4 h-4 text-gray-400" />
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <button class="w-full py-4 rounded-2xl text-white font-bold text-[15px] bg-travel-primary hover:bg-travel-primary/90 transition-all shadow-xl shadow-travel-primary/20 hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer">
+          <Icon name="lucide:ticket-check" class="w-5 h-5" />
+          Đặt vé ngay
+        </button>
+
+        <div class="flex items-center justify-center gap-2 mt-5">
+          <Icon name="lucide:shield-check" class="w-4 h-4 text-green-500" />
+          <p class="text-xs font-medium text-gray-500">
+            Xác nhận tức thì. Hoàn hủy linh hoạt.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>

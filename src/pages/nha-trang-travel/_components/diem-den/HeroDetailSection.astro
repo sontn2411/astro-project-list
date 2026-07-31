@@ -1,0 +1,279 @@
+---
+import { Icon } from "astro-icon/components";
+import SafeImage from "../../../../components/SafeImage.astro";
+
+export interface Props {
+  data?: {
+    subtitle: string;
+    title: string;
+    location: string;
+    rating: number;
+    reviews: number;
+    description: string;
+    quickInfos: {
+      icon: string;
+      label: string;
+      value: string;
+    }[];
+    mainImage: string;
+    gallery: string[];
+  };
+}
+
+const defaultData = {
+  subtitle: "Khám phá",
+  title: "Tháp Bà Ponagar",
+  location: "Nha Trang, Khánh Hòa",
+  rating: 4.8,
+  reviews: 526,
+  description:
+    "Một trong những quần thể kiến trúc văn hóa Chăm Pa lớn nhất và được bảo tồn tốt nhất ở miền Trung Việt Nam, mang vẻ đẹp linh thiêng, huyền bí giữa trung tâm thành phố.",
+  quickInfos: [
+    { icon: "lucide:map-pin", label: "Khoảng cách", value: "2 km" },
+    {
+      icon: "lucide:calendar-days",
+      label: "Thời gian lý tưởng",
+      value: "Tháng 3 - Tháng 9",
+    },
+    { icon: "lucide:clock", label: "Thời gian tham quan", value: "1 - 2 giờ" },
+  ],
+  mainImage:
+    "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1600&q=80",
+  gallery: [
+    "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=400&q=80",
+    "https://images.unsplash.com/photo-1579532650085-f5fbdbfbf62a?w=400&q=80",
+    "https://images.unsplash.com/photo-1589574895240-385d3f82029b?w=400&q=80",
+    "https://images.unsplash.com/photo-1616781489094-1a35cc24a30e?w=400&q=80",
+  ],
+};
+
+const { data = defaultData } = Astro.props;
+---
+
+<!-- Wrapper nền màu kem cho toàn bộ khu vực Hero -->
+<div class="relative overflow-hidden" style="background-color: #FCFAF5;">
+  <!-- Trang trí hoa văn lá mờ (nếu cần) -->
+  <!-- <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none">
+    <img src="..." />
+  </div> -->
+
+  <!-- Breadcrumb -->
+  <div
+    class="max-w-7xl mx-auto px-4 md:px-8 pb-8 relative z-10"
+    style="padding-top: 112px;"
+  >
+    <nav class="flex items-center text-sm font-medium text-gray-500 gap-2">
+      <a
+        href="/nha-trang-travel"
+        class="hover:text-travel-primary transition-colors">Trang chủ</a
+      >
+      <Icon name="lucide:chevron-right" class="w-4 h-4 text-gray-400" />
+      <a
+        href="/nha-trang-travel/diem-den"
+        class="hover:text-travel-primary transition-colors">Điểm đến</a
+      >
+      <Icon name="lucide:chevron-right" class="w-4 h-4 text-gray-400" />
+      <span class="text-gray-900">{data.title}</span>
+    </nav>
+  </div>
+
+  <!-- Hero Section -->
+  <section
+    class="max-w-7xl mx-auto px-4 md:px-8 pb-16 lg:pb-20 relative z-10"
+  >
+    <div
+      class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center"
+    >
+      <!-- Cột trái: Thông tin -->
+      <div class="lg:col-span-5 space-y-6 lg:pr-4">
+        <!-- Tiêu đề -->
+        <div>
+          <p
+            class="font-allura text-3xl md:text-4xl mb-2 leading-none"
+            style="color: #E57B3E;"
+          >
+            {data.subtitle}
+          </p>
+          <h1
+            class="text-4xl md:text-5xl lg:text-[56px] font-extrabold text-travel-primary leading-tight mb-2"
+          >
+            {data.title}
+          </h1>
+          <!-- Sóng trang trí -->
+          <svg
+            class="text-travel-primary w-24 h-3 opacity-80"
+            viewBox="0 0 100 10"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M0 5 Q 12.5 0, 25 5 T 50 5 T 75 5 T 100 5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"></path>
+          </svg>
+        </div>
+
+        <!-- Đánh giá & Vị trí -->
+        <div
+          class="flex flex-wrap items-center gap-5 text-sm text-gray-600 font-medium"
+        >
+          <div class="flex items-center gap-1.5">
+            <Icon name="lucide:map-pin" class="w-4 h-4 text-gray-400" />
+            <span>{data.location}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-gray-900">{data.rating}</span>
+            <div class="flex items-center gap-1" style="color: #F59E0B;">
+              {Array.from({ length: Math.floor(data.rating) }).map((_) => (
+                <Icon name="lucide:star" class="w-3.5 h-3.5 fill-current" />
+              ))}
+            </div>
+            <span class="text-gray-500">({data.reviews} đánh giá)</span>
+          </div>
+        </div>
+
+        <!-- Đoạn mô tả -->
+        <p class="text-gray-600 leading-relaxed lg:text-[15px]">
+          {data.description}
+        </p>
+
+        <!-- Quick Info (3 cột dạng Card/Pill nổi) -->
+        <div class="flex flex-wrap gap-3 pt-3">
+          {data.quickInfos.map((info) => (
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-white/70 backdrop-blur-md border border-white shadow-[0_4px_15px_rgba(0,0,0,0.03)] rounded-2xl transition-all hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+              <div 
+                class="w-9 h-9 rounded-full flex items-center justify-center shrink-0" 
+                style="color: #E57B3E; background-color: rgba(229, 123, 62, 0.1);"
+              >
+                <Icon name={info.icon} class="w-4 h-4 stroke-[2]" />
+              </div>
+              <div class="flex flex-col">
+                <p class="text-[10px] text-gray-500 font-medium uppercase tracking-wider mb-0.5">
+                  {info.label}
+                </p>
+                <p class="text-xs font-bold text-gray-900">{info.value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Nút hành động -->
+        <div class="flex flex-wrap items-center gap-4 pt-4">
+          <button
+            class="bg-travel-primary hover:bg-travel-primary/90 text-white px-7 py-3 rounded-full font-bold text-sm flex items-center gap-2 transition-all shadow-lg shadow-travel-primary/20 hover:-translate-y-0.5 cursor-pointer"
+          >
+            Đặt trải nghiệm <Icon name="lucide:arrow-right" class="w-4 h-4" />
+          </button>
+          <button
+            class="bg-white hover:bg-gray-50 text-gray-700 px-7 py-3 rounded-full font-bold text-sm flex items-center gap-2 transition-all shadow-sm border border-gray-200 hover:-translate-y-0.5 cursor-pointer"
+          >
+            Lưu vào yêu thích <Icon
+              name="lucide:heart"
+              class="w-4 h-4 text-gray-400"
+            />
+          </button>
+        </div>
+      </div>
+
+      <!-- Cột phải: Hình ảnh Gallery -->
+      <div class="lg:col-span-7">
+        <div class="flex flex-col gap-4">
+          <!-- Ảnh chính to -->
+          <div
+            class="w-full aspect-[4/3] lg:aspect-auto lg:h-[460px] rounded-[32px] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.08)] relative group cursor-pointer bg-gray-100"
+          >
+            <SafeImage
+              id="main-gallery-image"
+              src={data.mainImage}
+              alt={data.title}
+              class="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+            />
+          </div>
+
+          <!-- 5 Ảnh nhỏ ngang -->
+          <div
+            id="gallery-thumbnails"
+            class="grid grid-cols-5 gap-2 md:gap-3"
+            style="grid-template-columns: repeat(5, minmax(0, 1fr));"
+          >
+            {data.gallery.map((imgUrl, index) => (
+              <div
+                class={`thumb-item aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer transition-all ${
+                  index === 0
+                    ? "ring-2 ring-travel-primary ring-offset-2 opacity-100"
+                    : "opacity-60 hover:opacity-100 hover:ring-2 hover:ring-gray-300 hover:ring-offset-2"
+                }`}
+              >
+                <SafeImage
+                  src={imgUrl}
+                  alt={`${data.title} - Góc nhìn ${index + 1}`}
+                  ratio="4:3"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+            <!-- Khu vực user sẽ thêm Slider -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const mainImg = document.querySelector(
+      "#main-gallery-image img",
+    ) as HTMLImageElement | null;
+    const thumbs = document.querySelectorAll(".thumb-item");
+
+    if (!mainImg || thumbs.length === 0) return;
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        // Reset tất cả thumb
+        thumbs.forEach((t) => {
+          t.classList.remove(
+            "ring-2",
+            "ring-travel-primary",
+            "ring-offset-2",
+            "opacity-100",
+          );
+          t.classList.add(
+            "opacity-60",
+            "hover:opacity-100",
+            "hover:ring-2",
+            "hover:ring-gray-300",
+            "hover:ring-offset-2",
+          );
+        });
+
+        // Set active cho thumb được click
+        thumb.classList.remove(
+          "opacity-60",
+          "hover:opacity-100",
+          "hover:ring-2",
+          "hover:ring-gray-300",
+          "hover:ring-offset-2",
+        );
+        thumb.classList.add(
+          "ring-2",
+          "ring-travel-primary",
+          "ring-offset-2",
+          "opacity-100",
+        );
+
+        // Lấy src của ảnh trong thumb
+        const imgEl = thumb.querySelector("img") as HTMLImageElement | null;
+        if (imgEl && mainImg) {
+          // Đổi ảnh với hiệu ứng mờ nhạt
+          mainImg.style.opacity = "0.6";
+          setTimeout(() => {
+            mainImg.src = imgEl.src;
+            mainImg.style.opacity = "1";
+          }, 150);
+        }
+      });
+    });
+  });
+</script>

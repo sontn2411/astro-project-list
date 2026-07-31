@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import SectionTitle from "../SectionTitle.astro";
 import icon1 from "../../_assets/icons/service-4.png";
 import icon2 from "../../_assets/icons/service-1.png";
@@ -41,7 +42,7 @@ const services = [
           <div class="flex flex-col items-center text-center group cursor-pointer">
             <!-- Icon -->
             <div class="h-20 flex items-center justify-center mb-6">
-              <img
+              <SafeImage
                 src={service.icon.src}
                 alt={service.title}
                 class="h-14 w-auto object-contain   group-hover:-translate-y-2 transition-all duration-300"

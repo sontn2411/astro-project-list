@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import SectionTitle from "../SectionTitle.astro";
 import { Icon } from "astro-icon/components";
 import d1 from "../../_assets/design/design-1.png";
@@ -45,7 +46,7 @@ const slides = [
                 <div class="group">
                   <!-- Image -->
                   <div class="overflow-hidden aspect-[4/5]">
-                    <img
+                    <SafeImage
                       src={s.image.src}
                       alt={s.title}
                       class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

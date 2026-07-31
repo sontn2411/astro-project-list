@@ -2,24 +2,25 @@
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 import logo from "../../_assets/images/logo-footer.png";
-import tramHuong from "../../_assets/images/tram-huong.png";
-import hoaSen from "../../_assets/images/hoa-sen.png";
+import thap from "../../_assets/images/thap.png";
+import hoaSen2 from "../../_assets/images/hoa-sen-2.png";
 ---
 
 <footer
   class="bg-travel-primary text-white pt-16 pb-8 mt-auto relative overflow-hidden"
 >
   <!-- Decorative Patterns -->
-  <!-- <div
-    class="object-contain absolute bottom-0 left-0 pointer-events-none w-[250px] md:w-[400px] -translate-x-1/4 md:-translate-x-1/5"
+  <!-- Decorative Patterns -->
+  <div
+    class="absolute bottom-0 left-0 pointer-events-none object-contain md:w-[350px] md:translate-y-[-30px] opacity-90"
   >
-    <Image src={tramHuong} alt="" class="w-full h-auto" />
+    <Image src={thap} alt="" class="w-full h-auto object-contain" />
   </div>
   <div
-    class="object-contain absolute bottom-0 right-0 pointer-events-none w-[250px] md:w-[400px] translate-x-1/4 md:translate-x-1/5"
+    class="absolute bottom-0 right-0 pointer-events-none object-contain md:w-[350px] md:translate-y-[-20px] opacity-60"
   >
-    <Image src={hoaSen} alt="" class="w-full h-auto" />
-  </div> -->
+    <Image src={hoaSen2} alt="" class="w-full h-auto object-contain" />
+  </div>
 
   <div class="max-w-7xl mx-auto px-4 relative z-10">
     <!-- Main Footer Content -->

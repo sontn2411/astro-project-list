@@ -247,6 +247,6 @@ const {
       });
   }
 
-  initCustomSelects();
+  document.addEventListener("astro:page-load", initCustomSelects);
   document.addEventListener("astro:after-swap", initCustomSelects);
 </script>

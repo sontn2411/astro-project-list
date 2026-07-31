@@ -1,0 +1,85 @@
+---
+import { Image } from "astro:assets";
+import cloud1 from "../../_assets/images/cloud-1.png";
+import cloud2 from "../../_assets/images/cloud-2.png";
+
+const cloudCount = 35; // Tổng số đám mây hiển thị đồng thời (Tăng lên để mây dày hơn)
+
+// Hàm sinh số ngẫu nhiên
+const random = (min: number, max: number) => Math.random() * (max - min) + min;
+
+const clouds = Array.from({ length: cloudCount }).map((_, i) => {
+  const isCloud1 = i % 2 === 0;
+  // Chia dọc trang thành các đoạn bằng nhau để mây rải đều, tránh bị tụ lại một chỗ
+  const segment = 100 / cloudCount;
+  const topPosition = i * segment + random(0, segment * 0.5);
+
+  return {
+    src: isCloud1 ? cloud1 : cloud2,
+    type: isCloud1 ? "cloud-1" : "cloud-2", // cloud-1 chạy trái qua phải, cloud-2 chạy phải qua trái
+    top: topPosition, // Vị trí theo chiều dọc rải đều
+    size: random(80, 220), // Kích thước ngẫu nhiên từ 80px đến 220px (giảm đi so với trước)
+    opacity: random(0.2, 0.6), // Độ trong suốt ngẫu nhiên
+    duration: random(40, 100), // Tốc độ trôi (giây) - số càng to trôi càng chậm
+    delay: random(-80, 0), // Delay âm để mây rải rác ngay từ lúc tải trang
+  };
+});
+---
+
+<!-- Absolute background để mây cuộn theo trang -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-[-1]" aria-hidden="true">
+  {
+    clouds.map((cloud) => (
+      <div
+        class:list={[
+          "absolute",
+          cloud.type === "cloud-1" ? "animate-float-lr" : "animate-float-rl",
+        ]}
+        style={`
+          top: ${cloud.top}%; 
+          opacity: ${cloud.opacity}; 
+          width: ${cloud.size}px; 
+          animation-duration: ${cloud.duration}s; 
+          animation-delay: ${cloud.delay}s;
+          ${cloud.type === "cloud-1" ? "left: -400px;" : "right: -400px;"}
+        `}
+      >
+        <Image 
+          src={cloud.src} 
+          alt="" 
+          width={400} 
+          class="w-full h-auto object-contain drop-shadow-md" 
+        />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  /* Mây 1: Trái qua Phải */
+  @keyframes float-lr {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(100vw + 800px));
+    }
+  }
+
+  /* Mây 2: Phải qua Trái */
+  @keyframes float-rl {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100vw - 800px));
+    }
+  }
+
+  .animate-float-lr {
+    animation: float-lr linear infinite;
+  }
+  .animate-float-rl {
+    animation: float-rl linear infinite;
+  }
+</style>

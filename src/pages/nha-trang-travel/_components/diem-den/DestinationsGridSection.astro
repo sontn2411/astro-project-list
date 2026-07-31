@@ -1,0 +1,186 @@
+---
+import SafeImage from "../../../../components/SafeImage.astro";
+import { Icon } from "astro-icon/components";
+
+const destinations = [
+  {
+    name: "Vịnh Nha Trang",
+    category: "Biển đảo",
+    desc: "Một trong 29 vịnh đẹp nhất thế giới với làn nước trong xanh và hệ sinh thái san hô phong phú.",
+    image: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=800&q=80",
+  },
+  {
+    name: "Đảo Bình Ba",
+    category: "Biển đảo",
+    desc: "Được mệnh danh là 'Đảo Tôm Hùm', nổi tiếng với vẻ đẹp hoang sơ và hải sản tươi ngon.",
+    image: "https://images.unsplash.com/photo-1596423735880-5c6fa959a7f3?w=800&q=80",
+  },
+  {
+    name: "Hòn Tằm",
+    category: "Biển đảo",
+    desc: "Nổi tiếng với khu tắm bùn khoáng trên đảo lớn nhất Việt Nam, bờ biển dài lãng mạn.",
+    image: "https://images.unsplash.com/photo-1621501103258-3e1346513364?w=800&q=80",
+  },
+  {
+    name: "Tháp Bà Ponagar",
+    category: "Văn hóa",
+    desc: "Quần thể kiến trúc Chăm Pa cổ kính, nơi lưu giữ những giá trị văn hóa ngàn năm.",
+    image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&q=80",
+  },
+  {
+    name: "Chùa Long Sơn",
+    category: "Văn hóa",
+    desc: "Ngôi chùa lớn nhất Nha Trang với bức tượng Kim Thân Phật Tổ khổng lồ trên đỉnh đồi.",
+    image: "https://images.unsplash.com/photo-1618083818306-69ee628286a1?w=800&q=80",
+  },
+  {
+    name: "Nhà thờ Núi",
+    category: "Văn hóa",
+    desc: "Công trình kiến trúc Gothic độc đáo bằng đá nguyên khối nằm ngay trung tâm thành phố.",
+    image: "https://images.unsplash.com/photo-1591873735165-275d259e8631?w=800&q=80",
+  },
+  {
+    name: "VinWonders Nha Trang",
+    category: "Giải trí",
+    desc: "Công viên giải trí đẳng cấp quốc tế với hệ thống cáp treo vượt biển ngoạn mục.",
+    image: "https://images.unsplash.com/photo-1579532650085-f5fbdbfbf62a?w=800&q=80",
+  },
+  {
+    name: "Viện Hải dương học",
+    category: "Giải trí",
+    desc: "Khám phá thế giới đại dương huyền bí với hàng ngàn mẫu vật và sinh vật biển đa dạng.",
+    image: "https://images.unsplash.com/photo-1582967788606-a171c1080cb0?w=800&q=80",
+  },
+  {
+    name: "Chợ Đầm",
+    category: "Giải trí",
+    desc: "Khu chợ trung tâm mang kiến trúc hoa sen độc đáo, nơi hội tụ đặc sản Nha Trang.",
+    image: "https://images.unsplash.com/photo-1533596664406-d0a0b2241ca6?w=800&q=80",
+  },
+];
+
+const categories = ["Tất cả", "Biển đảo", "Văn hóa", "Giải trí"];
+---
+
+<section class="py-10 md:py-16 px-4 md:mt-20">
+  <div class="max-w-7xl mx-auto">
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap items-center justify-center gap-2.5 mb-10">
+      {
+        categories.map((cat, index) => (
+          <button
+            data-category={cat}
+            class:list={[
+              "filter-btn px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer",
+              index === 0
+                ? "bg-travel-primary text-white shadow-md"
+                : "bg-white text-gray-500 hover:bg-emerald-50 hover:text-travel-primary border border-gray-200/80",
+            ]}
+          >
+            {cat}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Destinations Grid -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      id="destinations-grid"
+    >
+      {
+        destinations.map((dest) => (
+          <a
+            href="#"
+            data-category={dest.category}
+            class="destination-card group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100/50 flex flex-col cursor-pointer hover:-translate-y-1"
+          >
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <SafeImage
+                src={dest.image}
+                alt={dest.name}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute top-3 left-3">
+                <span class="px-3 py-1 bg-white/95 backdrop-blur-md text-travel-primary text-[11px] uppercase tracking-wider font-bold rounded-full shadow-sm">
+                  {dest.category}
+                </span>
+              </div>
+            </div>
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="text-lg font-bold text-gray-800 mb-1.5 group-hover:text-travel-primary transition-colors">
+                {dest.name}
+              </h3>
+              <p class="text-sm text-gray-500 line-clamp-2 leading-relaxed flex-1">
+                {dest.desc}
+              </p>
+              <div class="mt-4 flex items-center justify-between pt-3 border-t border-gray-100/60">
+                <span class="text-[13px] font-semibold text-travel-primary">
+                  Xem chi tiết
+                </span>
+                <div class="w-7 h-7 rounded-full bg-emerald-50 flex items-center justify-center group-hover:bg-travel-primary group-hover:text-white transition-colors text-travel-primary">
+                  <Icon name="lucide:arrow-right" class="w-3.5 h-3.5" />
+                </div>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(
+      ".destination-card",
+    ) as NodeListOf<HTMLElement>;
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        // Reset all buttons
+        filterBtns.forEach((b) => {
+          b.classList.remove("bg-travel-primary", "text-white", "shadow-md");
+          b.classList.add(
+            "bg-white",
+            "text-gray-500",
+            "border",
+            "border-gray-200/80",
+          );
+        });
+
+        // Activate clicked button
+        btn.classList.add("bg-travel-primary", "text-white", "shadow-md");
+        btn.classList.remove(
+          "bg-white",
+          "text-gray-500",
+          "border",
+          "border-gray-200/80",
+        );
+
+        const category = btn.getAttribute("data-category");
+
+        // Filter cards with animation
+        cards.forEach((card) => {
+          if (
+            category === "Tất cả" ||
+            card.getAttribute("data-category") === category
+          ) {
+            card.style.display = "flex";
+            card.animate(
+              [
+                { opacity: 0, transform: "translateY(8px)" },
+                { opacity: 1, transform: "translateY(0)" },
+              ],
+              { duration: 350, easing: "ease-out" },
+            );
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+  });
+</script>

@@ -21,7 +21,7 @@ const { title, desc } = Astro.props;
       rel="stylesheet"
     />
   </Fragment>
-  <div class="bg-[#FAFAFA] min-h-screen flex flex-col">
+  <div class="bg-[#FAFAFA] min-h-screen flex flex-col relative isolate">
     <Header />
     <main transition:animate="fade" class="font-nunito space-y-10 flex-1 pb-20">
       <slot />

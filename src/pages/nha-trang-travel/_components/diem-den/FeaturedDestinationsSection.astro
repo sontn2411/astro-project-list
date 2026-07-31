@@ -1,0 +1,398 @@
+---
+import SafeImage from "../../../../components/SafeImage.astro";
+import { Icon } from "astro-icon/components";
+
+const featuredList = [
+  {
+    name: "Vịnh Nha Trang",
+    category: "Biển đảo",
+    image:
+      "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=1200&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=200&q=60",
+    gallery: [
+      "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=200&q=60",
+      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=200&q=60",
+      "https://images.unsplash.com/photo-1589574895240-385d3f82029b?w=200&q=60",
+      "https://images.unsplash.com/photo-1616781489094-1a35cc24a30e?w=200&q=60",
+      "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=200&q=60",
+    ],
+    desc: "Vịnh Nha Trang được công nhận là một trong 29 vịnh đẹp nhất thế giới. Với diện tích 507 km², vịnh sở hữu 19 hòn đảo lớn nhỏ cùng hệ sinh thái san hô đa dạng bậc nhất Đông Nam Á.",
+    highlights: [
+      { icon: "lucide:waves", text: "Bãi biển dài 7km cát trắng mịn" },
+      { icon: "lucide:fish", text: "Hệ sinh thái san hô 350+ loài" },
+    ],
+  },
+  {
+    name: "Tháp Bà Ponagar",
+    category: "Văn hóa",
+    image:
+      "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1200&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=200&q=60",
+    gallery: [
+      "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=200&q=60",
+      "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=200&q=60",
+      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=200&q=60",
+    ],
+    desc: "Quần thể tháp Chăm Pa cổ kính được xây dựng từ thế kỷ VII-XII, nơi thờ nữ thần Thiên Y Thánh Mẫu. Kiến trúc gạch nung tinh xảo và huyền bí thu hút hàng triệu du khách mỗi năm.",
+    highlights: [
+      { icon: "lucide:landmark", text: "Di tích lịch sử quốc gia đặc biệt" },
+      { icon: "lucide:calendar", text: "Hơn 1000 năm tuổi" },
+    ],
+  },
+  {
+    name: "VinWonders Nha Trang",
+    category: "Giải trí",
+    image:
+      "https://images.unsplash.com/photo-1579532650085-f5fbdbfbf62a?w=1200&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1579532650085-f5fbdbfbf62a?w=200&q=60",
+    gallery: [
+      "https://images.unsplash.com/photo-1579532650085-f5fbdbfbf62a?w=200&q=60",
+      "https://images.unsplash.com/photo-1589574895240-385d3f82029b?w=200&q=60",
+      "https://images.unsplash.com/photo-1616781489094-1a35cc24a30e?w=200&q=60",
+      "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=200&q=60",
+    ],
+    desc: "Công viên giải trí và vui chơi đẳng cấp quốc tế nằm trên đảo Hòn Tre. Nổi tiếng với hệ thống cáp treo vượt biển dài 3.320m và hàng trăm trò chơi hấp dẫn cho mọi lứa tuổi.",
+    highlights: [
+      { icon: "lucide:ferris-wheel", text: "Cáp treo vượt biển dài 3.3km" },
+      { icon: "lucide:sparkles", text: "100+ trò chơi giải trí" },
+    ],
+  },
+  {
+    name: "Đảo Bình Ba",
+    category: "Biển đảo",
+    image:
+      "https://images.unsplash.com/photo-1596423735880-5c6fa959a7f3?w=1200&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1596423735880-5c6fa959a7f3?w=200&q=60",
+    gallery: [
+      "https://images.unsplash.com/photo-1596423735880-5c6fa959a7f3?w=200&q=60",
+      "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=200&q=60",
+      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=200&q=60",
+    ],
+    desc: "Hòn đảo nhỏ xinh đẹp cách Nha Trang khoảng 60km, nổi tiếng với danh xưng 'Đảo Tôm Hùm'. Biển trong vắt, bãi cát trắng mịn và hải sản tươi sống là điểm nhấn không thể bỏ lỡ.",
+    highlights: [
+      { icon: "lucide:ship", text: "Đi tàu cao tốc 1.5 giờ" },
+      { icon: "lucide:utensils", text: "Thiên đường tôm hùm giá rẻ" },
+    ],
+  },
+];
+---
+
+<section class="py-10 md:py-16 px-4" id="featured-section">
+  <div class="max-w-7xl mx-auto">
+    <p class="font-allura text-2xl md:text-3xl text-amber-600 mb-1">
+      Điểm đến nổi bật
+    </p>
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8">
+      Không thể bỏ lỡ
+    </h2>
+
+    <!-- Horizontal Slider -->
+    <div class="relative mb-4">
+      <div
+        class="flex gap-4 overflow-x-auto p-2 -m-2 snap-x snap-mandatory"
+        id="featured-slider"
+        style="scrollbar-width: none; -ms-overflow-style: none;"
+      >
+        {
+          featuredList.map((item, i) => (
+            <button
+              data-featured-btn={i}
+              class:list={[
+                "featured-btn shrink-0 w-[220px] md:w-[260px] flex items-center gap-3 p-2.5 rounded-2xl cursor-pointer transition-all duration-300 border-2 snap-start group",
+                i === 0
+                  ? "border-travel-primary scale-[1.02] bg-travel-primary/5"
+                  : "border-transparent hover:border-gray-200  bg-white",
+              ]}
+            >
+              <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden shrink-0">
+                <SafeImage
+                  src={item.thumb}
+                  alt={item.name}
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div
+                  class:list={[
+                    "absolute inset-0 transition-opacity duration-300",
+                    i === 0
+                      ? "bg-travel-primary/10"
+                      : "bg-black/10 group-hover:bg-transparent",
+                  ]}
+                />
+              </div>
+              <h3
+                class:list={[
+                  "font-bold text-sm transition-colors text-left leading-snug",
+                  i === 0
+                    ? "text-travel-primary"
+                    : "text-gray-800 group-hover:text-travel-primary",
+                ]}
+              >
+                {item.name}
+              </h3>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Split Content: Image Left + Description Right -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+      <!-- Image Left -->
+      <div class="lg:col-span-7">
+        <div
+          class="relative rounded-3xl overflow-hidden aspect-[4/3] lg:aspect-[16/10] bg-gray-100"
+        >
+          {
+            featuredList.map((item, i) => (
+              <SafeImage
+                src={item.image}
+                alt={item.name}
+                data-featured-img={i}
+                class:list={[
+                  "featured-img absolute inset-0 w-full h-full object-cover transition-opacity duration-500",
+                  i === 0 ? "opacity-100" : "opacity-0",
+                ]}
+                loading="lazy"
+              />
+            ))
+          }
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none"
+          >
+          </div>
+
+          <!-- Play button overlay -->
+          <!-- <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+            <button class="w-14 h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-xl pointer-events-auto hover:scale-110 hover:bg-gray-50 transition-all duration-300">
+              <Icon name="lucide:play" class="w-6 h-6 md:w-7 md:h-7 text-gray-800 ml-1" />
+            </button>
+          </div> -->
+
+          <!-- Badge: Top Left now instead of Bottom Left to make room for gallery -->
+          <div class="absolute top-4 left-4 md:top-6 md:left-6 z-10">
+            {
+              featuredList.map((item, i) => (
+                <span
+                  data-featured-badge={i}
+                  class:list={[
+                    "featured-badge absolute top-0 left-0 px-3 py-1.5 text-white text-xs font-bold rounded-full uppercase tracking-wider shadow-md transition-opacity duration-300 whitespace-nowrap",
+                    i === 0 ? "opacity-100" : "opacity-0 pointer-events-none",
+                  ]}
+                  style={
+                    i === 0 ? "background: #f59e0b;" : "background: #f59e0b;"
+                  }
+                >
+                  {item.category}
+                </span>
+              ))
+            }
+          </div>
+
+          <!-- Small gallery thumbnails at the bottom -->
+          {
+            featuredList.map((item, i) => (
+              <div
+                data-featured-gallery={i}
+                class:list={[
+                  "featured-gallery absolute bottom-4 md:bottom-6 left-0 w-full px-4 md:px-6 z-10 transition-opacity duration-300 overflow-x-auto snap-x py-2 -my-2",
+                  i === 0 ? "opacity-100 flex" : "opacity-0 hidden",
+                ]}
+                style="scrollbar-width: none; -ms-overflow-style: none;"
+              >
+                <div class="flex gap-2.5 mx-auto">
+                  {item.gallery.map((img, idx) => (
+                    <button
+                      class:list={[
+                        "w-[70px] h-[48px] md:w-[90px] md:h-[60px] rounded-lg md:rounded-xl overflow-hidden shrink-0 border-2 transition-all duration-300 shadow-md snap-center group cursor-pointer",
+                        idx === 0
+                          ? "border-amber-400 scale-[1.05]"
+                          : "border-white/40 hover:border-white/80",
+                      ]}
+                    >
+                      <SafeImage
+                        src={img}
+                        alt={`${item.name} image ${idx + 1}`}
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Content Right -->
+      <div class="lg:col-span-5">
+        {
+          featuredList.map((item, i) => (
+            <div
+              data-featured-desc={i}
+              class:list={["featured-desc", i === 0 ? "block" : "hidden"]}
+            >
+              <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-3">
+                {item.name}
+              </h3>
+              <p class="text-sm md:text-base text-gray-600 leading-relaxed mb-5">
+                {item.desc}
+              </p>
+              <div class="flex flex-wrap gap-2.5 mb-6">
+                {item.highlights.map((h) => (
+                  <div class="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full">
+                    <Icon
+                      name={h.icon}
+                      class="w-3.5 h-3.5 text-travel-primary"
+                    />
+                    <span class="text-xs text-travel-primary font-medium">
+                      {h.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="#"
+                class="inline-flex items-center gap-2 px-6 py-2.5 bg-travel-primary text-white text-sm font-semibold rounded-full hover:bg-travel-primary/90 active:scale-95 transition-all duration-200 shadow-md group"
+              >
+                Khám phá ngay
+                <Icon
+                  name="lucide:arrow-right"
+                  class="w-4 h-4 transition-transform group-hover:translate-x-1"
+                />
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .featured-img,
+    .featured-btn,
+    .featured-badge {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const featuredBtns = document.querySelectorAll(".featured-btn");
+    const featuredImgs = document.querySelectorAll(
+      ".featured-img",
+    ) as NodeListOf<HTMLElement>;
+    const featuredDescs = document.querySelectorAll(
+      ".featured-desc",
+    ) as NodeListOf<HTMLElement>;
+    const featuredBadges = document.querySelectorAll(
+      ".featured-badge",
+    ) as NodeListOf<HTMLElement>;
+    const featuredGalleries = document.querySelectorAll(
+      ".featured-gallery",
+    ) as NodeListOf<HTMLElement>;
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    featuredBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = btn.getAttribute("data-featured-btn");
+
+        // Reset all slider cards
+        featuredBtns.forEach((b) => {
+          b.classList.remove(
+            "border-travel-primary",
+            "shadow-lg",
+            "scale-[1.02]",
+            "bg-travel-primary/5",
+          );
+          b.classList.add("border-transparent", "shadow-sm", "bg-white");
+          const title = b.querySelector("h3");
+          title?.classList.remove("text-travel-primary");
+          title?.classList.add("text-gray-800");
+        });
+
+        // Activate clicked card
+        btn.classList.add(
+          "border-travel-primary",
+          "shadow-lg",
+          "scale-[1.02]",
+          "bg-travel-primary/5",
+        );
+        btn.classList.remove("border-transparent", "shadow-sm", "bg-white");
+        const title = btn.querySelector("h3");
+        title?.classList.add("text-travel-primary");
+        title?.classList.remove("text-gray-800");
+
+        // Switch image (fade)
+        featuredImgs.forEach((img) => {
+          img.classList.remove("opacity-100");
+          img.classList.add("opacity-0");
+        });
+        const activeImg = document.querySelector(
+          `[data-featured-img="${idx}"]`,
+        ) as HTMLElement;
+        if (activeImg) {
+          activeImg.classList.remove("opacity-0");
+          activeImg.classList.add("opacity-100");
+        }
+
+        // Switch badge (fade)
+        featuredBadges.forEach((badge) => {
+          badge.classList.remove("opacity-100");
+          badge.classList.add("opacity-0", "pointer-events-none");
+        });
+        const activeBadge = document.querySelector(
+          `[data-featured-badge="${idx}"]`,
+        ) as HTMLElement;
+        if (activeBadge) {
+          activeBadge.classList.remove("opacity-0", "pointer-events-none");
+          activeBadge.classList.add("opacity-100");
+        }
+
+        // Switch gallery thumbnails (fade)
+        featuredGalleries.forEach((gallery) => {
+          gallery.classList.remove("opacity-100", "flex");
+          gallery.classList.add("opacity-0", "hidden");
+        });
+        const activeGallery = document.querySelector(
+          `[data-featured-gallery="${idx}"]`,
+        ) as HTMLElement;
+        if (activeGallery) {
+          activeGallery.classList.remove("opacity-0", "hidden");
+          activeGallery.classList.add("opacity-100", "flex");
+        }
+
+        // Switch description with animation
+        featuredDescs.forEach((desc) => {
+          desc.classList.add("hidden");
+          desc.classList.remove("block");
+        });
+        const activeDesc = document.querySelector(
+          `[data-featured-desc="${idx}"]`,
+        ) as HTMLElement;
+        if (activeDesc) {
+          activeDesc.classList.remove("hidden");
+          activeDesc.classList.add("block");
+          if (!prefersReduced) {
+            activeDesc.animate(
+              [
+                { opacity: 0, transform: "translateY(10px)" },
+                { opacity: 1, transform: "translateY(0)" },
+              ],
+              { duration: 350, easing: "ease-out", fill: "forwards" },
+            );
+          }
+        }
+      });
+    });
+  });
+</script>

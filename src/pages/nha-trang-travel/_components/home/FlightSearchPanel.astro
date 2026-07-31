@@ -79,8 +79,9 @@ import Select from "../shared/Select.astro";
 </div>
 
 <script>
-  // Swap button logic
-  document.querySelector(".swap-btn")?.addEventListener("click", () => {
+  document.addEventListener("astro:page-load", () => {
+    // Swap button logic
+    document.querySelector(".swap-btn")?.addEventListener("click", () => {
     const dep = document.querySelector<HTMLInputElement>(
       '[data-field="departure"] .airport-input',
     );
@@ -94,5 +95,6 @@ import Select from "../shared/Select.astro";
     dep.dataset.code = arr.dataset.code || "";
     arr.value = tmpVal;
     arr.dataset.code = tmpCode;
+    });
   });
 </script>

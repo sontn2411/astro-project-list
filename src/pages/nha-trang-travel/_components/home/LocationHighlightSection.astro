@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import bg1 from "../../_assets/images/background1.png";
@@ -33,7 +34,7 @@ const locations = [
 ];
 ---
 
-<section class="py-6 md:py-14 px-4">
+<section class="py-5 md:py-10 px-4">
   <div
     class="relative max-w-7xl mx-auto bg-[#0e2e25] rounded-2xl md:rounded-3xl overflow-hidden py-6"
   >
@@ -91,7 +92,7 @@ const locations = [
                 <div class="swiper-slide md:!w-[220px]">
                   <div class="group cursor-pointer">
                     <div class="relative aspect-square rounded-2xl overflow-hidden">
-                      <img
+                      <SafeImage
                         src={loc.image}
                         alt={loc.name}
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -118,25 +119,40 @@ const locations = [
   import { Navigation, Autoplay } from "swiper/modules";
   import "swiper/css";
 
-  new Swiper(".location-swiper", {
-    modules: [Navigation, Autoplay],
-    slidesPerView: 1,
-    spaceBetween: 16,
-    grabCursor: true,
-    loop: true,
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-    navigation: {
-      prevEl: ".location-prev",
-      nextEl: ".location-next",
-    },
-    breakpoints: {
-      768: {
-        slidesPerView: "auto",
-      },
-    },
+  function initSwiper() {
+    const el = document.querySelector(".location-swiper") as any;
+    if (el && !el.swiper) {
+      el.swiper = new Swiper(el, {
+        modules: [Navigation, Autoplay],
+        slidesPerView: 1,
+        spaceBetween: 16,
+        grabCursor: true,
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        navigation: {
+          prevEl: ".location-prev",
+          nextEl: ".location-next",
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: "auto",
+          },
+        },
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", initSwiper);
+
+  document.addEventListener("astro:before-swap", () => {
+    const el = document.querySelector(".location-swiper") as any;
+    if (el && el.swiper) {
+      el.swiper.destroy(true, true);
+      el.swiper = null;
+    }
   });
 </script>

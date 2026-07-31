@@ -5,6 +5,26 @@ import bannerImage from "../../_assets/images/banner-hero.png";
 import FlightSearchPanel from "./FlightSearchPanel.astro";
 import HotelSearchPanel from "./HotelSearchPanel.astro";
 
+interface Props {
+  greeting?: string;
+  title?: string;
+  description?: string;
+  showExploreButton?: boolean;
+  variant?: "home" | "page";
+  bgImage?: string;
+}
+
+const {
+  greeting = "Xin chào",
+  title = "Nha Trang!",
+  description = "Thành phố biển xinh đẹp với nắng vàng, biển xanh và những trải nghiệm không thể bỏ lỡ. Hãy để chúng tôi đồng hành cùng bạn!",
+  showExploreButton = true,
+  variant = "home",
+  bgImage = "",
+} = Astro.props;
+
+const isPage = variant === "page";
+
 const tabs = [
   {
     id: "flights",
@@ -21,7 +41,7 @@ const tabs = [
 ];
 ---
 
-<section class="relative md:mb-28">
+<section class:list={["relative", isPage ? "" : "md:mb-16"]}>
   <div
     class="relative w-full min-h-[50vh] md:min-h-[80vh] flex items-center overflow-hidden rounded-b-[10%] md:rounded-b-[20%]"
   >
@@ -30,28 +50,36 @@ const tabs = [
     >
     </div>
     <div class="relative z-10 w-full container mx-auto px-4">
-      <p class="font-allura text-3xl md:text-5xl text-amber-600">Xin chào</p>
+      <p class="font-allura text-3xl md:text-5xl text-amber-600">{greeting}</p>
       <h1
-        class="font-allura text-5xl md:text-8xl text-travel-primary -mt-2 md:-mt-4"
+        class:list={[
+          "max-w-md ",
+          isPage
+            ? "font-nunito font-bold text-3xl md:text-5xl text-travel-primary"
+            : "-mt-2 md:-mt-4 font-allura text-5xl md:text-8xl text-travel-primary ",
+        ]}
       >
-        Nha Trang!
+        {title}
       </h1>
       <p
-        class="mt-3 md:mt-4 text-sm md:text-base text-gray-600 max-w-sm leading-relaxed"
+        class="mt-3 md:mt-4 text-sm md:text-base text-gray-600 max-w-sm leading-relaxed font-nunito"
       >
-        Thành phố biển xinh đẹp với nắng vàng, biển xanh và những trải nghiệm
-        không thể bỏ lỡ. Hãy để chúng tôi đồng hành cùng bạn!
+        {description}
       </p>
-      <a
-        href="#explore"
-        class="inline-flex items-center gap-2 mt-4 md:mt-5 px-6 py-2.5 bg-travel-primary text-white text-sm font-semibold rounded-full hover:bg-travel-primary/90 active:scale-95 transition-all duration-200 shadow-md group"
-      >
-        Khám phá Nha Trang
-        <Icon
-          name="lucide:arrow-right"
-          class="w-4 h-4 transition-transform group-hover:translate-x-1"
-        />
-      </a>
+      {
+        showExploreButton && (
+          <a
+            href="#explore"
+            class="inline-flex items-center gap-2 mt-4 md:mt-5 px-6 py-2.5 bg-travel-primary text-white text-sm font-semibold rounded-full hover:bg-travel-primary/90 active:scale-95 transition-all duration-200 shadow-md group"
+          >
+            Khám phá Nha Trang
+            <Icon
+              name="lucide:arrow-right"
+              class="w-4 h-4 transition-transform group-hover:translate-x-1"
+            />
+          </a>
+        )
+      }
     </div>
   </div>
 
@@ -195,48 +223,55 @@ const tabs = [
 </style>
 
 <script>
-  const tabs = document.querySelectorAll<HTMLButtonElement>(".tab-item");
-  const panels = document.querySelectorAll<HTMLElement>(".search-panel");
+  document.addEventListener("astro:page-load", () => {
+    const tabs = document.querySelectorAll<HTMLButtonElement>(".tab-item");
+    const panels = document.querySelectorAll<HTMLElement>(".search-panel");
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const tabId = tab.dataset.tab;
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const tabId = tab.dataset.tab;
 
-      // Reset tất cả tab về inactive
-      tabs.forEach((t) => {
-        t.classList.remove("tab-item--active", "h-[38px]", "md:h-[44px]");
-        t.classList.add("h-[30px]", "md:h-[36px]", "bg-transparent", "mb-1");
-        t.style.removeProperty("anchor-name");
-        // Đổi màu icon và text
-        const icon = t.querySelector(".tab-icon");
-        const label = t.querySelector("span:last-child");
-        icon?.classList.replace("text-orange-400", "text-white");
-        label?.classList.replace("text-travel-primary", "text-white");
-      });
+        // Reset tất cả tab về inactive
+        tabs.forEach((t) => {
+          t.classList.remove("tab-item--active", "h-[38px]", "md:h-[44px]");
+          t.classList.add("h-[30px]", "md:h-[36px]", "bg-transparent", "mb-1");
+          t.style.removeProperty("anchor-name");
+          // Đổi màu icon và text
+          const icon = t.querySelector(".tab-icon");
+          const label = t.querySelector("span:last-child");
+          icon?.classList.replace("text-orange-400", "text-white");
+          label?.classList.replace("text-travel-primary", "text-white");
+        });
 
-      // Set tab được click thành active
-      tab.classList.add("tab-item--active", "h-[38px]", "md:h-[44px]");
-      tab.classList.remove("h-[30px]", "md:h-[36px]", "bg-transparent", "mb-1");
-      tab.style.setProperty("anchor-name", "--active-option");
-      // Đổi màu icon và text
-      const icon = tab.querySelector(".tab-icon");
-      const label = tab.querySelector("span:last-child");
-      icon?.classList.replace("text-white", "text-orange-400");
-      label?.classList.replace("text-white", "text-travel-primary");
-
-      // Ẩn inverted corner bên trái nếu là tab đầu
-      const tabIndex = Array.from(tabs).indexOf(tab);
-      const indicator = document.querySelector<HTMLElement>(".indicator");
-      if (indicator) {
-        indicator.style.setProperty(
-          "--nav-indicator-inverted-width-before",
-          tabIndex === 0 ? "0px" : "var(--nav-indicator-inverted-radius)",
+        // Set tab được click thành active
+        tab.classList.add("tab-item--active", "h-[38px]", "md:h-[44px]");
+        tab.classList.remove(
+          "h-[30px]",
+          "md:h-[36px]",
+          "bg-transparent",
+          "mb-1",
         );
-      }
+        tab.style.setProperty("anchor-name", "--active-option");
+        // Đổi màu icon và text
+        const icon = tab.querySelector(".tab-icon");
+        const label = tab.querySelector("span:last-child");
+        icon?.classList.replace("text-white", "text-orange-400");
+        label?.classList.replace("text-white", "text-travel-primary");
 
-      // Switch panel tương ứng
-      panels.forEach((p) => {
-        p.classList.toggle("hidden", p.dataset.panel !== tabId);
+        // Ẩn inverted corner bên trái nếu là tab đầu
+        const tabIndex = Array.from(tabs).indexOf(tab);
+        const indicator = document.querySelector<HTMLElement>(".indicator");
+        if (indicator) {
+          indicator.style.setProperty(
+            "--nav-indicator-inverted-width-before",
+            tabIndex === 0 ? "0px" : "var(--nav-indicator-inverted-radius)",
+          );
+        }
+
+        // Switch panel tương ứng
+        panels.forEach((p) => {
+          p.classList.toggle("hidden", p.dataset.panel !== tabId);
+        });
       });
     });
   });

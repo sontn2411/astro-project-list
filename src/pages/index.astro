@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../components/SafeImage.astro";
 import Layout from '../layouts/Layout.astro';
 import ambienceImg from '../assets/project-ambience-thumbnail.png';
 
@@ -177,7 +178,7 @@ const allTags = ['Tất cả', ...new Set(projects.flatMap(p => p.tags))];
           <!-- Thumbnail -->
           <div class="relative w-full aspect-video overflow-hidden" style="background: var(--surface-2);">
             {project.thumbnail ? (
-              <img
+              <SafeImage
                 src={project.thumbnail}
                 alt={project.name}
                 loading="lazy"

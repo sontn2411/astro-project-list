@@ -1,0 +1,51 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<section class="py-14 md:py-20 px-4 relative overflow-hidden">
+  <!-- Decorative pattern -->
+  <div
+    class="absolute inset-0 opacity-[0.03]"
+    style="background-image: radial-gradient(circle at 1px 1px, #184843 1px, transparent 0); background-size: 32px 32px;"
+  >
+  </div>
+
+  <div class="max-w-3xl mx-auto text-center relative z-10">
+    <p class="font-allura text-2xl md:text-3xl text-amber-600 mb-1">
+      Bạn đã sẵn sàng?
+    </p>
+    <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-4">
+      Khám phá Nha Trang ngay hôm nay
+    </h2>
+    <p
+      class="text-sm md:text-base text-gray-500 mb-8 max-w-lg mx-auto leading-relaxed"
+    >
+      Đặt chuyến bay và khách sạn để bắt đầu hành trình khám phá thành phố
+      biển xinh đẹp nhất Việt Nam.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+      <a
+        href="/nha-trang-travel/"
+        class="inline-flex items-center gap-2 px-7 py-3 bg-travel-primary text-white text-sm font-semibold rounded-full hover:bg-travel-primary/90 active:scale-95 transition-all duration-200 shadow-md group"
+        data-astro-reload
+      >
+        Tìm chuyến bay
+        <Icon
+          name="lucide:plane"
+          class="w-4 h-4 transition-transform group-hover:translate-x-1"
+        />
+      </a>
+      <a
+        href="/nha-trang-travel/"
+        class="inline-flex items-center gap-2 px-7 py-3 border-2 border-travel-primary text-travel-primary text-sm font-semibold rounded-full hover:bg-travel-primary/5 active:scale-95 transition-all duration-200 group"
+        data-astro-reload
+      >
+        Xem ưu đãi
+        <Icon
+          name="lucide:tag"
+          class="w-4 h-4 transition-transform group-hover:translate-x-1"
+        />
+      </a>
+    </div>
+  </div>
+</section>

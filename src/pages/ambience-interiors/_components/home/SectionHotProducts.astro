@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import image1 from "../../_assets/product-hot-1.png";
 import image2 from "../../_assets/product-hot-2.png";
 import image3 from "../../_assets/product-hot-3.png";
@@ -66,7 +67,7 @@ const products = [
                 />
                 {/* Card ảnh */}
                 <div class="relative z-20 bg-[#f8f6f2] overflow-hidden aspect-[4/6]">
-                  <img
+                  <SafeImage
                     src={p.image.src}
                     alt={p.title}
                     class="w-full h-full object-contain p-6 transition-transform duration-500 hover:scale-105"

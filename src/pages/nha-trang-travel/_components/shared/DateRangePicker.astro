@@ -341,6 +341,16 @@ const {
       });
   }
 
-  initDatePickers();
-  document.addEventListener("astro:after-swap", initDatePickers);
+  document.addEventListener("astro:page-load", initDatePickers);
+
+  document.addEventListener("astro:before-swap", () => {
+    document.querySelectorAll(".picker-input-from").forEach((el: any) => {
+      if (el._flatpickr) {
+        el._flatpickr.destroy();
+      }
+    });
+    document.querySelectorAll(".date-range-picker").forEach((el: any) => {
+      delete el.dataset.init;
+    });
+  });
 </script>

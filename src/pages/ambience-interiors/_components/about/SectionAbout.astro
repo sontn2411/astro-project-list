@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import SectionTitle from "../SectionTitle.astro";
 import img1 from "../../_assets/about-1.png";
 import img2 from "../../_assets/about-2.png";
@@ -37,7 +38,7 @@ const items = [
               <!-- Image Column -->
               <div class={`w-full md:w-1/2 ${isEven ? "md:order-2" : "md:order-1"}`}>
                 <div class="overflow-hidden shadow-lg aspect-video md:aspect-[4/3] w-full group">
-                  <img
+                  <SafeImage
                     src={item.image.src}
                     alt={item.title}
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

@@ -1,0 +1,26 @@
+---
+import Layout from "../_components/shared/Layout.astro";
+import FloatingClouds from "../_components/home/FloatingClouds.astro";
+import BannerHero from "../_components/home/BannerHero.astro";
+import DestinationsGridSection from "../_components/diem-den/DestinationsGridSection.astro";
+import FeaturedDestinationsSection from "../_components/diem-den/FeaturedDestinationsSection.astro";
+import DistanceInfoSection from "../_components/diem-den/DistanceInfoSection.astro";
+import CtaSection from "../_components/diem-den/CtaSection.astro";
+---
+
+<Layout title="Điểm đến | Nha Trang Travel">
+  <BannerHero
+    title="Những điểm đến tuyệt vời"
+    description="Từ biển xanh cát trắng Nha Trang đến những danh lam thắng cảnh nổi tiếng. Khám phá vẻ đẹp của thành phố biển và những vùng đất xung quanh"
+    greeting="Khám phá"
+    showExploreButton={false}
+    variant="page"
+  />
+
+  <DestinationsGridSection />
+  <FeaturedDestinationsSection />
+  <DistanceInfoSection />
+  <CtaSection />
+
+  <FloatingClouds />
+</Layout>

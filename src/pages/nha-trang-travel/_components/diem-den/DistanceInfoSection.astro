@@ -1,0 +1,54 @@
+---
+import { Icon } from "astro-icon/components";
+
+const distancePoints = [
+  { name: "Tháp Bà Ponagar", distance: "2 km", time: "5 phút", icon: "lucide:landmark" },
+  { name: "Hòn Chồng", distance: "3.5 km", time: "10 phút", icon: "lucide:mountain" },
+  { name: "VinWonders", distance: "12 km", time: "20 phút", icon: "lucide:ferris-wheel" },
+  { name: "Đảo Bình Ba", distance: "60 km", time: "1.5 giờ", icon: "lucide:ship" },
+  { name: "Hòn Tằm", distance: "7 km", time: "15 phút", icon: "lucide:palmtree" },
+];
+---
+
+<section class="py-14 md:py-20 px-4 bg-[#0f3433] relative overflow-hidden">
+  <!-- Decorative bg pattern -->
+  <div
+    class="absolute inset-0 opacity-[0.03]"
+    style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 40px 40px;"
+  >
+  </div>
+
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="text-center mb-12">
+      <p class="font-allura text-2xl md:text-3xl text-amber-400 mb-1">
+        Bạn biết không?
+      </p>
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">
+        Khoảng cách từ trung tâm Nha Trang
+      </h2>
+      <p class="text-sm text-white/60 max-w-lg mx-auto">
+        Tất cả điểm đến đều dễ dàng di chuyển từ trung tâm thành phố
+      </p>
+    </div>
+
+    <!-- Distance Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      {
+        distancePoints.map((point) => (
+          <div class="bg-white/[0.06] backdrop-blur-sm border border-white/10 rounded-2xl p-5 text-center hover:bg-white/10 transition-colors duration-300 group">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/15 flex items-center justify-center mx-auto mb-3 group-hover:bg-amber-500/25 transition-colors">
+              <Icon name={point.icon} class="w-5 h-5 text-amber-400" />
+            </div>
+            <h3 class="text-white font-semibold text-sm mb-1.5">
+              {point.name}
+            </h3>
+            <p class="text-amber-400 text-xl font-bold mb-0.5">
+              {point.distance}
+            </p>
+            <p class="text-white/40 text-xs">~ {point.time}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

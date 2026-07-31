@@ -4,12 +4,14 @@ import { Icon } from "astro-icon/components";
 import logo from "../../_assets/images/logo-header.png";
 
 const navLinks = [
-  { label: "Điểm đến", href: "#" },
+  { label: "Điểm đến", href: "/nha-trang-travel/diem-den/" },
   { label: "Trải nghiệm", href: "#" },
   { label: "Khách sạn", href: "#" },
   { label: "Ưu đãi", href: "#" },
   { label: "Cẩm nang du lịch", href: "#" },
 ];
+
+const currentPath = Astro.url.pathname;
 ---
 
 <header id="main-header" class="fixed z-20 w-full top-0">
@@ -23,20 +25,27 @@ const navLinks = [
   <div
     class="relative px-4 py-3 flex items-center justify-between max-w-7xl mx-auto"
   >
-    <a href="/nha-trang-travel/" class="logo">
+    <a href="/nha-trang-travel/" class="logo" data-astro-reload>
       <Image src={logo} alt="Nha Trang Travel Logo" class="h-12 w-auto" />
     </a>
     <div class="flex items-center gap-4 md:gap-8">
       <nav class="hidden md:flex items-center gap-8">
         {
-          navLinks.map((link) => (
-            <a
-              href={link.href}
-              class="text-black font-medium hover:text-travel-primary transition-colors drop-shadow-sm text-base tracking-wide"
-            >
-              {link.label}
-            </a>
-          ))
+          navLinks.map((link) => {
+            const isActive = link.href !== "#" && currentPath.startsWith(link.href);
+            return (
+              <a
+                href={link.href}
+                class:list={[
+                  "font-medium hover:text-travel-primary transition-colors drop-shadow-sm text-base tracking-wide",
+                  isActive ? "text-travel-primary border-b-2 border-travel-primary pb-1" : "text-black",
+                ]}
+                data-astro-reload
+              >
+                {link.label}
+              </a>
+            );
+          })
         }
       </nav>
 
@@ -85,7 +94,7 @@ const navLinks = [
     <div
       class="px-4 py-3 flex items-center justify-between border-b border-gray-100 shadow-sm"
     >
-      <a href="/nha-trang-travel/" class="logo">
+      <a href="/nha-trang-travel/" class="logo" data-astro-reload>
         <Image src={logo} alt="Nha Trang Travel Logo" class="h-12 w-auto" />
       </a>
       <button
@@ -97,22 +106,30 @@ const navLinks = [
     </div>
     <nav class="flex flex-col p-6 gap-6 mt-2 overflow-y-auto">
       {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-black font-medium text-lg uppercase tracking-wide border-b border-gray-50 pb-4 hover:text-travel-primary transition-colors"
-          >
-            {link.label}
-          </a>
-        ))
+        navLinks.map((link) => {
+          const isActive = link.href !== "#" && currentPath.startsWith(link.href);
+          return (
+            <a
+              href={link.href}
+              class:list={[
+                "font-medium text-lg uppercase tracking-wide border-b pb-4 hover:text-travel-primary transition-colors",
+                isActive ? "text-travel-primary border-travel-primary" : "text-black border-gray-50",
+              ]}
+              data-astro-reload
+            >
+              {link.label}
+            </a>
+          );
+        })
       }
     </nav>
   </div>
 </header>
 
 <script>
-  // Script xử lý mở/đóng menu trên mobile
-  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  document.addEventListener("astro:page-load", () => {
+    // Script xử lý mở/đóng menu trên mobile
+    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
   const closeMenuBtn = document.getElementById("close-menu-btn");
   const mobileMenu = document.getElementById("mobile-menu");
 
@@ -144,5 +161,6 @@ const navLinks = [
       },
       { passive: true },
     );
-  }
+    }
+  });
 </script>

@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 interface Props {
   images: string[];
   galleryId: number;
@@ -21,7 +22,7 @@ const { images, galleryId, name, autoInterval = 2500 } = Astro.props;
     </div>
 
     <!-- Ảnh active -->
-    <img
+    <SafeImage
       src={images[0]}
       alt={`${name} view 1`}
       class="main-img w-full h-full object-contain p-6 md:p-8 transition-opacity duration-300"
@@ -40,7 +41,7 @@ const { images, galleryId, name, autoInterval = 2500 } = Astro.props;
           data-src={img}
           aria-label={`Xem ảnh ${j + 1}`}
         >
-          <img
+          <SafeImage
             src={img}
             alt={`${name} ${j + 1}`}
             class="w-full h-full object-cover"

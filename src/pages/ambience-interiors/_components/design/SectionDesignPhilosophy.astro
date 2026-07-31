@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import p1 from "../../_assets/design/philosophy-1.png";
 import p2 from "../../_assets/design/philosophy-2.png";
 import p3 from "../../_assets/design/philosophy-3.png";
@@ -43,7 +44,7 @@ import p3 from "../../_assets/design/philosophy-3.png";
         >
           <!-- Ảnh trên -->
           <div class="overflow-hidden aspect-square">
-            <img
+            <SafeImage
               src={p3.src}
               alt="Triết lý thiết kế 3"
               class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
@@ -51,7 +52,7 @@ import p3 from "../../_assets/design/philosophy-3.png";
           </div>
           <!-- Ảnh dưới -->
           <div class="overflow-hidden">
-            <img
+            <SafeImage
               src={p1.src}
               alt="Triết lý thiết kế 1"
               class="w-full h-full object-contain hover:scale-105 transition-transform duration-700"
@@ -63,7 +64,7 @@ import p3 from "../../_assets/design/philosophy-3.png";
         <div class="flex flex-col items-start text-left gap-6">
           <!-- Ảnh giữa -->
           <div class="overflow-hidden w-full aspect-video">
-            <img
+            <SafeImage
               src={p2.src}
               alt="Triết lý thiết kế 2"
               class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"

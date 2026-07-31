@@ -1,4 +1,5 @@
 ---
+import SafeImage from "../../../../components/SafeImage.astro";
 import SectionTitle from "../SectionTitle.astro";
 import img1 from "../../_assets/about-1.png"; // Placeholder
 import img2 from "../../_assets/about-2.png"; // Placeholder
@@ -25,7 +26,7 @@ const team = [
             <div class="flex flex-col items-center text-center">
               <!-- Image -->
               <div class="w-full aspect-[4/5] overflow-hidden ">
-                <img
+                <SafeImage
                   src={member.image.src}
                   alt={member.name}
                   class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
