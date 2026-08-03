@@ -1,0 +1,24 @@
+---
+import Layout from "../_components/shared/Layout.astro";
+import FloatingClouds from "../_components/home/FloatingClouds.astro";
+import BannerHero from "../_components/home/BannerHero.astro";
+import ExperienceListSection from "../_components/trai-nghiem/ExperienceListSection.astro";
+import WhyChooseUsSection from "../_components/trai-nghiem/WhyChooseUsSection.astro";
+import NewsletterCTASection from "../_components/trai-nghiem/NewsletterCTASection.astro";
+---
+
+<Layout title="Trải nghiệm | Nha Trang Travel">
+  <BannerHero
+    title="Trải nghiệm độc đáo"
+    description="Khám phá những hoạt động và trải nghiệm khó quên tại Nha Trang. Từ lặn ngắm san hô, dù lượn trên biển đến thưởng thức ẩm thực địa phương phong phú."
+    greeting="Hoạt động"
+    showExploreButton={false}
+    variant="page"
+  />
+
+  <ExperienceListSection />
+  <WhyChooseUsSection />
+  <NewsletterCTASection />
+
+  <FloatingClouds />
+</Layout>

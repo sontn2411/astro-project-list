@@ -1,0 +1,122 @@
+---
+import { Icon } from "astro-icon/components";
+import SafeImage from "../../../../components/SafeImage.astro";
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+const featuredOffers = [
+  {
+    title: "Flash Sale 24h",
+    subtitle: "Nghỉ dưỡng 5 sao chỉ từ 999K/đêm",
+    date: "Kết thúc trong 12h",
+    image: "https://images.unsplash.com/photo-1542314831-c6a4d27ece91?w=800&q=80",
+    color: "from-[#E57B3E]/90 via-[#E57B3E]/60 to-transparent"
+  },
+  {
+    title: "Mùa Hè Sôi Động",
+    subtitle: "Giảm đến 50% các tour lặn biển và thể thao nước tại Nha Trang",
+    date: "Đến 31/08",
+    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80",
+    color: "from-blue-600/90 via-blue-600/50 to-transparent"
+  },
+  {
+    title: "Ưu đãi Đối tác",
+    subtitle: "Hoàn tiền 20% khi thanh toán bằng thẻ tín dụng VIB & Sacombank",
+    date: "Đến 31/12",
+    image: "https://images.unsplash.com/photo-1551882547-ff40c0d129df?w=800&q=80",
+    color: "from-travel-primary/90 via-travel-primary/60 to-transparent"
+  },
+  {
+    title: "Combo Gia Đình",
+    subtitle: "Tặng vé VinWonders khi đặt phòng từ 3 đêm trở lên",
+    date: "Đến 30/09",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
+    color: "from-purple-600/90 via-purple-600/50 to-transparent"
+  }
+];
+---
+
+<section class="max-w-[1400px] mx-auto px-4 md:px-8 py-16 overflow-hidden">
+  <div class="mb-10 flex flex-col md:flex-row items-end justify-between gap-4">
+    <div>
+      <p class="font-allura text-3xl md:text-4xl text-[#E57B3E] mb-2 leading-none">
+        Siêu ưu đãi
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
+        Chương trình nổi bật
+      </h2>
+    </div>
+    
+    <div class="hidden md:flex gap-2 relative z-10">
+      <button class="swiper-button-prev-custom w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-travel-primary hover:text-white hover:border-travel-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        <Icon name="lucide:chevron-left" class="w-5 h-5" />
+      </button>
+      <button class="swiper-button-next-custom w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-travel-primary hover:text-white hover:border-travel-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        <Icon name="lucide:chevron-right" class="w-5 h-5" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Swiper Slider -->
+  <div class="swiper featured-offers-swiper !overflow-visible">
+    <div class="swiper-wrapper">
+      {featuredOffers.map((offer) => (
+        <div class="swiper-slide !h-auto">
+          <div class="relative w-full h-[380px] md:h-[420px] rounded-[32px] overflow-hidden group cursor-pointer shadow-lg border border-gray-100">
+            
+            <SafeImage 
+              src={offer.image} 
+              alt={offer.title} 
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+            />
+            <div class={`absolute inset-0 bg-gradient-to-t ${offer.color}`}></div>
+            
+            <div class="absolute inset-0 p-6 md:p-8 flex flex-col justify-between">
+              <div class="self-start px-4 py-1.5 bg-white text-gray-900 text-[10px] font-extrabold uppercase tracking-[0.15em] rounded-full shadow-lg flex items-center gap-1.5">
+                <Icon name="lucide:clock" class="w-3.5 h-3.5 text-[#E57B3E]" />
+                {offer.date}
+              </div>
+              
+              <div>
+                <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-3 leading-tight drop-shadow-md">
+                  {offer.title}
+                </h3>
+                <p class="text-white/90 text-sm md:text-base font-medium leading-relaxed mb-6 drop-shadow-sm line-clamp-2">
+                  {offer.subtitle}
+                </p>
+                <button class="px-6 py-3 bg-white text-gray-900 rounded-xl text-sm font-bold shadow-sm hover:bg-gray-50 transition-colors flex items-center gap-2 group-hover:px-7">
+                  Khám phá <Icon name="lucide:arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation } from 'swiper/modules';
+
+  function initSwiper() {
+    new Swiper('.featured-offers-swiper', {
+      modules: [Navigation],
+      slidesPerView: 1.15,
+      spaceBetween: 16,
+      navigation: {
+        nextEl: '.swiper-button-next-custom',
+        prevEl: '.swiper-button-prev-custom',
+      },
+      breakpoints: {
+        640: { slidesPerView: 2.15, spaceBetween: 20 },
+        1024: { slidesPerView: 3.15, spaceBetween: 24 },
+        1280: { slidesPerView: 3.5, spaceBetween: 24 }
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initSwiper);
+  document.addEventListener('astro:page-load', initSwiper);
+</script>

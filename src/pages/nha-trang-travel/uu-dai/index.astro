@@ -1,0 +1,22 @@
+---
+import Layout from "../_components/shared/Layout.astro";
+import FloatingClouds from "../_components/home/FloatingClouds.astro";
+import BannerHero from "../_components/home/BannerHero.astro";
+import FeaturedOffers from "../_components/uu-dai/FeaturedOffers.astro";
+import OfferList from "../_components/uu-dai/OfferList.astro";
+---
+
+<Layout title="Ưu đãi & Khuyến mãi | Nha Trang Travel">
+  <BannerHero
+    title="Săn siêu khuyến mãi"
+    description="Tổng hợp các chương trình giảm giá, flash sale và ưu đãi độc quyền từ khách sạn, tour du lịch đến ẩm thực tại Nha Trang."
+    greeting="Ưu đãi"
+    showExploreButton={false}
+    variant="page"
+  />
+
+  <FeaturedOffers />
+  <OfferList />
+
+  <FloatingClouds />
+</Layout>

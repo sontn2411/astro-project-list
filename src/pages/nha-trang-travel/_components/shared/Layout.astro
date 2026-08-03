@@ -29,3 +29,62 @@ const { title, desc } = Astro.props;
     <Footer />
   </div>
 </Layout>
+
+<style is:global>
+  /* Trạng thái ẩn ban đầu của các section */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  /* Trạng thái hiện ra khi cuộn tới */
+  .reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Tôn trọng cài đặt tắt hiệu ứng của người dùng */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initRevealAnimations() {
+    const sections = document.querySelectorAll('main section');
+    
+    // Gán class cho các section chưa xuất hiện trên màn hình
+    sections.forEach(sec => {
+      // Nếu section nằm dưới màn hình một khoảng, mới gán class ẩn (để Banner đầu tiên không bị nháy)
+      if (sec.getBoundingClientRect().top > window.innerHeight * 0.2) {
+        sec.classList.add('reveal-on-scroll');
+      }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target); // Chỉ chạy 1 lần
+        }
+      });
+    }, {
+      rootMargin: '0px 0px -80px 0px', // Bắt đầu hiện khi section lọt vào màn hình 80px
+      threshold: 0
+    });
+
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+  }
+
+  // Chạy khi load trang
+  document.addEventListener('DOMContentLoaded', initRevealAnimations);
+  // Chạy khi chuyển trang trong Astro (nếu dùng View Transitions)
+  document.addEventListener('astro:page-load', initRevealAnimations);
+</script>

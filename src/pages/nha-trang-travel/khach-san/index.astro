@@ -1,0 +1,22 @@
+---
+import Layout from "../_components/shared/Layout.astro";
+import FloatingClouds from "../_components/home/FloatingClouds.astro";
+import BannerHero from "../_components/home/BannerHero.astro";
+import FeaturedResorts from "../_components/khach-san/FeaturedResorts.astro";
+import HotelList from "../_components/khach-san/HotelList.astro";
+---
+
+<Layout title="Khách sạn & Nơi lưu trú | Nha Trang Travel">
+  <BannerHero
+    title="Nơi dừng chân hoàn hảo"
+    description="Từ những resort 5 sao đẳng cấp bên bờ biển đến các khách sạn boutique xinh xắn giữa lòng thành phố. Tìm không gian nghỉ dưỡng lý tưởng cho chuyến đi của bạn."
+    greeting="Lưu trú"
+    showExploreButton={false}
+    variant="page"
+  />
+
+  <FeaturedResorts />
+  <HotelList />
+
+  <FloatingClouds />
+</Layout>

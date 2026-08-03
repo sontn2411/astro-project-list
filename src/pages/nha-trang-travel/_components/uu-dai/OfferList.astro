@@ -1,0 +1,127 @@
+---
+import { Icon } from "astro-icon/components";
+import SafeImage from "../../../../components/SafeImage.astro";
+
+const offers = [
+  {
+    category: "Khách sạn",
+    title: "Giảm 30% Đặt phòng sớm",
+    desc: "Áp dụng cho đặt phòng trước 30 ngày tại các khách sạn 4-5 sao đối tác.",
+    code: "EARLY30",
+    exp: "30/11/2026",
+    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80"
+  },
+  {
+    category: "Trải nghiệm",
+    title: "Mua 3 Tính 2 Tour Đảo",
+    desc: "Tiết kiệm 33% khi đi theo nhóm từ 3 người. Đã bao gồm trọn gói cano và lặn biển.",
+    code: "NHA4DAO",
+    exp: "31/12/2026",
+    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80"
+  },
+  {
+    category: "Ngân hàng",
+    title: "Hoàn 500K qua thẻ JCB",
+    desc: "Dành riêng cho chủ thẻ tín dụng JCB khi thanh toán tổng hóa đơn từ 3 triệu đồng.",
+    code: "JCB500",
+    exp: "15/10/2026",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80"
+  },
+  {
+    category: "Ẩm thực",
+    title: "Tặng Buffet Hải Sản",
+    desc: "Tặng ngay 1 vé Buffet hải sản tối cao cấp khi đặt phòng hạng Suite trở lên.",
+    code: "SEAFOOD",
+    exp: "30/09/2026",
+    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80"
+  },
+  {
+    category: "Di chuyển",
+    title: "Freeship Đưa đón sân bay",
+    desc: "Miễn phí đón tiễn sân bay Cam Ranh 2 chiều cho kỳ nghỉ từ 4 đêm.",
+    code: "FREECAR",
+    exp: "31/12/2026",
+    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=80"
+  },
+  {
+    category: "Trải nghiệm",
+    title: "Vé VinWonders Nửa Giá",
+    desc: "Giảm 50% vé vui chơi VinWonders sau 16:00 mỗi ngày. Tha hồ khám phá.",
+    code: "VIN50",
+    exp: "31/08/2026",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80"
+  }
+];
+
+const categories = ["Tất cả", "Khách sạn", "Trải nghiệm", "Ẩm thực", "Di chuyển", "Ngân hàng"];
+---
+
+<section class="max-w-[1400px] mx-auto px-4 md:px-8 pb-24">
+  
+  <div class="mb-12 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto no-scrollbar pb-2 md:pb-0">
+      {categories.map((cat, index) => (
+        <button class={`shrink-0 px-6 py-2.5 rounded-full text-sm font-bold transition-colors ${index === 0 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+          {cat}
+        </button>
+      ))}
+    </div>
+    
+    <div class="w-full md:w-auto flex items-center bg-gray-50 rounded-full px-4 py-2 border border-gray-200 focus-within:border-gray-400 transition-colors">
+      <Icon name="lucide:search" class="w-4 h-4 text-gray-400" />
+      <input type="text" placeholder="Tìm mã giảm giá..." class="bg-transparent border-none outline-none px-3 text-sm text-gray-700 w-full md:w-48" />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+    {offers.map((offer) => (
+      <div class="bg-white rounded-[24px] border border-gray-100 flex flex-col hover:shadow-2xl hover:shadow-gray-200/50 hover:-translate-y-1 transition-all duration-300 group overflow-hidden">
+        
+        <!-- Image Half -->
+        <div class="h-48 relative overflow-hidden shrink-0">
+          <SafeImage src={offer.image} alt={offer.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-[10px] font-extrabold text-travel-primary uppercase tracking-widest shadow-sm">
+            {offer.category}
+          </div>
+        </div>
+        
+        <!-- Ticket Content Half -->
+        <div class="relative pt-6 px-6 md:px-8 pb-8 flex flex-col flex-1 bg-white">
+          
+          <!-- Cutouts to simulate ticket -->
+          <div class="absolute -top-3 -left-3 w-6 h-6 bg-white rounded-full z-10" style="box-shadow: inset -1px -1px 0px 0px rgba(243,244,246,1)"></div>
+          <div class="absolute -top-3 -right-3 w-6 h-6 bg-white rounded-full z-10" style="box-shadow: inset 1px -1px 0px 0px rgba(243,244,246,1)"></div>
+          
+          <!-- Dashed line separator -->
+          <div class="absolute top-0 left-3 right-3 border-t-[2px] border-dashed border-gray-200"></div>
+
+          <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-tight">
+            {offer.title}
+          </h3>
+          <p class="text-sm text-gray-500 mb-8 flex-1 leading-relaxed">
+            {offer.desc}
+          </p>
+          
+          <div class="flex items-center justify-between mt-auto">
+            <div class="flex flex-col">
+               <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1.5">HSD: {offer.exp}</span>
+               <div class="bg-orange-50/50 text-[#E57B3E] font-mono font-bold px-3 py-1.5 rounded-md border border-[#E57B3E]/30 border-dashed inline-block w-max">
+                 {offer.code}
+               </div>
+            </div>
+            <button class="w-12 h-12 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center hover:bg-[#E57B3E] hover:text-white transition-colors">
+              <Icon name="lucide:copy" class="w-5 h-5" />
+            </button>
+          </div>
+          
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-12 text-center">
+    <button class="px-8 py-3.5 rounded-full bg-gray-900 text-white font-bold hover:bg-gray-800 transition-colors inline-flex items-center gap-2">
+      Tải thêm ưu đãi <Icon name="lucide:plus" class="w-4 h-4" />
+    </button>
+  </div>
+</section>

@@ -5,9 +5,9 @@ import logo from "../../_assets/images/logo-header.png";
 
 const navLinks = [
   { label: "Điểm đến", href: "/nha-trang-travel/diem-den/" },
-  { label: "Trải nghiệm", href: "#" },
-  { label: "Khách sạn", href: "#" },
-  { label: "Ưu đãi", href: "#" },
+  { label: "Trải nghiệm", href: "/nha-trang-travel/trai-nghiem" },
+  { label: "Khách sạn", href: "/nha-trang-travel/khach-san" },
+  { label: "Ưu đãi", href: "/nha-trang-travel/uu-dai" },
   { label: "Cẩm nang du lịch", href: "#" },
 ];
 
@@ -32,13 +32,16 @@ const currentPath = Astro.url.pathname;
       <nav class="hidden md:flex items-center gap-8">
         {
           navLinks.map((link) => {
-            const isActive = link.href !== "#" && currentPath.startsWith(link.href);
+            const isActive =
+              link.href !== "#" && currentPath.startsWith(link.href);
             return (
               <a
                 href={link.href}
                 class:list={[
                   "font-medium hover:text-travel-primary transition-colors drop-shadow-sm text-base tracking-wide",
-                  isActive ? "text-travel-primary border-b-2 border-travel-primary pb-1" : "text-black",
+                  isActive
+                    ? "text-travel-primary border-b-2 border-travel-primary pb-1"
+                    : "text-black",
                 ]}
                 data-astro-reload
               >
@@ -107,13 +110,16 @@ const currentPath = Astro.url.pathname;
     <nav class="flex flex-col p-6 gap-6 mt-2 overflow-y-auto">
       {
         navLinks.map((link) => {
-          const isActive = link.href !== "#" && currentPath.startsWith(link.href);
+          const isActive =
+            link.href !== "#" && currentPath.startsWith(link.href);
           return (
             <a
               href={link.href}
               class:list={[
                 "font-medium text-lg uppercase tracking-wide border-b pb-4 hover:text-travel-primary transition-colors",
-                isActive ? "text-travel-primary border-travel-primary" : "text-black border-gray-50",
+                isActive
+                  ? "text-travel-primary border-travel-primary"
+                  : "text-black border-gray-50",
               ]}
               data-astro-reload
             >
@@ -130,37 +136,37 @@ const currentPath = Astro.url.pathname;
   document.addEventListener("astro:page-load", () => {
     // Script xử lý mở/đóng menu trên mobile
     const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-  const closeMenuBtn = document.getElementById("close-menu-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
+    const closeMenuBtn = document.getElementById("close-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-  if (mobileMenuBtn && closeMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener("click", () => {
-      mobileMenu.classList.remove("translate-x-full");
-    });
+    if (mobileMenuBtn && closeMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.remove("translate-x-full");
+      });
 
-    closeMenuBtn.addEventListener("click", () => {
-      mobileMenu.classList.add("translate-x-full");
-    });
-  }
+      closeMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.add("translate-x-full");
+      });
+    }
 
-  // Script xử lý animation background mờ trượt xuống
-  const headerBg = document.getElementById("header-bg");
-  if (headerBg) {
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (window.scrollY > 20) {
-          // Cuộn xuống: Trượt nền mờ xuống (hiện)
-          headerBg.classList.remove("-translate-y-full");
-          headerBg.classList.add("translate-y-0");
-        } else {
-          // Cuộn lên đỉnh: Trượt nền mờ lên (ẩn)
-          headerBg.classList.remove("translate-y-0");
-          headerBg.classList.add("-translate-y-full");
-        }
-      },
-      { passive: true },
-    );
+    // Script xử lý animation background mờ trượt xuống
+    const headerBg = document.getElementById("header-bg");
+    if (headerBg) {
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (window.scrollY > 20) {
+            // Cuộn xuống: Trượt nền mờ xuống (hiện)
+            headerBg.classList.remove("-translate-y-full");
+            headerBg.classList.add("translate-y-0");
+          } else {
+            // Cuộn lên đỉnh: Trượt nền mờ lên (ẩn)
+            headerBg.classList.remove("translate-y-0");
+            headerBg.classList.add("-translate-y-full");
+          }
+        },
+        { passive: true },
+      );
     }
   });
 </script>
