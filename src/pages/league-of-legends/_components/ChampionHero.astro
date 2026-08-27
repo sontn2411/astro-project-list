@@ -1,0 +1,164 @@
+---
+import videoBg from "../_assets/video/bg.webm";
+import { getI18n } from "../_data/i18n";
+import ChampionList from "./ChampionList.astro";
+import { getChampions } from "../_data/champions";
+
+interface Props {
+  lang?: string;
+}
+
+const { lang } = Astro.props;
+const { t } = getI18n(lang);
+const champions = await getChampions(lang);
+const totalChampions = champions.length || t.championsHero.stats.totalCount;
+---
+
+<section class="champion-hero relative min-h-screen w-full flex flex-col items-start pt-36 sm:pt-44 lg:pt-52 xl:pt-56 pb-24">
+  <!-- 1. Vùng chứa Media nền (Video + Lớp phủ Cinematic) áp dụng Mask-Image hòa tan mượt mà vào nền .lol-bg -->
+  <div class="absolute top-0 inset-x-0 h-screen min-h-[700px] z-0 pointer-events-none overflow-hidden hero-video-mask">
+    <!-- Video nền -->
+    <video
+      id="champion-hero-video"
+      src={videoBg}
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute inset-0 h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
+    ></video>
+
+    <!-- Gradient trên xuống (Tối nhẹ ở Navbar để đọc rõ chữ, mở sáng dần về giữa) -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-transparent"></div>
+    
+    <!-- Gradient hai bên rìa (Vignette cinematic) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-black/70"></div>
+
+    <!-- Ánh sáng hào quang vàng kim Hextech phía sau tiêu đề -->
+    <div class="absolute top-1/4 left-1/12 w-96 h-96 bg-[#c99a45]/15 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- 3. Cụm Content 3 cột nằm đè lên Video Nền -->
+  <div class="relative z-20 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-12 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 xl:gap-8 items-end">
+      
+      <!-- Cột 1 (Bên Trái): Tagline, Title, Description, Decorative Sword -->
+      <div class="lg:col-span-5 flex flex-col text-left">
+        <!-- Tagline -->
+        <span class="block text-[#a39b8c] tracking-[0.25em] text-[10px] sm:text-xs font-semibold uppercase mb-1.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+          {t.championsHero.tagline}
+        </span>
+
+        <!-- Heading Tiêu đề Tướng: Font Cinzel phong cách LMHT -->
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[56px] font-display font-bold text-[#ffffff] tracking-wider uppercase mb-3 leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+          {t.championsHero.heading}
+        </h1>
+
+        <!-- Mô tả phụ -->
+        <p class="text-[#c8c0b2] text-xs sm:text-sm font-body leading-relaxed max-w-xs sm:max-w-sm drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)] mb-4">
+          {t.championsHero.desc}
+        </p>
+
+        <!-- Icon trang trí thanh kiếm Runeterra -->
+        <div class="flex items-center gap-2 opacity-85 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          <svg class="w-16 h-3 text-[#e2b866]" viewBox="0 0 80 12" fill="none">
+            <!-- Chuôi kiếm -->
+            <path d="M0 6 L12 2 L12 10 Z" fill="currentColor" opacity="0.9" />
+            <line x1="12" y1="6" x2="16" y2="6" stroke="currentColor" stroke-width="2" />
+            <circle cx="16" cy="6" r="2.5" fill="currentColor" />
+            <line x1="16" y1="2" x2="16" y2="10" stroke="currentColor" stroke-width="1.5" />
+            <!-- Lưỡi kiếm -->
+            <path d="M18 6 L78 6" stroke="currentColor" stroke-width="1.5" />
+            <path d="M72 3 L80 6 L72 9" stroke="currentColor" stroke-width="1.5" fill="none" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Cột 2 (Ở Giữa): Brand Quote -->
+      <div class="lg:col-span-4 flex flex-col justify-end pb-1">
+        <!-- Biểu tượng dấu ngoặc kép vàng -->
+        <div class="text-[#e2b866] text-3xl sm:text-4xl font-serif leading-none mb-1 opacity-95 select-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+          &ldquo;
+        </div>
+        <!-- Nội dung trích dẫn -->
+        <blockquote class="text-[#d8d0c2] text-xs sm:text-sm font-body leading-relaxed max-w-xs mb-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+          What is a <span class="italic text-[#ffffff] font-medium">man</span>, but the sum of his memories and his choices.
+        </blockquote>
+        <!-- Tác giả quote -->
+        <div class="text-[#e2b866] text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)] flex items-center gap-2">
+          <span class="w-3 h-px bg-[#e2b866]"></span>
+          <span>{t.championsHero.quote.author}</span>
+        </div>
+      </div>
+
+      <!-- Cột 3 (Bên Phải): Widget Thống Kê Tổng Số Tướng -->
+      <div class="lg:col-span-3 flex flex-col items-start lg:items-end justify-end text-left lg:text-right pb-1">
+        <!-- Nhãn phân loại -->
+        <div class="flex flex-col lg:items-end mb-0.5">
+          <span class="block text-[#a09788] text-[9px] uppercase tracking-[0.25em] font-semibold leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+            TOTAL
+          </span>
+          <span class="block text-[#c4bcab] text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+            {t.championsHero.stats.totalLabel}
+          </span>
+        </div>
+        
+        <!-- Con số tổng số tướng -->
+        <div class="text-4xl sm:text-5xl font-display font-light text-[#ffffff] tracking-normal my-0.5 drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">
+          {totalChampions}
+        </div>
+
+        <!-- Đường kẻ phân cách kim cương -->
+        <div class="flex items-center gap-2 my-2 lg:ml-auto w-20">
+          <div class="flex-1 h-px bg-gradient-to-r from-transparent via-[#8e6b32] to-[#8e6b32]"></div>
+          <div class="w-1.5 h-1.5 rotate-45 border border-[#e2b866] bg-[#c99a45]"></div>
+          <div class="flex-1 h-px bg-gradient-to-l from-transparent via-[#8e6b32] to-[#8e6b32]"></div>
+        </div>
+
+        <!-- Last Update Label & Date -->
+        <span class="block text-[#a09788] text-[9px] uppercase tracking-[0.2em] font-semibold mb-0.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {t.championsHero.stats.lastUpdateLabel}
+        </span>
+        <span class="block text-[#e2b866] text-xs sm:text-sm font-semibold tracking-widest drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+          {t.championsHero.stats.lastUpdateValue}
+        </span>
+      </div>
+
+    </div>
+    <ChampionList lang={lang} champions={champions} />
+  </div>
+ 
+
+  
+</section>
+
+<script>
+  function playHeroVideo() {
+    const video = document.getElementById('champion-hero-video') as HTMLVideoElement | null;
+    if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      
+      if (video.readyState === 0) {
+        video.load();
+      }
+      
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          const triggerPlay = () => {
+            video.play().catch(() => {});
+            window.removeEventListener('click', triggerPlay);
+            window.removeEventListener('touchstart', triggerPlay);
+          };
+          window.addEventListener('click', triggerPlay, { once: true });
+          window.addEventListener('touchstart', triggerPlay, { once: true });
+        });
+      }
+    }
+  }
+
+  playHeroVideo();
+  document.addEventListener('astro:page-load', playHeroVideo);
+  document.addEventListener('astro:after-swap', playHeroVideo);
+</script>

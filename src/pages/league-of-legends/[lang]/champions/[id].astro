@@ -1,0 +1,152 @@
+---
+import Layout from "../../_components/Layout.astro";
+import ChampionSkinsPanel from "../../_components/ChampionSkinsPanel.astro";
+import ChampionChartInfo from "../../_components/ChampionChartInfo.astro";
+import ChampionInfoPanel from "../../_components/ChampionInfoPanel.astro";
+import {
+  getChampionDetail,
+  getChampionUniverseDetail,
+  getChampions,
+  getChampionSplashUrl,
+} from "../../_data/champions";
+import { getI18n, supportedLocales } from "../../_data/i18n";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const locale of supportedLocales) {
+    const champions = await getChampions(locale.code);
+    for (const champ of champions) {
+      paths.push({
+        params: { lang: locale.code, id: champ.id },
+      });
+    }
+  }
+  return paths;
+}
+
+const { lang, id } = Astro.params;
+const { t, lang: currentLang } = getI18n(lang);
+const champion = await getChampionDetail(id!, currentLang);
+
+if (!champion) {
+  return Astro.redirect(`/league-of-legends/${currentLang}/champions`);
+}
+
+const universeData = await getChampionUniverseDetail(id!);
+console.log(`[SSR] Universe Data for ${id}:`, universeData ? Object.keys(universeData) : "null");
+const universeDataChampion = universeData?.champion;
+const universeDataChampionImg = universeDataChampion?.image?.uri || universeDataChampion?.background?.uri;
+const universeVideoChampion = universeDataChampion?.video?.uri || universeData?.video?.uri;
+const heroFallbackImg = universeDataChampionImg || getChampionSplashUrl(champion.id, 0);
+
+
+---
+
+<Layout
+  title={`${champion.name} — ${champion.title} | League of Legends`}
+  desc={champion.blurb}
+  lang={currentLang}
+>
+  <script is:inline define:vars={{ universeData, champion }}>
+    console.log(">>> Universe Data:", universeData);
+    console.log(">>> Champion:", champion);
+  
+  </script>
+
+  <div class="champion-detail-page relative w-full flex flex-col">
+    <!-- =========================================================================
+         SECTION 1: HERO SPLASH SHOWCASE (CỐ ĐỊNH 100% CHIỀU CAO MÀN HÌNH H-SCREEN)
+         ========================================================================= -->
+    <section
+      id="hero-splash-showcase"
+      class="relative h-screen w-full overflow-hidden flex flex-col justify-center select-none"
+    >
+      <!-- 1. Vùng chứa Splash Art nền gồm Video / Ảnh bao phủ trọn vẹn 100% viewport -->
+      <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <!-- Ambient Blur Layer 1 & Layer 2 -->
+        <img
+          id="hero-ambient-img-1"
+          src={heroFallbackImg}
+          alt=""
+          class="hero-ambient-layer absolute inset-0 h-full w-full object-cover object-center opacity-25 blur-3xl scale-125 transition-opacity duration-1000 ease-in-out pointer-events-none"
+          aria-hidden="true"
+        />
+        <img
+          id="hero-ambient-img-2"
+          src={heroFallbackImg}
+          alt=""
+          class="hero-ambient-layer absolute inset-0 h-full w-full object-cover object-center opacity-0 blur-3xl scale-125 transition-opacity duration-1000 ease-in-out pointer-events-none"
+          aria-hidden="true"
+        />
+
+        {
+          universeVideoChampion ? (
+    
+            <video
+              id="hero-splash-video"
+              autoplay
+              loop
+              muted
+              playsinline
+              poster={heroFallbackImg}
+              class="hero-splash-video absolute inset-0 h-full w-full object-cover object-center scale-100 sm:scale-105"
+            >
+              <source src={universeVideoChampion} type={universeDataChampion?.video?.encoding || "video/webm"} />
+            </video>
+          ) : (
+            <>
+              <img
+                id="hero-splash-img-1"
+                src={heroFallbackImg}
+                alt={`${champion.name} Splash Art`}
+                class="hero-splash-layer absolute inset-0 h-full w-full object-cover object-center scale-100 sm:scale-105 transition-opacity duration-1000 ease-in-out opacity-100"
+                loading="eager"
+                decoding="async"
+              />
+              <img
+                id="hero-splash-img-2"
+                src={heroFallbackImg}
+                alt={`${champion.name} Splash Art`}
+                class="hero-splash-layer absolute inset-0 h-full w-full object-cover object-center scale-100 sm:scale-105 transition-opacity duration-1000 ease-in-out opacity-0"
+                loading="lazy"
+                decoding="async"
+              />
+            </>
+          )
+        }
+
+        <!-- Lớp phủ Radial Vignette Oval: Mở rộng nhẹ vùng sáng ở giữa, làm mờ êm dịu về phía các góc -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_85%_75%_at_50%_45%,transparent_45%,#070b0d_92%)]"></div>
+
+        <!-- Gradient 2 cạnh trái / phải: Chuyển tiếp màu nền #070b0d êm dịu vừa phải -->
+        <div class="absolute inset-0 bg-gradient-to-r from-[#070b0d]/75 via-transparent via-50% to-[#070b0d]/75"></div>
+
+        <!-- Gradient đỉnh (Header) và đáy (Footer): Làm mềm đỉnh và hòa tan êm dịu đáy ảnh sang Section tiếp theo -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#070b0d]/45 via-transparent via-20% to-[#070b0d]"></div>
+
+        <!-- Ánh sáng hào quang vàng kim Hextech (Ambient Light nhẹ) -->
+        <div class="absolute top-1/4 left-1/12 w-96 h-96 bg-[#c99a45]/10 rounded-full blur-3xl pointer-events-none"></div>
+      </div>
+
+      <!-- 2. Vùng Content trong Section 1: Căn giữa hoàn hảo trong khung nhìn bên dưới Header (100vh - 80px) -->
+      <div class="relative z-20 max-w-[1920px] mx-auto w-full h-[calc(100vh-80px)] mt-20 flex items-center justify-between px-6 sm:px-10 lg:px-14 pointer-events-none gap-8">
+        <!-- Cột Trái: Thông tin chi tiết của Tướng (Title, Name, Tags, Tabs: Overview & Abilities) -->
+        <div class="pointer-events-auto flex items-center justify-start z-30 max-w-xl xl:max-w-2xl w-full">
+          <ChampionInfoPanel champion={champion} lang={currentLang} />
+        </div>
+
+        <!-- Cột Phải: Biểu đồ Radar Spider trực quan hóa chỉ số chiến đấu của tướng -->
+        <div class="pointer-events-auto flex items-center justify-end z-30 h-full shrink-0">
+          <ChampionChartInfo champion={champion} lang={currentLang} />
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         CÁC SECTION TIẾP THEO SẼ ĐƯỢC XÂY DỰNG TẠI ĐÂY (CUỘN XUỐNG TỰ NHIÊN)
+         ========================================================================= -->
+    <div id="champion-details-body" class="relative z-20 w-full">
+      <!-- Section 2, Section 3... sẽ được nối tiếp tại đây -->
+    </div>
+  </div>
+</Layout>

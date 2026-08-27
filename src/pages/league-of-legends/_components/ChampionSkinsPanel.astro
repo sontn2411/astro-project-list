@@ -1,0 +1,262 @@
+---
+import {
+  getChampionSplashUrl,
+  type ChampionDetail,
+} from "../_data/champions";
+
+interface Props {
+  champion: ChampionDetail;
+  lang?: string;
+}
+
+const { champion, lang = "en_US" } = Astro.props;
+const defaultSkinName = lang === "vi_VN" ? "Mặc Định" : "Default";
+
+// Đảm bảo skin mặc định 0 luôn đứng đầu tiên, sau đó là các skin có chromas: true
+const defaultSkin = (champion.skins || []).find((skin) => skin.num === 0) || champion.skins?.[0];
+const otherChromaSkins = (champion.skins || []).filter((skin) => skin.chromas && skin.num !== 0);
+const displaySkins = defaultSkin ? [defaultSkin, ...otherChromaSkins] : champion.skins || [];
+---
+
+<div
+  class="relative flex flex-col items-center select-none h-full"
+  id="champion-skins-slider-container"
+>
+  <!-- Nút mũi tên cuộn LÊN Swiper Navigation -->
+  <button
+    id="skins-prev-btn"
+    type="button"
+    class="w-10 h-7 mb-1 flex items-center justify-center text-[#c99a45] hover:text-[#f3d38c] disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 cursor-pointer group"
+    aria-label="Previous skins"
+  >
+    <svg class="w-4 h-3 rotate-180 transition-transform group-hover:-translate-y-0.5" viewBox="0 0 10 6" fill="currentColor">
+      <path d="M0 0 L5 6 L10 0 Z"></path>
+    </svg>
+  </button>
+
+  <!-- Vùng đệm ngoài chứa Swiper để tránh padding trực tiếp lên swiper container gây lệch transform -->
+  <div class="relative w-full px-7 sm:px-9">
+    <!-- Swiper Container dạng dọc với slidesPerView: 4 chuẩn xác -->
+    <div
+      class="swiper skins-swiper w-full h-[400px] sm:h-[430px] md:h-[460px] max-h-[60vh]"
+    >
+      <div class="swiper-wrapper">
+        {displaySkins.map((skin, idx) => {
+          const isDefault = skin.name === "default";
+          const displayName = isDefault ? defaultSkinName : skin.name;
+          const splashUrl = getChampionSplashUrl(champion.id, skin.num);
+          const isActive = idx === 0;
+
+          return (
+            <div class="swiper-slide flex items-center justify-center">
+              <div class="skin-item-wrapper relative flex items-center justify-center group w-full h-full">
+                <!-- Ngôi sao vàng 4 cánh chỉ báo Active ở mép bên trái -->
+                <div
+                  class={`skin-star-indicator absolute -left-5 sm:-left-6 w-3.5 h-3.5 transition-all duration-300 pointer-events-none ${
+                    isActive
+                      ? "opacity-100 scale-100 text-[#e2b866] drop-shadow-[0_0_10px_#e2b866]"
+                      : "opacity-0 scale-50 text-[#c99a45]"
+                  }`}
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full">
+                    <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"></path>
+                  </svg>
+                </div>
+
+                <!-- Nút Card Thumbnail Skin vừa khít với từng slide -->
+                <button
+                  type="button"
+                  data-skin-index={idx}
+                  data-skin-num={skin.num}
+                  data-skin-name={displayName}
+                  data-splash-url={splashUrl}
+                  title={displayName}
+                  class={`skin-slider-btn relative w-28 sm:w-34 md:w-38 lg:w-42 xl:w-46 h-full rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block ${
+                    isActive
+                      ? "border-2 border-[#d0a85c] shadow-[0_0_20px_rgba(201,154,69,0.55)] ring-1 ring-[#c99a45]/60 opacity-100 scale-[1.02]"
+                      : "border border-[#8e6b32]/45 hover:border-[#c99a45] opacity-50 hover:opacity-90"
+                  }`}
+                >
+                  <img
+                    src={splashUrl}
+                    alt={displayName}
+                    loading="lazy"
+                    decoding="async"
+                    class="w-full h-full object-cover object-top sm:object-center group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <!-- Khung mờ nhẹ phía trong -->
+                  <div class="absolute inset-0 border border-black/25 pointer-events-none rounded-lg"></div>
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+
+  <!-- Nút mũi tên cuộn XUỐNG Swiper Navigation -->
+  <button
+    id="skins-next-btn"
+    type="button"
+    class="w-10 h-7 mt-1 flex items-center justify-center text-[#c99a45] hover:text-[#f3d38c] disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 cursor-pointer group"
+    aria-label="Next skins"
+  >
+    <svg class="w-4 h-3 transition-transform group-hover:translate-y-0.5" viewBox="0 0 10 6" fill="currentColor">
+      <path d="M0 0 L5 6 L10 0 Z"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  /* Cho phép vầng sáng viền hiển thị đầy đủ */
+  .skins-swiper {
+    overflow: visible !important;
+  }
+</style>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation } from "swiper/modules";
+  import "swiper/css";
+
+  let swiperInstance: Swiper | null = null;
+  let activeLayer = 1;
+
+  function initSkinsSwiper() {
+    if (swiperInstance) {
+      swiperInstance.destroy(true, true);
+      swiperInstance = null;
+    }
+    activeLayer = 1;
+
+    const swiperEl = document.querySelector(".skins-swiper") as HTMLElement | null;
+    const skinButtons = document.querySelectorAll(".skin-slider-btn");
+    const splashImg1 = document.getElementById("hero-splash-img-1") as HTMLImageElement | null;
+    const splashImg2 = document.getElementById("hero-splash-img-2") as HTMLImageElement | null;
+    const ambientImg1 = document.getElementById("hero-ambient-img-1") as HTMLImageElement | null;
+    const ambientImg2 = document.getElementById("hero-ambient-img-2") as HTMLImageElement | null;
+
+    if (!swiperEl || !skinButtons.length) return;
+
+    // Hàm chuyển đổi Splash Art (True 2-Layer Crossfade) và trạng thái Active
+    function updateActiveSkin(index: number) {
+      if (index < 0 || index >= skinButtons.length) return;
+      const targetBtn = skinButtons[index];
+      const splashUrl = targetBtn.getAttribute("data-splash-url");
+      if (!splashUrl) return;
+
+      // 1. Cập nhật UI Active Card & Ngôi sao vàng ✦
+      skinButtons.forEach((b, i) => {
+        const parent = b.closest(".skin-item-wrapper");
+        const star = parent?.querySelector(".skin-star-indicator");
+
+        if (i === index) {
+          b.classList.remove("border", "border-[#8e6b32]/45", "opacity-50");
+          b.classList.add(
+            "border-2",
+            "border-[#d0a85c]",
+            "shadow-[0_0_20px_rgba(201,154,69,0.55)]",
+            "ring-1",
+            "ring-[#c99a45]/50",
+            "opacity-100",
+            "scale-[1.02]"
+          );
+
+          if (star) {
+            star.classList.remove("opacity-0", "scale-50", "text-[#c99a45]");
+            star.classList.add("opacity-100", "scale-100", "text-[#e2b866]", "drop-shadow-[0_0_10px_#e2b866]");
+          }
+        } else {
+          b.classList.remove(
+            "border-2",
+            "border-[#d0a85c]",
+            "shadow-[0_0_20px_rgba(201,154,69,0.55)]",
+            "ring-1",
+            "ring-[#c99a45]/50",
+            "opacity-100",
+            "scale-[1.02]"
+          );
+          b.classList.add("border", "border-[#8e6b32]/45", "opacity-50");
+
+          if (star) {
+            star.classList.remove("opacity-100", "scale-100", "text-[#e2b866]", "drop-shadow-[0_0_10px_#e2b866]");
+            star.classList.add("opacity-0", "scale-50", "text-[#c99a45]");
+          }
+        }
+      });
+
+      // 2. Hiệu ứng Fade / Crossfade 2 lớp mượt mà
+      const currentSplash = activeLayer === 1 ? splashImg1 : splashImg2;
+      const nextSplash = activeLayer === 1 ? splashImg2 : splashImg1;
+      const currentAmbient = activeLayer === 1 ? ambientImg1 : ambientImg2;
+      const nextAmbient = activeLayer === 1 ? ambientImg2 : ambientImg1;
+
+      if (nextSplash && currentSplash) {
+        const preloaded = new Image();
+        preloaded.src = splashUrl;
+        preloaded.onload = () => {
+          nextSplash.src = splashUrl;
+          if (nextAmbient) nextAmbient.src = splashUrl;
+
+          // Crossfade mượt mà
+          nextSplash.style.opacity = "1";
+          currentSplash.style.opacity = "0";
+
+          if (nextAmbient) nextAmbient.style.opacity = "0.25";
+          if (currentAmbient) currentAmbient.style.opacity = "0";
+
+          activeLayer = activeLayer === 1 ? 2 : 1;
+        };
+      }
+    }
+
+    // Khởi tạo Swiper với slidesPerView: 4 cố định, slidesOffsetBefore: 0
+    swiperInstance = new Swiper(swiperEl, {
+      modules: [Navigation],
+      direction: "vertical",
+      slidesPerView: 4,
+      spaceBetween: 12,
+      centeredSlides: false,
+      initialSlide: 0,
+      slidesOffsetBefore: 0,
+      slidesOffsetAfter: 0,
+      normalizeSlideIndex: true,
+      observer: true,
+      observeParents: true,
+      observeSlideChildren: true,
+      resizeObserver: true,
+      updateOnWindowResize: true,
+      grabCursor: true,
+      navigation: {
+        prevEl: "#skins-prev-btn",
+        nextEl: "#skins-next-btn",
+      },
+      // loop : true,
+      on: {
+        slideChange: (swiper) => {
+          updateActiveSkin(swiper.activeIndex);
+        },
+      },
+    });
+
+    // Cập nhật vị trí slide 0 chuẩn xác
+    swiperInstance.update();
+    swiperInstance.slideTo(0, 0);
+
+    // Click trực tiếp vào bất kỳ Thumbnail nào
+    skinButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const index = Number(btn.getAttribute("data-skin-index"));
+        if (!isNaN(index) && swiperInstance) {
+          swiperInstance.slideTo(index);
+          updateActiveSkin(index);
+         }
+      });
+    });
+  }
+
+  initSkinsSwiper();
+  document.addEventListener("astro:page-load", initSkinsSwiper);
+  document.addEventListener("astro:after-swap", initSkinsSwiper);
+</script>

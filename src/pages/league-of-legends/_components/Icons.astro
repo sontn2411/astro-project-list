@@ -1,0 +1,226 @@
+---
+interface Props {
+  name: string;
+  class?: string;
+  size?: number | string;
+  width?: number | string;
+  height?: number | string;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number | string;
+  [key: string]: any;
+}
+
+const {
+  name,
+  class: className = "w-5 h-5",
+  size,
+  width = size,
+  height = size,
+  fill = "currentColor",
+  stroke = "currentColor",
+  strokeWidth,
+  ...rest
+} = Astro.props;
+
+// Chuẩn hóa tên icon về chữ thường và bỏ khoảng trắng
+const iconName = name?.toLowerCase()?.trim() || "";
+---
+
+{
+  /* =========================================================================
+     1. HEXTECH & CREST ICONS
+     ========================================================================= */
+}
+
+{/* Crest: Huy hiệu Mastery Hextech kiếm & cánh đại bàng */}
+{iconName === "crest" && (
+  <svg
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 32 32"
+    fill={fill}
+    {...rest}
+  >
+    <path d="M16 2 L18.5 5 L16 8 L13.5 5 Z" fill="#f0e6d2"></path>
+    <path d="M15 7.5 L17 7.5 L17.5 24 L16 27 L14.5 24 Z" fill="#d0a85c"></path>
+    <path d="M16 9 L16 23" stroke="#f0e6d2" stroke-width="1.2" stroke-linecap="round"></path>
+    <path d="M14 10 C9.5 9, 6 12.5, 5 17 C7.5 17, 10.5 15.5, 13 13.5 Z" fill="#d0a85c"></path>
+    <path d="M13 14.5 C9 14.5, 5.5 18, 4.5 22.5 C7.5 22.5, 10.5 20, 13 18 Z" fill="#d0a85c" opacity="0.85"></path>
+    <path d="M18 10 C22.5 9, 26 12.5, 27 17 C24.5 17, 21.5 15.5, 19 13.5 Z" fill="#d0a85c"></path>
+    <path d="M19 14.5 C23 14.5, 26.5 18, 27.5 22.5 C24.5 22.5, 21.5 20, 19 18 Z" fill="#d0a85c" opacity="0.85"></path>
+    <path d="M11 25.5 L16 30 L21 25.5 L18.5 24 L16 26.5 L13.5 24 Z" fill="#f0e6d2"></path>
+  </svg>
+)}
+
+{/* Sparkle / Star: Ngôi sao vàng 4 cánh Hextech */}
+{(iconName === "sparkle" || iconName === "star") && (
+  <svg
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill={fill}
+    {...rest}
+  >
+    <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"></path>
+  </svg>
+)}
+
+{
+  /* =========================================================================
+     2. CÁC ICON CHỈ SỐ DO USER ĐỊNH NGHĨA (CHÍNH XÁC RIOT GAMES SVG)
+     ========================================================================= */
+}
+
+{/* HP / Máu / Durability */}
+{(iconName === "hp" || iconName === "durability" || iconName === "health") && (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 72 72"
+    fill={fill}
+    {...rest}
+  >
+    <g>
+      <path
+        fill="currentColor"
+        d="M 36,68 C 21.752126,58.501418 4.0595951,41.339165 0.9142997,29.23817 -3.562219,12.015516 10.076826,4.1887195 17.5,3.9380374 28.116551,3.5795143 35.237835,13.974636 36,14 Z m 0,0 C 50.247874,58.501418 67.940405,41.339165 71.0857,29.23817 75.562219,12.015516 61.923174,4.18872 54.5,3.938037 43.883449,3.579514 36.762165,13.974636 36,14 Z"
+      />
+    </g>
+  </svg>
+)}
+
+{/* MB / Năng Lượng / Resource / Mana */}
+{(iconName === "mb" || iconName === "resource" || iconName === "mana" || iconName === "mp") && (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 72 72"
+    fill={fill}
+    {...rest}
+  >
+    <g>
+      <path
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="0.377397"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M 36,2 C 36,2 15.750736,23.793154 10.350151,38.055007 9.1601286,41.197616 8.9763731,46.783431 9.8043486,50.049597 12.515135,60.743001 22.246877,70.02088 36,70.02088 c 13.70856,0 23.421758,-9.217851 26.16908,-19.867381 0.856371,-3.319574 0.664313,-9.005585 -0.557473,-12.19896 C 56.154395,23.691051 36,2 36,2 Z"
+      />
+    </g>
+  </svg>
+)}
+
+{/* Armor / Giáp / Phòng Thủ / Defense */}
+{(iconName === "armor" || iconName === "defense" || iconName === "arm") && (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 72 72"
+    fill={fill}
+    {...rest}
+  >
+    <g>
+      <path
+        fill="currentColor"
+        d="M 0,0 V 30 C 0,30 -3.1629972,58.405256 36,71 75.162997,58.405256 72,30 72,30 V 0 H 36 Z m 10.042969,10 h 25.859375 25.859375 v 21.548828 c 0,0 2.271793,20.404243 -25.859375,29.451172 C 7.7711762,51.953071 10.042969,31.548828 10.042969,31.548828 Z"
+      />
+      <path
+        fill="currentColor"
+        d="m 19.98363,20 v 13.521127 c 0,0 -1.425575,12.802369 16.225353,18.478873 C 53.85991,46.323496 52.434335,33.521127 52.434335,33.521127 V 20 H 36.208983 Z"
+      />
+    </g>
+  </svg>
+)}
+
+{/* Spellblock / Kháng Phép / Magic Resist / MR */}
+{(iconName === "spellblock" || iconName === "magicresist" || iconName === "mr") && (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 72 72"
+    fill={fill}
+    {...rest}
+  >
+    <g>
+      <circle fill="currentColor" cx="36" cy="36" r="18" />
+      <path
+        fill="currentColor"
+        d="M 36,1 A 35,35 0 0 0 1,36 35,35 0 0 0 36,71 35,35 0 0 0 71,36 35,35 0 0 0 36,1 Z m 0,8 A 27,27 0 0 1 63,36 27,27 0 0 1 36,63 27,27 0 0 1 9,36 27,27 0 0 1 36,9 Z"
+      />
+    </g>
+  </svg>
+)}
+
+{
+  /* =========================================================================
+     3. CÁC ICON KHÁC (BẠN CÓ THỂ THAY SVG VÀO ĐÂY HOẶC ĐỂ TRỐNG ĐỂ THÊM SAU)
+     ========================================================================= */
+}
+
+{/* Attack / Sát Thương (AD) */}
+{(iconName === "attack" || iconName === "damage" || iconName === "ad") && (
+  <svg
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill={fill}
+    {...rest}
+  >
+    <path d="M6.92 5H5l9 9 1.42-1.42L6.92 5zm11.21.37a1 1 0 0 0-1.41 0L14.4 7.7l1.9 1.9 2.33-2.33a1 1 0 0 0 0-1.41l-.5-.5zM3.5 19.09l1.41 1.41 4.24-4.24-1.41-1.41L3.5 19.09z"></path>
+  </svg>
+)}
+
+{/* Attack Speed / Tốc Đánh (AS) */}
+{(iconName === "attackspeed" || iconName === "as") && (
+  <svg
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill={fill}
+    {...rest}
+  >
+    <path d="M7 2v11h3v9l7-12h-4l4-8z"></path>
+  </svg>
+)}
+
+{/* Mobility / Tốc Chạy / Cơ Động (MS) */}
+{(iconName === "mobility" || iconName === "movespeed" || iconName === "ms") && (
+  <svg
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill={fill}
+    {...rest}
+  >
+    <path d="M3 13.5C3 8.8 6.8 5 11.5 5c3.2 0 6 1.8 7.4 4.5l-2.4 1.2C15.5 9 13.6 7.8 11.5 7.8 8.4 7.8 5.8 10.4 5.8 13.5H3zm2 4c0-3.3 2.7-6 6-6 1.8 0 3.4.8 4.5 2.1l-2.1 1.4c-.6-.7-1.5-1.1-2.4-1.1-2 0-3.6 1.6-3.6 3.6H5zm14-1.5l-4-4 1.4-1.4 4 4-1.4 1.4z"></path>
+  </svg>
+)}
+
+{/* Range / Tầm Đánh */}
+{(iconName === "range" || iconName === "attackrange") && (
+  <svg
+    class={className}
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill={fill}
+    {...rest}
+  >
+    <path d="M2.05 13.05l7-7a1 1 0 0 1 1.41 0l1.42 1.42-3.8 3.8 1.42 1.41 3.8-3.8 1.41 1.42a1 1 0 0 1 0 1.41l-7 7a1 1 0 0 1-1.41 0l-4.25-4.24a1 1 0 0 1 0-1.42zm18.37-9.47a1 1 0 0 0-1.41 0L14.7 7.89l1.41 1.41 4.31-4.31a1 1 0 0 0 0-1.41zM22 2l-7.07 1.41 5.66 5.66L22 2z"></path>
+  </svg>
+)}

@@ -1,0 +1,125 @@
+---
+import { ROLES_LIST, type Champion } from "../_data/champions";
+
+interface Props {
+  lang?: string;
+  champions?: Champion[];
+}
+
+const { lang = "en_US", champions = [] } = Astro.props;
+
+// Tính toán số lượng tướng theo từng vai trò
+const roleCounts = champions.reduce<Record<string, number>>((acc, champ) => {
+  (champ.tags || []).forEach((tag) => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {});
+
+const allLabel = lang === "vi_VN" ? "TẤT CẢ VAI TRÒ" : "ALL ROLES";
+---
+
+<div class="w-full mb-8 flex flex-col gap-4 relative z-30" id="champion-toolbar">
+  <div class="flex flex-wrap items-center justify-between gap-4 w-full pb-3 border-b border-[#2d3a45]/50">
+    
+    <!-- Left: Hextech Role Filter Selector (Phong cách Client LMHT) -->
+    <div class="relative">
+      <button
+        id="filter-toggle-btn"
+        type="button"
+        class="group relative flex items-center gap-3 px-4 py-2.5 bg-[#070b0d]/90 hover:bg-[#0d151b] border border-[#8e6b32]/40 hover:border-[#c99a45] rounded transition-all duration-200 shadow-md cursor-pointer select-none"
+        aria-expanded="false"
+      >
+        <!-- Góc trang trí kim cương vàng -->
+        <span class="w-1.5 h-1.5 rotate-45 bg-[#c99a45] shadow-[0_0_6px_rgba(201,154,69,0.8)]"></span>
+
+        <!-- Nhãn Role đang chọn -->
+        <div class="flex items-center gap-2 text-xs font-title tracking-[0.18em] text-[#e8dfcf] uppercase">
+          <span class="text-[#a89f90] text-[10px] hidden sm:inline">{lang === 'vi_VN' ? 'VAI TRÒ:' : 'ROLE:'}</span>
+          <span id="selected-role-name" class="text-[#f0e6d2] font-bold group-hover:text-[#e2b866] transition-colors">{allLabel}</span>
+          <span id="selected-role-count" class="text-[10px] text-[#c99a45] font-semibold">({champions.length})</span>
+        </div>
+
+        <!-- Mũi tên tam giác vàng phong cách Runeterra -->
+        <svg id="filter-arrow-icon" class="w-2.5 h-2.5 text-[#c99a45] ml-1 transition-transform duration-200" viewBox="0 0 10 6" fill="currentColor">
+          <path d="M0 0 L5 6 L10 0 Z"></path>
+        </svg>
+      </button>
+
+      <!-- Dropdown Menu Role Popover (Đậm chất Runeterra Hextech) -->
+      <div
+        id="filter-panel"
+        class="hidden absolute left-0 top-full mt-2 w-64 p-1.5 bg-[#070b0d]/95 border border-[#8e6b32]/60 rounded-md backdrop-blur-2xl shadow-[0_16px_40px_rgba(0,0,0,0.95)] z-50 transition-all"
+      >
+        <!-- Header phụ của dropdown -->
+        <div class="px-3 py-1.5 text-[9px] font-semibold text-[#8e6b32] uppercase tracking-[0.2em] border-b border-[#2d3a45]/40 mb-1 flex items-center justify-between">
+          <span>{lang === 'vi_VN' ? 'CHỌN VAI TRÒ' : 'SELECT ROLE'}</span>
+          <span>{champions.length} {lang === 'vi_VN' ? 'TƯỚNG' : 'CHAMPIONS'}</span>
+        </div>
+
+        <!-- Nút ALL -->
+        <button
+          type="button"
+          data-role="ALL"
+          data-role-label={allLabel}
+          data-role-count={champions.length}
+          class="role-filter-btn w-full flex items-center justify-between px-3 py-2 rounded text-xs font-title uppercase tracking-[0.15em] transition-all cursor-pointer text-[#e2b866] bg-[#c99a45]/15 border border-[#c99a45]/40"
+        >
+          <div class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rotate-45 border border-[#c99a45] bg-[#c99a45]"></span>
+            <span>{lang === 'vi_VN' ? 'TẤT CẢ VAI TRÒ' : 'ALL ROLES'}</span>
+          </div>
+          <span class="text-[10px] text-[#c99a45] font-semibold">({champions.length})</span>
+        </button>
+
+        <!-- Danh sách từng Vai trò -->
+        {ROLES_LIST.map((role) => {
+          const count = roleCounts[role.key] || 0;
+          const displayLabel = lang === 'vi_VN' ? role.viLabel : role.label;
+          return (
+            <button
+              type="button"
+              data-role={role.key}
+              data-role-label={displayLabel}
+              data-role-count={count}
+              class="role-filter-btn w-full flex items-center justify-between px-3 py-2 rounded text-xs font-title uppercase tracking-[0.15em] transition-all cursor-pointer text-[#a89f90] hover:text-[#f0e6d2] hover:bg-[#121c22] border border-transparent hover:border-[#8e6b32]/40 mt-0.5"
+            >
+              <div class="flex items-center gap-2.5">
+                {role.icon && (
+                  <img src={role.icon.src} alt={role.label} class="w-4 h-4 object-contain opacity-80" />
+                )}
+                <span>{displayLabel}</span>
+              </div>
+              <span class="text-[10px] text-[#8e6b32] font-semibold">({count})</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Right: Cinematic Search Input (Khung viền vàng kim tinh giản) -->
+    <div class="relative w-full sm:w-72 md:w-80">
+      <input
+        id="champion-search-input"
+        type="text"
+        placeholder={lang === 'vi_VN' ? 'TÌM KIẾM TƯỚNG...' : 'SEARCH CHAMPIONS...'}
+        class="w-full pl-9 pr-8 py-2 bg-[#070b0d]/90 border border-[#8e6b32]/40 hover:border-[#c99a45] focus:border-[#c99a45] focus:ring-1 focus:ring-[#c99a45]/50 rounded text-xs font-title text-[#f0e6d2] placeholder-[#7d7568] uppercase tracking-[0.15em] outline-none transition-all duration-200 shadow-inner"
+      />
+      <!-- Icon Kính lúp vàng kim -->
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#c99a45] pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <!-- Nút Clear X -->
+      <button
+        id="clear-search-btn"
+        type="button"
+        class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8e6b32] hover:text-[#e2b866] text-xs cursor-pointer p-1 transition-colors"
+        aria-label="Clear search"
+      >
+        ✕
+      </button>
+    </div>
+
+  </div>
+</div>

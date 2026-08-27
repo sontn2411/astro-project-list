@@ -1,0 +1,251 @@
+---
+import { Image } from "astro:assets";
+import championIcon from "../_assets/icons/champion.png";
+import {
+  ALL_ROLES,
+  getRoleLabel,
+  type ChampionDetail,
+} from "../_data/champions";
+
+interface Props {
+  champion: ChampionDetail;
+  lang?: string;
+}
+
+const { champion, lang = "vi_VN" } = Astro.props;
+
+const overviewTabLabel = lang === "vi_VN" ? "TỔNG QUAN" : "OVERVIEW";
+const abilitiesTabLabel = lang === "vi_VN" ? "KỸ NĂNG" : "ABILITIES";
+const emptyTipsLabel =
+  lang === "vi_VN"
+    ? "Hiện chưa có thông tin mẹo kỹ năng cho vị tướng này."
+    : "No ability tips currently available for this champion.";
+
+// 4 chỉ số info của tướng (thang điểm 10)
+const statsList = [
+  {
+    key: "difficulty",
+    label: lang === "vi_VN" ? "ĐỘ KHÓ" : "DIFFICULTY",
+    value: champion.info?.difficulty ?? 0,
+  },
+  {
+    key: "damage",
+    label: lang === "vi_VN" ? "SÁT THƯƠNG" : "DAMAGE",
+    value: champion.info?.attack ?? 0,
+  },
+  {
+    key: "defense",
+    label: lang === "vi_VN" ? "PHÒNG THỦ" : "DEFENSE",
+    value: champion.info?.defense ?? 0,
+  },
+  {
+    key: "magic",
+    label: lang === "vi_VN" ? "PHÉP THUẬT" : "MAGIC",
+    value: champion.info?.magic ?? 0,
+  },
+];
+---
+
+<div class="champion-info-panel flex flex-col items-start w-full max-w-xl select-none">
+  <!-- 1. Crest Icon + Title (Danh hiệu tướng) -->
+  <div class="flex items-center gap-3 mb-2">
+    <!-- Champion Crest Icon -->
+    <Image
+      src={championIcon}
+      alt="Champion Crest"
+      class="w-6 h-6 object-contain shrink-0 filter brightness-110 drop-shadow-[0_2px_8px_rgba(208,168,92,0.8)]"
+    />
+
+    <!-- Title uppercase tracking -->
+    <span
+      class="text-[#c99a45] font-title text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
+    >
+      {champion.title}
+    </span>
+  </div>
+
+  <!-- 2. Champion Name (Cỡ lớn, Font Display sắc sảo) -->
+  <h1
+    class="text-6xl sm:text-7xl md:text-8xl font-display font-bold text-[#ede3d3] tracking-[0.06em] uppercase leading-none mb-4 drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]"
+  >
+    {champion.name}
+  </h1>
+
+  <!-- 3. Icon + Name Tags (Role inline tối giản, thanh lịch) -->
+  <div class="flex items-center flex-wrap gap-7 mb-7">
+    {
+      (champion.tags || []).map((tag) => {
+        const roleInfo = ALL_ROLES[tag];
+        const icon = roleInfo?.icon;
+        const label = getRoleLabel(tag, lang);
+        return (
+          <div class="flex items-center gap-2.5">
+            {icon && (
+              <Image
+                src={icon}
+                alt={tag}
+                class="w-5 h-5 object-contain filter brightness-125 sepia-[0.35] drop-shadow-[0_2px_6px_rgba(201,154,69,0.5)]"
+              />
+            )}
+            <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-[#c99a45] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+              {label}
+            </span>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <!-- 4. Tabs Navigation & Content (OVERVIEW / ABILITIES) -->
+  <div class="w-full max-w-lg flex flex-col">
+    <!-- Tab Nav Bar với đường kẻ mảnh toàn phần -->
+    <div class="relative w-full border-b border-[#3c3c41]/50 flex items-center gap-8 mb-5">
+      <!-- Tab 1: OVERVIEW -->
+      <button
+        type="button"
+        class="tab-btn active relative text-xs sm:text-sm font-bold tracking-[0.2em] uppercase transition-all duration-200 cursor-pointer pb-2.5 text-[#ffffff]"
+        data-target="tab-overview"
+      >
+        <span>{overviewTabLabel}</span>
+        <!-- Golden active indicator line with center glowing dot -->
+        <span class="tab-indicator absolute bottom-0 left-0 right-0 h-[2px] bg-[#d0a85c] shadow-[0_0_10px_rgba(208,168,92,0.8)]">
+          <span class="absolute -top-[2px] left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#f0e6d2] shadow-[0_0_8px_#d0a85c]"></span>
+        </span>
+      </button>
+
+      <!-- Tab 2: ABILITIES -->
+      <button
+        type="button"
+        class="tab-btn relative text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase transition-all duration-200 cursor-pointer pb-2.5 text-[#807c72] hover:text-[#d0c6b4]"
+        data-target="tab-abilities"
+      >
+        <span>{abilitiesTabLabel}</span>
+        <span class="tab-indicator hidden absolute bottom-0 left-0 right-0 h-[2px] bg-[#d0a85c] shadow-[0_0_10px_rgba(208,168,92,0.8)]">
+          <span class="absolute -top-[2px] left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#f0e6d2] shadow-[0_0_8px_#d0a85c]"></span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Tab Panes Container (Cố định chiều cao tuyệt đối chống giật/nhảy layout khi chuyển tab) -->
+    <div class="relative w-full h-[180px] sm:h-[200px]">
+      <!-- Tab 1 Pane: Overview (data.lore) -->
+      <div
+        id="tab-overview"
+        class="tab-pane block w-full h-full overflow-y-auto pr-3 custom-info-scrollbar"
+      >
+        <p class="font-body text-[#b5ada0] leading-[1.8] text-sm sm:text-base font-normal text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          {champion.lore}
+        </p>
+      </div>
+
+      <!-- Tab 2 Pane: Abilities (data.allytips) -->
+      <div
+        id="tab-abilities"
+        class="tab-pane hidden w-full h-full overflow-y-auto pr-3 custom-info-scrollbar"
+      >
+        {
+          champion.allytips && champion.allytips.length > 0 ? (
+            <ul class="space-y-3.5">
+              {champion.allytips.map((tip) => (
+                <li class="flex items-start gap-3 text-left">
+                  <span class="mt-2 w-1.5 h-1.5 rotate-45 shrink-0 bg-[#d0a85c] shadow-[0_0_6px_rgba(208,168,92,0.8)]" />
+                  <span class="font-body text-[#b5ada0] leading-[1.8] text-xs sm:text-sm drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+                    {tip}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div class="text-xs sm:text-sm text-[#807c72] italic py-3 text-left font-body">
+              {emptyTipsLabel}
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- 5. Champion Info Stats (DIFFICULTY, DAMAGE, DEFENSE, MAGIC) -->
+    <div class="mt-6 pt-5 border-t border-[#3c3c41]/35 w-full grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3.5">
+      {
+        statsList.map((stat) => (
+          <div class="flex items-center justify-between gap-3">
+            <span class="text-[#c99a45] font-title text-[11px] sm:text-xs tracking-[0.2em] font-bold uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] shrink-0">
+              {stat.label}
+            </span>
+            <div class="relative h-2 w-32 sm:w-36 bg-[#070b0d] border border-[#524021]/80 rounded-full overflow-hidden shadow-inner shrink-0">
+              <!-- Thanh màu gradient vàng mạ kim (tổng 10 điểm) -->
+              <div
+                class="h-full bg-gradient-to-r from-[#b38230] to-[#e2b866] shadow-[0_0_8px_rgba(226,184,102,0.5)] rounded-full transition-all duration-500"
+                style={`width: ${Math.min(Math.max(stat.value, 0), 10) * 10}%`}
+              />
+              <!-- 4 vạch khấc chia làm 5 đoạn (mỗi đoạn 2 điểm = 20%) -->
+              <div class="absolute top-0 bottom-0 left-[20%] w-[1.5px] -ml-[0.75px] bg-[#070b0d] pointer-events-none" />
+              <div class="absolute top-0 bottom-0 left-[40%] w-[1.5px] -ml-[0.75px] bg-[#070b0d] pointer-events-none" />
+              <div class="absolute top-0 bottom-0 left-[60%] w-[1.5px] -ml-[0.75px] bg-[#070b0d] pointer-events-none" />
+              <div class="absolute top-0 bottom-0 left-[80%] w-[1.5px] -ml-[0.75px] bg-[#070b0d] pointer-events-none" />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Custom scrollbar thanh mảnh cho nội dung tab */
+  .custom-info-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-info-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-info-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(208, 168, 92, 0.3);
+    border-radius: 4px;
+  }
+  .custom-info-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(208, 168, 92, 0.7);
+  }
+</style>
+
+<script>
+  function setupInfoTabs() {
+    const tabButtons = document.querySelectorAll<HTMLButtonElement>(".champion-info-panel .tab-btn");
+    const tabPanes = document.querySelectorAll<HTMLElement>(".champion-info-panel .tab-pane");
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-target");
+        if (!targetId) return;
+
+        // Cập nhật trạng thái Active trên nút tab
+        tabButtons.forEach((b) => {
+          const indicator = b.querySelector(".tab-indicator");
+          b.classList.remove("active", "text-[#ffffff]", "font-bold");
+          b.classList.add("text-[#807c72]", "font-semibold");
+          if (indicator) indicator.classList.add("hidden");
+        });
+
+        const activeIndicator = btn.querySelector(".tab-indicator");
+        btn.classList.add("active", "text-[#ffffff]", "font-bold");
+        btn.classList.remove("text-[#807c72]", "font-semibold");
+        if (activeIndicator) activeIndicator.classList.remove("hidden");
+
+        // Cập nhật hiển thị Pane
+        tabPanes.forEach((pane) => {
+          if (pane.id === targetId) {
+            pane.classList.remove("hidden");
+            pane.classList.add("block");
+          } else {
+            pane.classList.add("hidden");
+            pane.classList.remove("block");
+          }
+        });
+      });
+    });
+  }
+
+  // Khởi chạy khi nạp trang và sau mỗi lần Astro View Transitions
+  setupInfoTabs();
+  document.addEventListener("astro:page-load", setupInfoTabs);
+</script>

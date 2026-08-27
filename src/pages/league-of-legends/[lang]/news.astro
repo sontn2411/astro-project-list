@@ -1,0 +1,26 @@
+---
+import Layout from "../_components/Layout.astro";
+import ComingSoon from "../_components/ComingSoon.astro";
+import { getI18n, supportedLocales } from "../_data/i18n";
+
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({
+    params: { lang: locale.code },
+  }));
+}
+
+const { lang } = Astro.params;
+const { t, lang: currentLang } = getI18n(lang);
+---
+
+<Layout
+  title={`${t.nav.news} | ${t.meta.title}`}
+  desc={t.newsPage.desc}
+  lang={currentLang}
+>
+  <ComingSoon
+    lang={currentLang}
+    pageTitle={t.newsPage.title}
+    pageDesc={t.newsPage.desc}
+  />
+</Layout>

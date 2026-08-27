@@ -1,0 +1,34 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Header from "./Header.astro";
+import ScrollToTop from "./ScrollToTop.astro";
+import "../../league-of-legends/_styles/project-3.css";
+
+interface Props {
+  title: string;
+  desc?: string;
+  lang?: string;
+}
+
+const { title, desc, lang } = Astro.props;
+---
+
+<Layout title={title} description={desc}>
+  <!-- Inject Google Fonts chỉ cho project này -->
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+SC:wght@500;600;700&family=Marcellus&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <div class="lol-bg text-ivory min-h-screen relative flex flex-col selection:bg-gold/30 selection:text-gold-bright">
+    <Header lang={lang} />
+    <main transition:animate="fade" class="flex-1 font-sans relative z-10">
+      <slot />
+    </main>
+    <ScrollToTop lang={lang} />
+  </div>
+</Layout>

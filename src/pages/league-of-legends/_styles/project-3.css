@@ -1,0 +1,161 @@
+@theme {
+  /* ========================================
+     CINEMATIC FANTASY — CORE
+     ======================================== */
+
+  --color-obsidian: #070b0d;
+  --color-deep-navy: #0d151b;
+
+  /* Surfaces */
+  --color-surface: #121c21;
+  --color-surface-elevated: #1b2529;
+  --color-surface-hover: #222e33;
+
+  /* ========================================
+     GOLD — PRIMARY ACCENT
+     ======================================== */
+
+  --color-gold: #c99a45;
+  --color-gold-bright: #e2b866;
+  --color-gold-muted: #8e6b32;
+  --color-gold-dark: #60491f;
+
+  /* ========================================
+     TEXT
+     ======================================== */
+
+  --color-ivory: #e8dfcf;
+  --color-text-secondary: #a89f90;
+  --color-text-muted: #6f6a61;
+
+  /* ========================================
+     FANTASY / MAGIC
+     ======================================== */
+
+  --color-fantasy-blue: #527b91;
+  --color-arcane-blue: #82b8d1;
+
+  /* ========================================
+     COMBAT / DANGER
+     ======================================== */
+
+  --color-crimson: #641d24;
+  --color-ember: #a33a2f;
+
+  /* ========================================
+     BORDERS
+     ======================================== */
+
+  --color-border: #2d3435;
+  --color-border-gold: #8e6b32;
+  --color-border-gold-bright: #c99a45;
+
+  /* ========================================
+     TYPOGRAPHY (Phong cách Riot / Runeterra)
+     ======================================== */
+
+  --font-display: "Cinzel", "Marcellus", "Times New Roman", serif;
+  --font-title: "Marcellus", "Cinzel", serif;
+  --font-sub: "Montserrat", "Inter", sans-serif;
+  --font-epic: "Cormorant SC", "Cinzel", serif;
+  --font-body: "Inter", "Helvetica Neue", sans-serif;
+}
+
+/* League of Legends Cinematic Background & Utilities */
+.lol-bg {
+  background-color: var(--color-obsidian);
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(82, 123, 145, 0.15), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 120%, rgba(201, 154, 69, 0.08), transparent 70%),
+    radial-gradient(circle at 10% 20%, rgba(13, 21, 27, 0.8), transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(13, 21, 27, 0.8), transparent 50%),
+    linear-gradient(180deg, #070b0d 0%, #0a1014 50%, #070b0d 100%);
+  background-attachment: fixed;
+}
+
+/* Cinematic subtle grain effect */
+.lol-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(201, 154, 69, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+  z-index: 1;
+  opacity: 0.6;
+}
+
+/* Custom Scrollbar for League theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #070b0d;
+}
+::-webkit-scrollbar-thumb {
+  background: #2d3435;
+  border-radius: 4px;
+  border: 1px solid #8e6b32;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c99a45;
+}
+
+/* Hero Video Mask to dissolve smoothly into .lol-bg */
+.hero-video-mask {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 40%,
+    rgba(0, 0, 0, 0.85) 60%,
+    rgba(0, 0, 0, 0.4) 80%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 40%,
+    rgba(0, 0, 0, 0.85) 60%,
+    rgba(0, 0, 0, 0.4) 80%,
+    transparent 100%
+  );
+}
+
+/* Splash Art Mask: Hòa tan mềm mại cả hai cạnh trái/phải và mép đáy vào nền */
+.splash-fade-mask {
+  -webkit-mask-image: 
+    linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 92%, transparent 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0.4) 80%, transparent 100%);
+  -webkit-mask-composite: destination-in;
+  mask-image: 
+    linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 92%, transparent 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0.4) 80%, transparent 100%);
+  mask-composite: intersect;
+}
+
+/* ========================================
+   SMOOTH SCROLLING — TOÀN BỘ DỰ ÁN
+   ======================================== */
+
+/* Native CSS smooth scroll cho tất cả anchor và cuộn trang */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+}
+
+/* Giảm motion cho người dùng prefer-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+

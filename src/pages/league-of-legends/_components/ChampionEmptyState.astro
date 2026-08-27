@@ -1,0 +1,29 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = "en_US" } = Astro.props;
+---
+
+<div id="champion-empty-state" class="hidden py-20 text-center flex flex-col items-center justify-center">
+  <div class="w-12 h-12 mb-4 rounded-full border border-border-gold/40 flex items-center justify-center bg-surface/80 text-gold">
+    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </div>
+  <h4 class="font-display text-lg text-ivory uppercase tracking-wider mb-1">
+    {lang === 'vi_VN' ? 'Không tìm thấy tướng phù hợp' : 'No Champions Found'}
+  </h4>
+  <p class="text-text-secondary text-xs max-w-sm mb-4">
+    {lang === 'vi_VN' ? 'Vui lòng kiểm tra lại từ khóa tìm kiếm hoặc chọn bộ lọc khác.' : 'Please try adjusting your search terms or filter criteria.'}
+  </p>
+  <button
+    id="reset-empty-btn"
+    type="button"
+    class="px-4 py-2 rounded border border-[#c99a45] text-[#e2b866] text-xs font-semibold uppercase tracking-widest hover:bg-[#c99a45]/20 transition-all cursor-pointer"
+  >
+    {lang === 'vi_VN' ? 'ĐẶT LẠI BỘ LỌC' : 'RESET FILTERS'}
+  </button>
+</div>

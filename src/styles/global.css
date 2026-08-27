@@ -4,3 +4,14 @@
 /* Import styles của từng project */
 @import "../pages/ambience-interiors/_styles/project-1.css";
 @import "../pages/nha-trang-travel/_styles/project-2.css";
+@import "../pages/league-of-legends/_styles/project-3.css";
+
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}

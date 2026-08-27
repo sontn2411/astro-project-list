@@ -1,0 +1,105 @@
+---
+import logloText from '../_assets/images/logo-text.png';
+import { Icon } from "astro-icon/components";
+import { getI18n } from "../_data/i18n";
+
+interface Props {
+  lang?: string;
+}
+
+const { lang } = Astro.props;
+const { lang: currentLang, t, supportedLocales } = getI18n(lang);
+
+const pathname = Astro.url.pathname;
+
+const navLinks = [
+  { href: `/league-of-legends/${currentLang}/champions`, label: t.nav.champions },
+  { href: `/league-of-legends/${currentLang}/universe`, label: t.nav.universe },
+  { href: `/league-of-legends/${currentLang}/news`, label: t.nav.news },
+];
+
+function getLocalizedUrl(targetLang: string) {
+  // Thay thế prefix /league-of-legends/{currentLang} bằng /league-of-legends/{targetLang}
+  if (pathname.includes(`/league-of-legends/${currentLang}`)) {
+    return pathname.replace(`/league-of-legends/${currentLang}`, `/league-of-legends/${targetLang}`);
+  }
+  return `/league-of-legends/${targetLang}`;
+}
+---
+
+<header class="fixed top-0 right-0 left-0 h-20 z-50 bg-gradient-to-b from-black/90 via-black/50 to-transparent backdrop-blur-[4px]">
+  <div class="max-w-[1600px] mx-auto h-full px-6 flex justify-between items-center">
+    <!-- Logo cố định 1 kích cỡ chuẩn -->
+    <a href={`/league-of-legends/${currentLang}`} class="h-10 flex items-center hover:opacity-90 transition-opacity">
+      <img src={logloText.src} alt="League of Legends Logo" class="h-full object-contain" />
+    </a>
+
+    <nav class="hidden md:block">
+      <ul class="flex items-center gap-8 lg:gap-12 xl:gap-14">
+        {navLinks.map((link) => {
+          const isActive = pathname.startsWith(link.href);
+          return (
+            <li class="relative">
+              <a
+                href={link.href}
+                class={`group relative flex flex-col items-center pt-4 pb-1 px-2 text-xs uppercase tracking-[0.22em] transition-all duration-200 ${
+                  isActive
+                    ? "text-white font-bold"
+                    : "text-[#a89f90] hover:text-[#f0e6d2] font-semibold"
+                }`}
+              >
+                <!-- Biểu tượng vàng kim phía trên chữ khi Active (Dấu chấm + Mũi tên chữ V) -->
+                <span
+                  class={`absolute -top-1.5 left-1/2 -translate-x-1/2 transition-all duration-300 pointer-events-none ${
+                    isActive
+                      ? "opacity-100 translate-y-0 text-[#e2b866] drop-shadow-[0_0_8px_rgba(201,154,69,0.7)]"
+                      : "opacity-0 -translate-y-1 group-hover:opacity-60 group-hover:translate-y-0 text-[#c99a45]"
+                  }`}
+                >
+                  <svg class="w-3.5 h-3" viewBox="0 0 14 12" fill="none">
+                    <!-- Chấm tròn phía trên -->
+                    <circle cx="7" cy="2" r="1.3" fill="currentColor" />
+                    <!-- Mũi tên chữ V hướng xuống -->
+                    <path d="M2.5 5.5 L7 10 L11.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+
+                <span class="drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{link.label}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <!-- Language Selector -->
+    <div class="relative group">
+      <button
+        type="button"
+        class="flex items-center gap-2 px-3 py-1.5 rounded border border-border-gold/40 hover:border-gold bg-surface/80 text-ivory text-xs font-semibold uppercase tracking-wider backdrop-blur-md transition-all duration-200 shadow-sm hover:shadow-[0_0_12px_rgba(201,154,69,0.3)] cursor-pointer"
+        aria-label="Select Language"
+      >
+        <Icon name="lucide:globe" class="w-4 h-4 text-gold" />
+        <span>{currentLang}</span>
+        <span class="text-[10px] text-text-secondary group-hover:rotate-180 transition-transform duration-200">▼</span>
+      </button>
+
+      <!-- Dropdown -->
+      <div class="absolute right-0 mt-1 w-40 py-1 bg-surface-elevated/95 border border-border-gold/50 rounded shadow-2xl backdrop-blur-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+        {supportedLocales.map((locale) => (
+          <a
+            href={getLocalizedUrl(locale.code)}
+            class={`flex items-center justify-between px-3 py-2 text-xs transition-colors ${
+              locale.code === currentLang
+                ? "text-gold font-bold bg-surface-hover/80"
+                : "text-ivory/90 hover:text-gold hover:bg-surface-hover/50"
+            }`}
+          >
+            <span>{locale.label}</span>
+            <span class="text-xs text-text-secondary">{locale.code}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>

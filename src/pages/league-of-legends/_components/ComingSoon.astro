@@ -1,0 +1,61 @@
+---
+import { getI18n } from "../_data/i18n";
+
+interface Props {
+  lang?: string;
+  pageTitle?: string;
+  pageDesc?: string;
+}
+
+const { lang, pageTitle, pageDesc } = Astro.props;
+const { t, lang: currentLang } = getI18n(lang);
+---
+
+<div class="relative min-h-[calc(100vh-5rem)] flex items-center justify-center px-4 overflow-hidden pt-20">
+  <!-- Ambient background glow effects -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-arcane-blue/10 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-gold/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+  <!-- Decorative Runeterra borders and container -->
+  <div class="relative z-10 max-w-2xl w-full p-8 md:p-12 text-center rounded-xl bg-surface/80 border border-border-gold/40 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+    
+    <!-- Top ornamental badge -->
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border-gold/60 bg-obsidian/80 text-gold text-xs font-semibold tracking-[0.25em] uppercase mb-6 shadow-inner">
+      <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+      {pageTitle || t.comingSoon.tag}
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-ivory tracking-widest uppercase mb-4 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+      {t.comingSoon.title}
+    </h1>
+
+    <!-- Decorative divider -->
+    <div class="flex items-center justify-center gap-3 my-6">
+      <div class="h-px w-16 bg-gradient-to-r from-transparent to-gold/70"></div>
+      <div class="w-2.5 h-2.5 rotate-45 border border-gold bg-gold/20"></div>
+      <div class="h-px w-16 bg-gradient-to-l from-transparent to-gold/70"></div>
+    </div>
+
+    <!-- Description -->
+    <p class="text-text-secondary text-sm md:text-base font-body leading-relaxed max-w-md mx-auto mb-8">
+      {pageDesc || t.comingSoon.desc}
+    </p>
+
+    <!-- Action buttons -->
+    <div class="flex flex-wrap items-center justify-center gap-4">
+      <a
+        href={`/league-of-legends/${currentLang}/champions`}
+        class="px-6 py-3 bg-gradient-to-r from-gold to-gold-bright text-obsidian font-bold text-xs md:text-sm tracking-widest uppercase rounded border border-gold-bright hover:shadow-[0_0_25px_rgba(201,154,69,0.6)] hover:scale-[1.02] transition-all duration-300"
+      >
+        {t.comingSoon.viewChampions}
+      </a>
+      <a
+        href={`/league-of-legends/${currentLang}`}
+        class="px-6 py-3 bg-surface-elevated/90 hover:bg-surface-hover text-ivory font-semibold text-xs md:text-sm tracking-widest uppercase rounded border border-border hover:border-gold/60 transition-all duration-300"
+      >
+        {t.comingSoon.backHome}
+      </a>
+    </div>
+  </div>
+</div>

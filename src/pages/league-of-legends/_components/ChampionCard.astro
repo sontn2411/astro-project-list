@@ -1,0 +1,79 @@
+---
+import {
+  getChampionLoadingUrl,
+  ROLE_ICONS,
+  type Champion,
+} from "../_data/champions";
+
+interface Props {
+  champ: Champion;
+  lang?: string;
+}
+
+const { champ, lang = "en_US" } = Astro.props;
+const validTags = (champ.tags || []).filter((tag) => ROLE_ICONS[tag]);
+---
+
+<a
+  href={`/league-of-legends/${lang}/champions/${champ.id}`}
+  class="champion-card group relative block rounded-md overflow-hidden bg-[#0a1014] border border-[#23313d] hover:border-[#c99a45] transition-all duration-300 shadow-md hover:shadow-[0_8px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(201,154,69,0.25)] hover:-translate-y-1.5 cursor-pointer aspect-[308/560] w-full"
+  data-name={champ.name.toLowerCase()}
+  data-title={champ.title.toLowerCase()}
+  data-tags={(champ.tags || []).join(",")}
+>
+  <!-- Khung viền mỏng bên trong -->
+  <div class="absolute inset-1 border border-white/5 group-hover:border-[#c99a45]/20 rounded-[4px] pointer-events-none z-10 transition-colors"></div>
+
+  <!-- Nút Bookmark -->
+  <button
+    type="button"
+    class="absolute top-2.5 right-2.5 z-20 w-7 h-7 rounded flex items-center justify-center bg-black/50 backdrop-blur-sm border border-[#c99a45]/30 text-[#c99a45] hover:text-[#e2b866] hover:border-[#c99a45] hover:bg-black/75 transition-all opacity-80 group-hover:opacity-100 shadow-sm"
+    aria-label={`Bookmark ${champ.name}`}
+    onclick="event.preventDefault(); event.stopPropagation();"
+  >
+    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+    </svg>
+  </button>
+
+  <!-- Ảnh Loading Art chuẩn 308 x 560 -->
+  <img
+    src={getChampionLoadingUrl(champ.id, 0)}
+    alt={champ.name}
+    width="308"
+    height="560"
+    loading="lazy"
+    decoding="async"
+    class="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+  />
+
+  <!-- Gradient tối đáy -->
+  <div class="absolute inset-0 bg-gradient-to-t from-[#070b0d] via-[#070b0d]/70 via-35% to-transparent pointer-events-none"></div>
+
+  <!-- Thông tin Tướng ở đáy Card -->
+  <div class="absolute bottom-0 inset-x-0 p-3 pb-3 flex flex-col items-center text-center z-10">
+    <h3 class="font-title text-xs sm:text-sm md:text-[15px] font-bold text-[#f0e6d2] uppercase tracking-[0.16em] group-hover:text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)] transition-colors line-clamp-1">
+      {champ.name}
+    </h3>
+
+    <p class="font-sub text-[8px] sm:text-[9px] font-semibold text-[#c99a45] uppercase tracking-[0.2em] mt-0.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] line-clamp-1">
+      {champ.title}
+    </p>
+
+    {validTags.length > 0 && (
+      <div class="mt-2 flex items-center justify-center gap-2">
+        {validTags.map((tag) => {
+          const icon = ROLE_ICONS[tag];
+          return (
+            <img
+              src={icon.src}
+              alt={tag}
+              title={tag}
+              class="w-5 h-5 sm:w-6 sm:h-6 object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 drop-shadow-[0_2px_8px_rgba(201,154,69,0.35)]"
+            />
+          );
+        })}
+      </div>
+    )}
+  </div>
+</a>

@@ -1,0 +1,23 @@
+---
+import Layout from "../_components/Layout.astro";
+import ChampionHero from "../_components/ChampionHero.astro";
+import { getI18n, supportedLocales } from "../_data/i18n";
+
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({
+    params: { lang: locale.code },
+  }));
+}
+
+const { lang } = Astro.params;
+const { t, lang: currentLang } = getI18n(lang);
+---
+
+<Layout
+  title={`${t.nav.champions} | ${t.meta.title}`}
+  desc={t.championsHero.desc}
+  lang={currentLang}
+>
+  <ChampionHero lang={currentLang} />
+ 
+</Layout>

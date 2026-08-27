@@ -1,0 +1,400 @@
+---
+import type { ChampionDetail } from "../_data/champions";
+import Icons from "./Icons.astro";
+
+interface Props {
+  champion: ChampionDetail;
+  lang?: string;
+}
+
+const { champion, lang = "vi_VN" } = Astro.props;
+
+const isVi = lang === "vi_VN";
+const sectionTag = isVi ? "PHÂN TÍCH CHỈ SỐ" : "COMBAT ATTRIBUTES";
+const headingTitle = isVi ? "NĂNG LỰC TƯỚNG" : "STAT RADAR";
+
+const stats = champion.stats || {};
+const info = champion.info || { attack: 5, defense: 5, magic: 5, difficulty: 5 };
+
+// 1. Durability (Độ Bền / Chống Chịu: HP)
+const rawDurability = stats.hp
+  ? ((stats.hp - 480) / (680 - 480)) * 50 + 40
+  : (info.defense ?? 5) * 10;
+const durability = Math.round(Math.max(25, Math.min(95, rawDurability)));
+
+// 2. Attack (Sát Thương: Attack Damage)
+const rawAttack = stats.attackdamage
+  ? ((stats.attackdamage - 48) / (72 - 48)) * 50 + 40
+  : (info.attack ?? 5) * 10;
+const attack = Math.round(Math.max(25, Math.min(95, rawAttack)));
+
+// 3. Attack Speed (Tốc Độ Đánh)
+const rawAs = stats.attackspeed
+  ? ((stats.attackspeed - 0.60) / (0.72 - 0.60)) * 55 + 35
+  : 50;
+const attackSpeed = Math.round(Math.max(25, Math.min(95, rawAs)));
+
+// 4. Mobility (Cơ Động: Tốc độ di chuyển)
+const rawMobility = stats.movespeed
+  ? ((stats.movespeed - 325) / (355 - 325)) * 55 + 35
+  : 50;
+const mobility = Math.round(Math.max(25, Math.min(95, rawMobility)));
+
+// 5. Resource (Năng Lượng: Mana)
+const resource = stats.mp && stats.mp > 0
+  ? Math.round(Math.max(35, Math.min(95, (stats.mp / 500) * 40 + 45)))
+  : 0;
+
+// 6. Magic Resist (Kháng Phép)
+const rawMr = stats.spellblock
+  ? ((stats.spellblock - 25) / (38 - 25)) * 50 + 35
+  : 45;
+const magicResist = Math.round(Math.max(25, Math.min(95, rawMr)));
+
+// 7. Defense (Giáp / Phòng Thủ)
+const rawDefense = stats.armor
+  ? ((stats.armor - 20) / (45 - 20)) * 50 + 35
+  : (info.defense ?? 5) * 10;
+const defense = Math.round(Math.max(25, Math.min(95, rawDefense)));
+
+// 8. Range (Tầm Đánh)
+const rawRange = stats.attackrange
+  ? (stats.attackrange / 650) * 75 + 20
+  : 50;
+const range = Math.round(Math.max(25, Math.min(95, rawRange)));
+
+// Cấu hình 8 trục tọa độ Radar Bát Giác (Thu gọn RADIUS vào tâm để tạo khoảng cách rộng với nhãn chữ bên ngoài)
+const CX = 230;
+const CY = 230;
+const RADIUS = 100;
+
+const axes = [
+  { key: "durability", name: isVi ? "Chống Chịu" : "Durability", score: durability, angle: -Math.PI / 2 },
+  { key: "attack", name: isVi ? "Sát Thương" : "Attack", score: attack, angle: -Math.PI / 4 },
+  { key: "attackspeed", name: isVi ? "Tốc Đánh" : "Attack Speed", score: attackSpeed, angle: 0 },
+  { key: "mobility", name: isVi ? "Cơ Động" : "Mobility", score: mobility, angle: Math.PI / 4 },
+  { key: "resource", name: isVi ? "Năng Lượng" : "Resource", score: resource, angle: Math.PI / 2 },
+  { key: "magicresist", name: isVi ? "Kháng Phép" : "Magic Resist", score: magicResist, angle: (3 * Math.PI) / 4 },
+  { key: "defense", name: isVi ? "Phòng Thủ" : "Defense", score: defense, angle: Math.PI },
+  { key: "range", name: isVi ? "Tầm Đánh" : "Range", score: range, angle: (-3 * Math.PI) / 4 },
+];
+
+// 4 Vòng mạng nhện Bát Giác Đồng Tâm (25%, 50%, 75%, 100%)
+const gridLevels = [0.25, 0.5, 0.75, 1.0];
+const gridPolygons = gridLevels.map((lvl) => {
+  return axes
+    .map((axis) => {
+      const x = CX + RADIUS * lvl * Math.cos(axis.angle);
+      const y = CY + RADIUS * lvl * Math.sin(axis.angle);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+});
+
+// Tọa độ đa giác dữ liệu (Data Polygon)
+const dataPoints = axes
+  .map((axis) => {
+    const ratio = Math.max(0.12, axis.score / 100);
+    const x = CX + RADIUS * ratio * Math.cos(axis.angle);
+    const y = CY + RADIUS * ratio * Math.sin(axis.angle);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  })
+  .join(" ");
+
+// Các mốc số đo trên trục đỉnh (0, 25, 50, 75, 100)
+const scaleMarks = [
+  { val: 100, y: CY - RADIUS + 4 },
+  { val: 75, y: CY - RADIUS * 0.75 + 4 },
+  { val: 50, y: CY - RADIUS * 0.5 + 4 },
+  { val: 25, y: CY - RADIUS * 0.25 + 4 },
+  { val: 0, y: CY - 3 },
+];
+
+---
+
+<div class="champion-chart-panel flex flex-col items-end w-full max-w-lg select-none">
+  <!-- 1. Crest Icon + Subtitle (Khớp 100% phong cách bên trái) -->
+  <div class="flex items-center gap-3 mb-2">
+    <span class="text-[#c99a45] font-title text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+      {sectionTag}
+    </span>
+
+    <!-- Golden Hextech Sparkle Crest -->
+    <Icons name="sparkle" class="w-6 h-6 text-[#d0a85c] shrink-0 drop-shadow-[0_2px_10px_rgba(208,168,92,0.85)]" />
+  </div>
+
+  <!-- 2. Heading Tiêu Đề Lớn (Font Display mạ vàng bạc như bên trái) -->
+  <h2
+    class="text-4xl sm:text-5xl font-display font-bold text-[#ede3d3] tracking-[0.06em] uppercase leading-none mb-3 drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] text-right"
+  >
+    {headingTitle}
+  </h2>
+
+  <!-- 3. Divider Line Thanh Lịch (Khớp đường kẻ tab bên trái) -->
+  <div class="w-full border-b border-[#3c3c41]/50 mb-3 relative flex justify-end">
+    <div class="h-[2px] w-28 bg-[#d0a85c] shadow-[0_0_10px_rgba(208,168,92,0.8)] relative">
+      <span class="absolute -top-[2px] right-1/2 translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#f0e6d2] shadow-[0_0_8px_#d0a85c]"></span>
+    </div>
+  </div>
+
+  <!-- 4. Khu vực Biểu đồ Radar Spider Bát Giác & Nhãn HTML Căn Chỉnh Thoáng Đãng (Không đè Chart) -->
+  <div class="relative w-full aspect-square max-w-[460px] my-2 flex items-center justify-center">
+    <!-- SVG Lưới & Đa Giác Radar -->
+    <svg
+      viewBox="0 0 460 460"
+      class="w-full h-full overflow-visible drop-shadow-[0_8px_30px_rgba(0,0,0,0.9)]"
+    >
+      <defs>
+        <!-- Gradient Hextech Vàng Mạ Kim Đồng Bộ Với Thanh Progress Bar Bên Trái -->
+        <linearGradient id="chartGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#b38230" stop-opacity="0.55" />
+          <stop offset="60%" stop-color="#d0a85c" stop-opacity="0.38" />
+          <stop offset="100%" stop-color="#f3d38c" stop-opacity="0.45" />
+        </linearGradient>
+
+        <!-- Filter phát sáng viền Neon Glow -->
+        <filter id="goldSpiderGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3.5" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+
+      <!-- Vòng mạng nhện Bát Giác 4 cấp độ (25%, 50%, 75%, 100%) -->
+      {gridPolygons.map((points, idx) => (
+        <polygon
+          points={points}
+          fill={idx === 3 ? "rgba(201, 154, 69, 0.04)" : "none"}
+          stroke="#c99a45"
+          stroke-opacity={idx === 3 ? "0.45" : "0.18"}
+          stroke-width={idx === 3 ? "1.6" : "1.0"}
+        />
+      ))}
+
+      <!-- 8 Trục nan hoa tỏa từ tâm -->
+      {axes.map((axis) => {
+        const x2 = CX + RADIUS * Math.cos(axis.angle);
+        const y2 = CY + RADIUS * Math.sin(axis.angle);
+        return (
+          <line
+            x1={CX}
+            y1={CY}
+            x2={x2}
+            y2={y2}
+            stroke="#c99a45"
+            stroke-opacity="0.28"
+            stroke-width="1.2"
+          />
+        );
+      })}
+
+      <!-- Các chỉ số đo trục dọc ở giữa (0, 25, 50, 75, 100) -->
+      {scaleMarks.map((mark) => (
+        <text
+          x={CX}
+          y={mark.y}
+          text-anchor="middle"
+          class="text-[9px] font-mono font-medium fill-[#c99a45]/75 select-none pointer-events-none"
+        >
+          {mark.val}
+        </text>
+      ))}
+
+      <!-- ĐA GIÁC DỮ LIỆU RADAR (Gold Gradient) -->
+      <polygon
+        points={dataPoints}
+        fill="url(#chartGoldGradient)"
+        stroke="#f3d38c"
+        stroke-width="2.5"
+        filter="url(#goldSpiderGlow)"
+        class="transition-all duration-500 ease-out"
+      />
+
+      <!-- 8 Đỉnh dữ liệu hình tròn phát sáng (Nodes) -->
+      {axes.map((axis) => {
+        const ratio = Math.max(0.12, axis.score / 100);
+        const dotX = CX + RADIUS * ratio * Math.cos(axis.angle);
+        const dotY = CY + RADIUS * ratio * Math.sin(axis.angle);
+        return (
+          <g>
+            <circle
+              cx={dotX}
+              cy={dotY}
+              r="4.8"
+              fill="#f3d38c"
+              stroke="#070b0d"
+              stroke-width="1.8"
+              class="drop-shadow-[0_0_8px_#f3d38c]"
+            />
+            <circle
+              cx={dotX}
+              cy={dotY}
+              r="1.8"
+              fill="#ffffff"
+            />
+          </g>
+        );
+      })}
+    </svg>
+
+    <!-- 8 NHÃN HTML ĐƯỢC TÁCH RỜI XA VÀNH BIỂU ĐỒ (Không bao giờ chạm/đè lên chart) -->
+    
+    <!-- 12h: Durability (Chống Chịu - Icon hp) -->
+    <div class="absolute -top-2 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none">
+      <div class="flex items-center gap-1.5">
+        <Icons name="hp" class="w-3.5 h-3.5 text-[#c99a45] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="font-title text-[11px] sm:text-xs tracking-[0.15em] font-bold uppercase text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "Chống Chịu" : "Durability"}
+        </span>
+      </div>
+      <span class="text-sm sm:text-base font-mono font-bold text-[#ede3d3] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+        {durability}
+      </span>
+    </div>
+
+    <!-- 1h30: Attack (Sát Thương - Icon attack) -->
+    <div class="absolute top-4 -right-1 sm:right-0 flex flex-col items-start pointer-events-none">
+      <div class="flex items-center gap-1.5">
+        <Icons name="attack" class="w-3.5 h-3.5 text-[#c99a45] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="font-title text-[11px] sm:text-xs tracking-[0.15em] font-bold uppercase text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "Sát Thương" : "Attack"}
+        </span>
+      </div>
+      <span class="text-sm sm:text-base font-mono font-bold text-[#ede3d3] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+        {attack}
+      </span>
+    </div>
+
+    <!-- 3h: Attack Speed (Tốc Đánh - Icon attackspeed) -->
+    <div class="absolute top-1/2 -right-4 sm:-right-5 -translate-y-1/2 flex flex-col items-start pointer-events-none">
+      <div class="flex items-center gap-1.5">
+        <Icons name="attackspeed" class="w-3.5 h-3.5 text-[#c99a45] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="font-title text-[11px] sm:text-xs tracking-[0.15em] font-bold uppercase text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "Tốc Đánh" : "Attack Speed"}
+        </span>
+      </div>
+      <span class="text-sm sm:text-base font-mono font-bold text-[#ede3d3] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+        {attackSpeed}
+      </span>
+    </div>
+
+    <!-- 4h30: Mobility (Cơ Động - Icon mobility) -->
+    <div class="absolute bottom-4 -right-1 sm:right-0 flex flex-col items-start pointer-events-none">
+      <div class="flex items-center gap-1.5">
+        <Icons name="mobility" class="w-3.5 h-3.5 text-[#c99a45] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="font-title text-[11px] sm:text-xs tracking-[0.15em] font-bold uppercase text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "Cơ Động" : "Mobility"}
+        </span>
+      </div>
+      <span class="text-sm sm:text-base font-mono font-bold text-[#ede3d3] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+        {mobility}
+      </span>
+    </div>
+
+    <!-- 6h: Resource (Năng Lượng - Icon mb) -->
+    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none">
+      <div class="flex items-center gap-1.5">
+        <Icons name="mb" class="w-3.5 h-3.5 text-[#c99a45] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="font-title text-[11px] sm:text-xs tracking-[0.15em] font-bold uppercase text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "Năng Lượng" : "Resource"}
+        </span>
+      </div>
+      <span class="text-sm sm:text-base font-mono font-bold text-[#ede3d3] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+        {resource}
+      </span>
+    </div>
+
+    <!-- 7h30: Magic Resist (Kháng Phép - Icon spellblock) -->
+    <div class="absolute bottom-4 -left-1 sm:left-0 flex flex-col items-end pointer-events-none">
+      <div class="flex items-center gap-1.5">
+        <Icons name="spellblock" class="w-3.5 h-3.5 text-[#c99a45] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="font-title text-[11px] sm:text-xs tracking-[0.15em] font-bold uppercase text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "Kháng Phép" : "Magic Resist"}
+        </span>
+      </div>
+      <span class="text-sm sm:text-base font-mono font-bold text-[#ede3d3] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+        {magicResist}
+      </span>
+    </div>
+
+    <!-- 9h: Defense (Phòng Thủ - Icon armor) -->
+    <div class="absolute top-1/2 -left-4 sm:-left-5 -translate-y-1/2 flex flex-col items-end pointer-events-none">
+      <div class="flex items-center gap-1.5">
+        <Icons name="armor" class="w-3.5 h-3.5 text-[#c99a45] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="font-title text-[11px] sm:text-xs tracking-[0.15em] font-bold uppercase text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "Phòng Thủ" : "Defense"}
+        </span>
+      </div>
+      <span class="text-sm sm:text-base font-mono font-bold text-[#ede3d3] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+        {defense}
+      </span>
+    </div>
+
+    <!-- 10h30: Range (Tầm Đánh - Icon range) -->
+    <div class="absolute top-4 -left-1 sm:left-0 flex flex-col items-end pointer-events-none">
+      <div class="flex items-center gap-1.5">
+        <Icons name="range" class="w-3.5 h-3.5 text-[#c99a45] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="font-title text-[11px] sm:text-xs tracking-[0.15em] font-bold uppercase text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "Tầm Đánh" : "Range"}
+        </span>
+      </div>
+      <span class="text-sm sm:text-base font-mono font-bold text-[#ede3d3] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+        {range}
+      </span>
+    </div>
+  </div>
+
+  <!-- 5. Bottom 4 Stats Grid (Khớp 100% với 4 thanh chỉ số góc bên trái) -->
+  <div class="mt-4 pt-4 border-t border-[#3c3c41]/35 w-full grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3.5">
+    <!-- Máu cơ bản -->
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 shrink-0">
+        <Icons name="hp" class="w-3.5 h-3.5 text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="text-[#c99a45] font-title text-[11px] sm:text-xs tracking-[0.2em] font-bold uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "MÁU CƠ BẢN" : "HEALTH"}
+        </span>
+      </div>
+      <span class="font-mono text-xs sm:text-sm font-bold text-[#ede3d3] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+        {Math.round(stats.hp ?? 0)}
+      </span>
+    </div>
+
+    <!-- Tốc độ di chuyển -->
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 shrink-0">
+        <Icons name="mobility" class="w-3.5 h-3.5 text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="text-[#c99a45] font-title text-[11px] sm:text-xs tracking-[0.2em] font-bold uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "TỐC CHẠY" : "MOVE SPEED"}
+        </span>
+      </div>
+      <span class="font-mono text-xs sm:text-sm font-bold text-[#ede3d3] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+        {Math.round(stats.movespeed ?? 0)}
+      </span>
+    </div>
+
+    <!-- Tầm đánh -->
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 shrink-0">
+        <Icons name="range" class="w-3.5 h-3.5 text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="text-[#c99a45] font-title text-[11px] sm:text-xs tracking-[0.2em] font-bold uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "TẦM ĐÁNH" : "RANGE"}
+        </span>
+      </div>
+      <span class="font-mono text-xs sm:text-sm font-bold text-[#ede3d3] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+        {stats.attackrange ?? 0}
+      </span>
+    </div>
+
+    <!-- Năng lượng -->
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 shrink-0">
+        <Icons name="mb" class="w-3.5 h-3.5 text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+        <span class="text-[#c99a45] font-title text-[11px] sm:text-xs tracking-[0.2em] font-bold uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          {isVi ? "NĂNG LƯỢNG" : "RESOURCE"}
+        </span>
+      </div>
+      <span class="font-mono text-xs sm:text-sm font-bold text-[#ede3d3] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+        {stats.mp && stats.mp > 0 ? Math.round(stats.mp) : 0}
+      </span>
+    </div>
+  </div>
+</div>

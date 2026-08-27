@@ -1,0 +1,178 @@
+---
+import { getChampions, type Champion } from "../_data/champions";
+import ChampionFilterBar from "./ChampionFilterBar.astro";
+import ChampionCard from "./ChampionCard.astro";
+import ChampionEmptyState from "./ChampionEmptyState.astro";
+
+interface Props {
+  lang?: string;
+  champions?: Champion[];
+}
+
+const { lang = "en_US", champions: propChampions } = Astro.props;
+const champions: Champion[] = propChampions ?? (await getChampions(lang));
+---
+
+<div class="z-20 mt-12 sm:mt-16 w-full" id="champion-list-container">
+  <!-- 1. Thanh tìm kiếm và bộ lọc vai trò (Filter Controls) -->
+  <ChampionFilterBar lang={lang} champions={champions} />
+
+  <!-- 2. Grid danh sách Card Tướng -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 w-full" id="champions-grid">
+    {champions.map((champ) => (
+      <ChampionCard champ={champ} lang={lang} />
+    ))}
+  </div>
+
+  <!-- 3. Trạng thái trống khi không tìm thấy kết quả -->
+  <ChampionEmptyState lang={lang} />
+</div>
+
+<script>
+  function setupChampionFilters() {
+    const toggleBtn = document.getElementById("filter-toggle-btn");
+    const filterPanel = document.getElementById("filter-panel");
+    const arrowIcon = document.getElementById("filter-arrow-icon");
+    const selectedRoleName = document.getElementById("selected-role-name");
+    const selectedRoleCount = document.getElementById("selected-role-count");
+    const searchInput = document.getElementById("champion-search-input") as HTMLInputElement | null;
+    const clearSearchBtn = document.getElementById("clear-search-btn");
+    const roleButtons = document.querySelectorAll(".role-filter-btn");
+    const cards = document.querySelectorAll(".champion-card") as NodeListOf<HTMLElement>;
+    const emptyState = document.getElementById("champion-empty-state");
+    const resetEmptyBtn = document.getElementById("reset-empty-btn");
+
+    let activeRole = "ALL";
+    let searchQuery = "";
+
+    function filterCards() {
+      let visibleCount = 0;
+      const query = searchQuery.trim().toLowerCase();
+
+      cards.forEach((card) => {
+        const name = (card.dataset.name || "").toLowerCase();
+        const title = (card.dataset.title || "").toLowerCase();
+        const tags = (card.dataset.tags || "").split(",");
+
+        const matchesSearch = !query || name.includes(query) || title.includes(query);
+        const matchesRole = activeRole === "ALL" || tags.includes(activeRole);
+
+        if (matchesSearch && matchesRole) {
+          card.style.display = "";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      if (emptyState) {
+        if (visibleCount === 0) {
+          emptyState.classList.remove("hidden");
+        } else {
+          emptyState.classList.add("hidden");
+        }
+      }
+    }
+
+    // Toggle Dropdown Menu
+    if (toggleBtn && filterPanel) {
+      toggleBtn.onclick = (e) => {
+        e.stopPropagation();
+        const isHidden = filterPanel.classList.contains("hidden");
+        if (isHidden) {
+          filterPanel.classList.remove("hidden");
+          toggleBtn.classList.add("border-[#c99a45]", "text-[#e2b866]");
+          toggleBtn.setAttribute("aria-expanded", "true");
+          if (arrowIcon) arrowIcon.classList.add("rotate-180");
+        } else {
+          filterPanel.classList.add("hidden");
+          toggleBtn.classList.remove("border-[#c99a45]", "text-[#e2b866]");
+          toggleBtn.setAttribute("aria-expanded", "false");
+          if (arrowIcon) arrowIcon.classList.remove("rotate-180");
+        }
+      };
+
+      // Click outside to close
+      document.addEventListener("click", (e) => {
+        if (!filterPanel.contains(e.target as Node) && !toggleBtn.contains(e.target as Node)) {
+          filterPanel.classList.add("hidden");
+          toggleBtn.classList.remove("border-[#c99a45]", "text-[#e2b866]");
+          toggleBtn.setAttribute("aria-expanded", "false");
+          if (arrowIcon) arrowIcon.classList.remove("rotate-180");
+        }
+      });
+    }
+
+    // Role Buttons Selection
+    roleButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const role = btn.getAttribute("data-role") || "ALL";
+        const roleLabel = btn.getAttribute("data-role-label") || "";
+        const roleCount = btn.getAttribute("data-role-count") || "";
+
+        roleButtons.forEach((b) => {
+          b.classList.remove("text-[#e2b866]", "bg-[#c99a45]/15", "border-[#c99a45]/40");
+          b.classList.add("text-[#a89f90]", "border-transparent");
+        });
+
+        btn.classList.remove("text-[#a89f90]", "border-transparent");
+        btn.classList.add("text-[#e2b866]", "bg-[#c99a45]/15", "border-[#c99a45]/40");
+
+        if (selectedRoleName && roleLabel) selectedRoleName.textContent = roleLabel;
+        if (selectedRoleCount && roleCount) selectedRoleCount.textContent = `(${roleCount})`;
+
+        activeRole = role;
+        filterCards();
+
+        // Close dropdown after selection
+        if (filterPanel && toggleBtn) {
+          filterPanel.classList.add("hidden");
+          toggleBtn.classList.remove("border-[#c99a45]", "text-[#e2b866]");
+          toggleBtn.setAttribute("aria-expanded", "false");
+          if (arrowIcon) arrowIcon.classList.remove("rotate-180");
+        }
+      });
+    });
+
+    // Realtime Search
+    if (searchInput) {
+      searchInput.oninput = () => {
+        searchQuery = searchInput.value;
+        if (clearSearchBtn) {
+          if (searchQuery) {
+            clearSearchBtn.classList.remove("hidden");
+          } else {
+            clearSearchBtn.classList.add("hidden");
+          }
+        }
+        filterCards();
+      };
+    }
+
+    // Clear Search
+    if (clearSearchBtn && searchInput) {
+      clearSearchBtn.onclick = () => {
+        searchInput.value = "";
+        searchQuery = "";
+        clearSearchBtn.classList.add("hidden");
+        filterCards();
+        searchInput.focus();
+      };
+    }
+
+    // Reset from Empty State
+    if (resetEmptyBtn && searchInput) {
+      resetEmptyBtn.onclick = () => {
+        searchInput.value = "";
+        searchQuery = "";
+        if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
+        const allBtn = document.querySelector('.role-filter-btn[data-role="ALL"]');
+        if (allBtn) (allBtn as HTMLElement).click();
+      };
+    }
+  }
+
+  setupChampionFilters();
+  document.addEventListener("astro:page-load", setupChampionFilters);
+  document.addEventListener("astro:after-swap", setupChampionFilters);
+</script>

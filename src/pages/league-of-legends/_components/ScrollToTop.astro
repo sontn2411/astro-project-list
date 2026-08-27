@@ -1,0 +1,58 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = "en_US" } = Astro.props;
+---
+
+<button
+  id="scroll-to-top-btn"
+  type="button"
+  aria-label={lang === "vi_VN" ? "Cuộn lên đầu trang" : "Scroll to top"}
+  class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 flex flex-col items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-[#070b0d]/90 hover:bg-[#0d151b] border border-[#8e6b32]/50 hover:border-[#c99a45] text-[#c99a45] hover:text-[#f3d38c] backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.85),0_0_15px_rgba(201,154,69,0.25)] hover:shadow-[0_0_25px_rgba(201,154,69,0.55)] transition-all duration-300 opacity-0 invisible translate-y-4 hover:-translate-y-1 cursor-pointer group select-none"
+>
+  <!-- Khung viền mỏng Hextech trang trí -->
+  <div class="absolute inset-0.5 border border-white/5 group-hover:border-[#c99a45]/30 rounded-[6px] pointer-events-none transition-colors"></div>
+
+  <!-- Điểm sáng / kim cương nhỏ phía trên -->
+  <span class="w-1 h-1 rotate-45 bg-[#c99a45] group-hover:bg-[#f3d38c] mb-0.5 transition-colors"></span>
+
+  <!-- Mũi tên chữ V hướng lên -->
+  <svg class="w-4 h-4 text-current transition-transform duration-200 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<script>
+  function setupScrollToTop() {
+    const btn = document.getElementById("scroll-to-top-btn");
+    if (!btn) return;
+
+    function handleScroll() {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      // Hiện nút khi cuộn xuống hơn 300px
+      if (scrollY > 300) {
+        btn?.classList.remove("opacity-0", "invisible", "translate-y-4");
+        btn?.classList.add("opacity-100", "visible", "translate-y-0");
+      } else {
+        btn?.classList.remove("opacity-100", "visible", "translate-y-0");
+        btn?.classList.add("opacity-0", "invisible", "translate-y-4");
+      }
+    }
+
+    btn.onclick = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+  }
+
+  setupScrollToTop();
+  document.addEventListener("astro:page-load", setupScrollToTop);
+  document.addEventListener("astro:after-swap", setupScrollToTop);
+</script>
