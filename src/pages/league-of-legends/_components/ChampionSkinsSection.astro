@@ -1,0 +1,351 @@
+---
+import type { ChampionDetail } from "../_data/champions";
+import { getChampionSplashUrl, getChampionLoadingUrl } from "../_data/champions";
+
+interface Props {
+  champion: ChampionDetail;
+  lang?: string;
+}
+
+const { champion, lang = "vi_VN" } = Astro.props;
+const isVi = lang === "vi_VN";
+
+// Lọc bỏ các skin có chromas: false, ngoại trừ skin mặc định (num === 0)
+const validSkins = (champion.skins || []).filter(
+  (skin) => skin.num === 0 || skin.chromas === true
+);
+
+// Chuẩn hóa tên skin: skin mặc định num 0 thường có name = "default"
+const formattedSkins = validSkins.map((skin, index) => {
+  const isDefault = skin.num === 0 || skin.name.toLowerCase() === "default";
+  const displayName = isDefault
+    ? (isVi ? `${champion.name} Mặc Định` : `${champion.name} Default`)
+    : skin.name;
+
+  return {
+    ...skin,
+    index,
+    displayName,
+    splashUrl: getChampionSplashUrl(champion.id, skin.num),
+    loadingUrl: getChampionLoadingUrl(champion.id, skin.num),
+  };
+});
+
+const sectionTag = isVi ? "BỘ SƯU TẬP TRANG PHỤC" : "SKIN SHOWCASE";
+const defaultSkin = formattedSkins[0];
+---
+
+<section
+  id="champion-skins-section"
+  class="relative w-full bg-[#04070a] py-20 lg:py-28 overflow-hidden select-none"
+>
+  <!-- Atmospheric glow and background lines -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c99a45]/40 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c99a45]/20 to-transparent"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[500px] bg-[#c99a45]/5 rounded-full blur-[130px]"></div>
+  </div>
+
+  <div class="relative z-10 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10">
+
+    <!-- Section Title (Đồng bộ chuẩn phong cách toàn trang) -->
+    <div class="flex flex-col items-center mb-12 lg:mb-16">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="w-8 h-px bg-gradient-to-r from-transparent to-[#c99a45]/70"></span>
+        <span class="text-[#c99a45] font-title text-xs sm:text-sm tracking-[0.35em] font-bold uppercase drop-shadow-[0_2px_10px_rgba(201,154,69,0.5)]">
+          {sectionTag}
+        </span>
+        <span class="w-8 h-px bg-gradient-to-l from-transparent to-[#c99a45]/70"></span>
+      </div>
+      <h2 class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#f0e6d2] tracking-wide uppercase">
+        {isVi ? "TRANG PHỤC CỦA TƯỚNG" : "AVAILABLE SKINS"} — <span class="text-[#c99a45]">{formattedSkins.length}</span>
+      </h2>
+    </div>
+
+    <!-- MAIN STAGE: BIG SPLASH ART VIEWER (Chuẩn kích thước gốc 1215 × 717 px) -->
+    <div class="skin-viewer-container relative w-full max-w-[1215px] mx-auto rounded-sm overflow-hidden bg-[#020406] border border-[#c99a45]/30 shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_40px_rgba(201,154,69,0.08)]">
+      
+      <!-- Hextech Corner Chisel Accents -->
+      <div class="absolute top-0 left-0 w-5 h-5 border-t-[3px] border-l-[3px] border-[#c99a45] z-30 pointer-events-none"></div>
+      <div class="absolute top-0 right-0 w-5 h-5 border-t-[3px] border-r-[3px] border-[#c99a45] z-30 pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-5 h-5 border-b-[3px] border-l-[3px] border-[#c99a45] z-30 pointer-events-none"></div>
+      <div class="absolute bottom-0 right-0 w-5 h-5 border-b-[3px] border-r-[3px] border-[#c99a45] z-30 pointer-events-none"></div>
+
+      <!-- Main Splash Image Box (Tỷ lệ chuẩn 1215 / 717) -->
+      <div class="relative w-full aspect-[1215/717] overflow-hidden bg-[#05080c] flex items-center justify-center">
+        
+        <!-- Background Blur ambient behind image -->
+        <img
+          id="skin-ambient-bg"
+          src={defaultSkin?.splashUrl}
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-25 scale-105 pointer-events-none transition-opacity duration-700 ease-out"
+          aria-hidden="true"
+        />
+
+        <!-- Double-buffered Splash Stack (Zero-flicker Smooth Cross-Fade) -->
+        <div class="absolute inset-0 w-full h-full overflow-hidden">
+          <img
+            id="skin-layer-a"
+            src={defaultSkin?.splashUrl}
+            alt={defaultSkin?.displayName || champion.name}
+            width="1215"
+            height="717"
+            class="splash-layer absolute inset-0 w-full h-full object-cover will-change-opacity z-11 opacity-100 transition-opacity duration-500 ease-out"
+          />
+          <img
+            id="skin-layer-b"
+            src={defaultSkin?.splashUrl}
+            alt=""
+            width="1215"
+            height="717"
+            class="splash-layer absolute inset-0 w-full h-full object-cover will-change-opacity z-12 opacity-0 transition-opacity duration-500 ease-out"
+          />
+        </div>
+
+        <!-- Gradient Shadows overlay on bottom & sides -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[#04070a] via-transparent via-35% to-transparent z-15 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#04070a]/40 via-transparent via-25% to-[#04070a]/40 z-15 pointer-events-none"></div>
+
+        <!-- Left Nav Arrow Button -->
+        <button
+          type="button"
+          id="btn-skin-prev"
+          class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 flex items-center justify-center bg-[#070b0e]/80 hover:bg-[#070b0e] border border-[#c99a45]/40 hover:border-[#c99a45] text-[#f0e6d2] transition-all duration-200 cursor-pointer shadow-lg hover:shadow-[0_0_16px_rgba(201,154,69,0.5)] group"
+          aria-label="Previous skin"
+        >
+          <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        <!-- Right Nav Arrow Button -->
+        <button
+          type="button"
+          id="btn-skin-next"
+          class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 flex items-center justify-center bg-[#070b0e]/80 hover:bg-[#070b0e] border border-[#c99a45]/40 hover:border-[#c99a45] text-[#f0e6d2] transition-all duration-200 cursor-pointer shadow-lg hover:shadow-[0_0_16px_rgba(201,154,69,0.5)] group"
+          aria-label="Next skin"
+        >
+          <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <!-- Bottom Left: Skin Name -->
+        <div class="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 z-25 flex flex-col gap-2 max-w-xl">
+          <h3
+            id="skin-display-title"
+            class="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-[#f0e6d2] uppercase tracking-wide drop-shadow-[0_3px_12px_rgba(0,0,0,0.95)] transition-opacity duration-300"
+          >
+            {defaultSkin?.displayName}
+          </h3>
+        </div>
+
+        <!-- Top Right: View Full HD Link / Button -->
+        <div class="absolute top-6 right-6 z-25 hidden sm:flex items-center gap-2">
+          <a
+            id="skin-hd-link"
+            href={defaultSkin?.splashUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#070b0e]/80 hover:bg-[#070b0e] border border-[#c99a45]/40 hover:border-[#c99a45] text-[#ede3d3] hover:text-[#c99a45] font-sub text-xs font-semibold uppercase tracking-wider backdrop-blur-md transition-all shadow-md"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+            <span>{isVi ? "Xem ảnh HD" : "Full HD"}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- BOTTOM THUMBNAIL DOCK (Băng chuyền thẻ trang phục cuộn ngang) -->
+      <div
+        class="skin-thumbnail-dock relative bg-[#070b0e]/95 border-t border-[#c99a45]/30 p-4 sm:p-5 overflow-x-auto scrollbar-none"
+        style="scrollbar-width: none;"
+      >
+        <div class="flex items-center gap-3 sm:gap-4 min-w-max mx-auto justify-start sm:justify-center">
+          {formattedSkins.map((skin, idx) => (
+            <button
+              type="button"
+              class={`skin-thumb-btn group relative flex flex-col items-center cursor-pointer transition-all duration-300 focus:outline-none shrink-0${idx === 0 ? " skin-thumb-btn--active" : ""}`}
+              data-skin-index={idx}
+              data-splash-url={skin.splashUrl}
+              data-display-name={skin.displayName}
+              aria-label={skin.displayName}
+            >
+              <!-- Thumbnail Frame (Tỷ lệ chuẩn 1215 / 717) -->
+              <div
+                class="thumb-frame relative w-28 sm:w-36 md:w-44 aspect-[1215/717] overflow-hidden border border-[#c99a45]/30 group-hover:border-[#c99a45]/80 transition-all duration-300 shadow-md bg-[#04070a]"
+                style="clip-path: polygon(8% 0%, 92% 0%, 100% 12%, 100% 88%, 92% 100%, 8% 100%, 0% 88%, 0% 12%);"
+              >
+                <!-- Inactive dark overlay -->
+                <div class="thumb-dim absolute inset-0 bg-black/55 group-hover:bg-black/20 transition-colors duration-300 z-10"></div>
+                
+                <img
+                  src={skin.splashUrl}
+                  alt={skin.displayName}
+                  width="176"
+                  height="104"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+
+              <!-- Mini label -->
+              <span class="thumb-label mt-2 font-sub text-[11px] font-semibold text-[#ede3d3]/60 group-hover:text-[#ede3d3] transition-colors duration-300 max-w-[110px] sm:max-w-[140px] md:max-w-[170px] truncate text-center">
+                {skin.displayName}
+              </span>
+
+              <!-- Active Arrow Indicator -->
+              <div class="thumb-indicator w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[6px] border-b-[#c99a45] absolute -top-2.5 opacity-0 transition-all duration-300"></div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Thumbnails Active State */
+  .skin-thumb-btn--active .thumb-frame {
+    border-color: #c99a45;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 0 16px rgba(201, 154, 69, 0.6);
+  }
+  .skin-thumb-btn--active .thumb-dim {
+    background-color: transparent;
+  }
+  .skin-thumb-btn--active .thumb-label {
+    color: #c99a45;
+    font-weight: 700;
+  }
+  .skin-thumb-btn--active .thumb-indicator {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Custom scrollbar hidden */
+  .skin-thumbnail-dock::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* GPU accelerated cross-fade */
+  .splash-layer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+</style>
+
+<script>
+  function initSkinSection() {
+    const section = document.getElementById("champion-skins-section");
+    if (!section) return;
+
+    const thumbBtns = section.querySelectorAll<HTMLButtonElement>(".skin-thumb-btn");
+    const layerA = section.querySelector<HTMLImageElement>("#skin-layer-a");
+    const layerB = section.querySelector<HTMLImageElement>("#skin-layer-b");
+    const ambientBg = section.querySelector<HTMLImageElement>("#skin-ambient-bg");
+    const titleEl = section.querySelector<HTMLElement>("#skin-display-title");
+    const hdLink = section.querySelector<HTMLAnchorElement>("#skin-hd-link");
+    const btnPrev = section.querySelector<HTMLButtonElement>("#btn-skin-prev");
+    const btnNext = section.querySelector<HTMLButtonElement>("#btn-skin-next");
+    const totalSkins = thumbBtns.length;
+
+    let currentIndex = 0;
+    let activeLayer: "a" | "b" = "a";
+
+    // 1. Preload tất cả ảnh Splash Art vào bộ nhớ đệm (Browser Cache)
+    thumbBtns.forEach((btn) => {
+      const url = btn.getAttribute("data-splash-url");
+      if (url) {
+        const img = new Image();
+        img.src = url;
+      }
+    });
+
+    function selectSkin(index: number) {
+      if (index < 0) index = totalSkins - 1;
+      if (index >= totalSkins) index = 0;
+      if (index === currentIndex && layerA?.src) return;
+      currentIndex = index;
+
+      const activeBtn = thumbBtns[currentIndex];
+      if (!activeBtn) return;
+
+      // 1. Update Thumbnails Active Class
+      thumbBtns.forEach((btn) => btn.classList.remove("skin-thumb-btn--active"));
+      activeBtn.classList.add("skin-thumb-btn--active");
+
+      // Auto-scroll thumbnail into view if needed
+      activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+
+      // 2. Extract Data
+      const splashUrl = activeBtn.getAttribute("data-splash-url") || "";
+      const displayName = activeBtn.getAttribute("data-display-name") || "";
+
+      // 3. Update Text and Links with subtle fade
+      if (titleEl) {
+        titleEl.style.opacity = "0.4";
+        setTimeout(() => {
+          titleEl.textContent = displayName;
+          titleEl.style.opacity = "1";
+        }, 120);
+      }
+      if (hdLink) hdLink.href = splashUrl;
+
+      // 4. Double-Buffered Zero-Flicker Cross-Fade
+      const incomingLayer = activeLayer === "a" ? layerB : layerA;
+      const outgoingLayer = activeLayer === "a" ? layerA : layerB;
+
+      if (incomingLayer && outgoingLayer && splashUrl) {
+        incomingLayer.src = splashUrl;
+        
+        // Đảm bảo ảnh đã decode trước khi trigger fade in
+        if (incomingLayer.complete) {
+          incomingLayer.classList.remove("opacity-0");
+          incomingLayer.classList.add("opacity-100");
+          outgoingLayer.classList.remove("opacity-100");
+          outgoingLayer.classList.add("opacity-0");
+          if (ambientBg) ambientBg.src = splashUrl;
+          activeLayer = activeLayer === "a" ? "b" : "a";
+        } else {
+          incomingLayer.onload = () => {
+            incomingLayer.classList.remove("opacity-0");
+            incomingLayer.classList.add("opacity-100");
+            outgoingLayer.classList.remove("opacity-100");
+            outgoingLayer.classList.add("opacity-0");
+            if (ambientBg) ambientBg.src = splashUrl;
+            activeLayer = activeLayer === "a" ? "b" : "a";
+          };
+        }
+      }
+    }
+
+    // Button Events
+    thumbBtns.forEach((btn, i) => {
+      btn.addEventListener("click", () => selectSkin(i));
+    });
+
+    btnPrev?.addEventListener("click", () => selectSkin(currentIndex - 1));
+    btnNext?.addEventListener("click", () => selectSkin(currentIndex + 1));
+
+    // Keyboard Arrow Keys navigation (Left / Right)
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement)?.tagName ?? "")) return;
+      if (e.key === "ArrowLeft") {
+        selectSkin(currentIndex - 1);
+      } else if (e.key === "ArrowRight") {
+        selectSkin(currentIndex + 1);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    document.addEventListener("astro:before-swap", () => window.removeEventListener("keydown", onKeyDown), { once: true });
+  }
+
+  initSkinSection();
+  document.addEventListener("astro:after-swap", initSkinSection);
+</script>

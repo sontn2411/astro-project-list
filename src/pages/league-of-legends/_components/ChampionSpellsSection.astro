@@ -108,7 +108,7 @@ const firstSkill = allSkills[0];
             loop
             muted
             playsinline
-            preload="metadata"
+            preload="auto"
           ></video>
 
           <!-- Gradient vignette at bottom of video -->
@@ -444,13 +444,26 @@ const firstSkill = allSkills[0];
 
     function hideLoader() {
       if (loader) loader.classList.add("opacity-0");
+      if (video) video.style.opacity = "1";
     }
 
     // Video status listeners
     if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+
       video.addEventListener("waiting", showLoader);
       video.addEventListener("canplay", hideLoader);
-      video.addEventListener("playing", hideLoader);
+      video.addEventListener("playing", () => {
+        hideLoader();
+        icoPause?.classList.remove("hidden");
+        icoPlay?.classList.add("hidden");
+      });
+      video.addEventListener("pause", () => {
+        icoPause?.classList.add("hidden");
+        icoPlay?.classList.remove("hidden");
+      });
       video.addEventListener("error", () => {
         hideLoader();
         fallback?.classList.remove("hidden");
@@ -461,17 +474,13 @@ const firstSkill = allSkills[0];
     toggleBtn?.addEventListener("click", () => {
       if (!video) return;
       if (video.paused) {
-        video.play();
-        icoPause?.classList.remove("hidden");
-        icoPlay?.classList.add("hidden");
+        video.play().catch(() => {});
       } else {
         video.pause();
-        icoPause?.classList.add("hidden");
-        icoPlay?.classList.remove("hidden");
       }
     });
 
-    function selectSkill(idx: number) {
+    function selectSkill(idx: number, isInitial = false) {
       const btn = pillBtns[idx];
       if (!btn) return;
 
@@ -489,7 +498,7 @@ const firstSkill = allSkills[0];
 
       // 3. Video
       const url = btn.getAttribute("data-video-url") || "";
-      const keyText   = btn.querySelector(".pill-key")?.textContent?.trim() || "";
+      const keyText   = btn.querySelector(".pill-key")?.textContent?.trim() || "P";
       const skillName = panel?.querySelector("h3")?.textContent?.trim() || "";
 
       if (vidKeyBadge)  vidKeyBadge.textContent  = keyText;
@@ -498,17 +507,27 @@ const firstSkill = allSkills[0];
       if (video) {
         if (url) {
           fallback?.classList.add("hidden");
-          showLoader();
-          video.style.opacity = "0.3";
+          
+          if (!isInitial) {
+            showLoader();
+            video.style.opacity = "0.3";
+          }
+          
+          video.muted = true;
           video.src = url;
           video.load();
-          video.play().catch(() => {});
-          video.addEventListener("loadeddata", () => {
-            video.style.opacity = "1";
-            hideLoader();
-          }, { once: true });
-          icoPause?.classList.remove("hidden");
-          icoPlay?.classList.add("hidden");
+
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                hideLoader();
+              })
+              .catch(() => {
+                // Autoplay may be restricted until user interaction
+                hideLoader();
+              });
+          }
         } else {
           hideLoader();
           video.style.opacity = "0";
@@ -517,8 +536,23 @@ const firstSkill = allSkills[0];
       }
     }
 
+    // Auto-trigger initial skill (Passive / index 0)
+    selectSkill(0, true);
+
     // Click
     pillBtns.forEach((btn, i) => btn.addEventListener("click", () => selectSkill(i)));
+
+    // IntersectionObserver: Ensure video plays when scrolled into view
+    if ("IntersectionObserver" in window && video) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && video.paused) {
+            video.play().catch(() => {});
+          }
+        });
+      }, { threshold: 0.15 });
+      observer.observe(section);
+    }
 
     // Keyboard shortcuts
     const keyMap: Record<string, number> = {
@@ -535,5 +569,6 @@ const firstSkill = allSkills[0];
   }
 
   initAbilitySection();
+  document.addEventListener("astro:page-load", initAbilitySection);
   document.addEventListener("astro:after-swap", initAbilitySection);
 </script>

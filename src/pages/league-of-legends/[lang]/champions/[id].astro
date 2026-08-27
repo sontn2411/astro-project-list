@@ -1,9 +1,9 @@
 ---
 import Layout from "../../_components/Layout.astro";
-import ChampionSkinsPanel from "../../_components/ChampionSkinsPanel.astro";
 import ChampionChartInfo from "../../_components/ChampionChartInfo.astro";
 import ChampionInfoPanel from "../../_components/ChampionInfoPanel.astro";
 import ChampionSpellsSection from "../../_components/ChampionSpellsSection.astro";
+import ChampionSkinsSection from "../../_components/ChampionSkinsSection.astro";
 import {
   getChampionDetail,
   getChampionUniverseDetail,
@@ -152,6 +152,9 @@ console.log(">>> Champion:", champion);
     <div id="champion-details-body" class="relative z-20 w-full">
       <!-- Section 2: Kỹ năng tướng (Spells) -->
       <ChampionSpellsSection champion={champion} lang={currentLang} skillVideos={skillVideos} />
+
+      <!-- Section 3: Bộ sưu tập Trang phục (Skins) -->
+      <ChampionSkinsSection champion={champion} lang={currentLang} />
     </div>
   </div>
 </Layout>
