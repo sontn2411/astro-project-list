@@ -3,9 +3,11 @@ import Layout from "../../_components/Layout.astro";
 import ChampionSkinsPanel from "../../_components/ChampionSkinsPanel.astro";
 import ChampionChartInfo from "../../_components/ChampionChartInfo.astro";
 import ChampionInfoPanel from "../../_components/ChampionInfoPanel.astro";
+import ChampionSpellsSection from "../../_components/ChampionSpellsSection.astro";
 import {
   getChampionDetail,
   getChampionUniverseDetail,
+  getChampionSkillVideos,
   getChampions,
   getChampionSplashUrl,
 } from "../../_data/champions";
@@ -24,6 +26,8 @@ export async function getStaticPaths() {
   return paths;
 }
 
+
+
 const { lang, id } = Astro.params;
 const { t, lang: currentLang } = getI18n(lang);
 const champion = await getChampionDetail(id!, currentLang);
@@ -33,11 +37,13 @@ if (!champion) {
 }
 
 const universeData = await getChampionUniverseDetail(id!);
-console.log(`[SSR] Universe Data for ${id}:`, universeData ? Object.keys(universeData) : "null");
 const universeDataChampion = universeData?.champion;
 const universeDataChampionImg = universeDataChampion?.image?.uri || universeDataChampion?.background?.uri;
 const universeVideoChampion = universeDataChampion?.video?.uri || universeData?.video?.uri;
 const heroFallbackImg = universeDataChampionImg || getChampionSplashUrl(champion.id, 0);
+
+// Lấy video kỹ năng từ CDN lol-data
+const skillVideos = await getChampionSkillVideos(champion.id, champion.key);
 
 
 ---
@@ -47,12 +53,10 @@ const heroFallbackImg = universeDataChampionImg || getChampionSplashUrl(champion
   desc={champion.blurb}
   lang={currentLang}
 >
-  <script is:inline define:vars={{ universeData, champion }}>
-    console.log(">>> Universe Data:", universeData);
-    console.log(">>> Champion:", champion);
-  
-  </script>
+<script is:inline define:vars={{ champion }}> 
+console.log(">>> Champion:", champion);
 
+</script>
   <div class="champion-detail-page relative w-full flex flex-col">
     <!-- =========================================================================
          SECTION 1: HERO SPLASH SHOWCASE (CỐ ĐỊNH 100% CHIỀU CAO MÀN HÌNH H-SCREEN)
@@ -146,7 +150,8 @@ const heroFallbackImg = universeDataChampionImg || getChampionSplashUrl(champion
          CÁC SECTION TIẾP THEO SẼ ĐƯỢC XÂY DỰNG TẠI ĐÂY (CUỘN XUỐNG TỰ NHIÊN)
          ========================================================================= -->
     <div id="champion-details-body" class="relative z-20 w-full">
-      <!-- Section 2, Section 3... sẽ được nối tiếp tại đây -->
+      <!-- Section 2: Kỹ năng tướng (Spells) -->
+      <ChampionSpellsSection champion={champion} lang={currentLang} skillVideos={skillVideos} />
     </div>
   </div>
 </Layout>

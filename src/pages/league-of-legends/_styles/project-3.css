@@ -51,15 +51,22 @@
   --color-border-gold-bright: #c99a45;
 
   /* ========================================
-     TYPOGRAPHY (Phong cách Riot / Runeterra)
+     TYPOGRAPHY (Phong cách Riot / Runeterra - Chuẩn Tiếng Việt)
      ======================================== */
 
-  --font-display: "Cinzel", "Marcellus", "Times New Roman", serif;
-  --font-title: "Marcellus", "Cinzel", serif;
-  --font-sub: "Montserrat", "Inter", sans-serif;
-  --font-epic: "Cormorant SC", "Cinzel", serif;
-  --font-body: "Inter", "Helvetica Neue", sans-serif;
+  --font-display: "Montserrat", "Be Vietnam Pro", sans-serif;
+  --font-title: "Montserrat", "Be Vietnam Pro", sans-serif;
+  --font-sub: "Montserrat", "Be Vietnam Pro", sans-serif;
+  --font-epic: "Montserrat", "Be Vietnam Pro", sans-serif;
+  --font-body: "Be Vietnam Pro", "Inter", sans-serif;
 }
+
+/* Font utility classes dùng chung cho toàn bộ League of Legends page */
+.font-display { font-family: var(--font-display); }
+.font-title   { font-family: var(--font-title); }
+.font-sub     { font-family: var(--font-sub); }
+.font-epic    { font-family: var(--font-epic); }
+.font-body    { font-family: var(--font-body); }
 
 /* League of Legends Cinematic Background & Utilities */
 .lol-bg {

@@ -1,0 +1,539 @@
+---
+import type { ChampionDetail, ChampionSkillVideosMap } from "../_data/champions";
+import { getSpellIconUrl, getPassiveIconUrl, DDRAGON_VERSION } from "../_data/champions";
+
+interface Props {
+  champion: ChampionDetail;
+  lang?: string;
+  skillVideos?: ChampionSkillVideosMap;
+}
+
+const { champion, lang = "vi_VN", skillVideos = {} } = Astro.props;
+const isVi = lang === "vi_VN";
+
+const SPELL_KEYS = ["P", "Q", "W", "E", "R"] as const;
+
+const allSkills = [
+  {
+    key: "P" as const,
+    label: isVi ? "Nội Tại" : "Passive",
+    name: champion.passive.name,
+    description: champion.passive.description,
+    iconUrl: getPassiveIconUrl(champion.passive.image.full, DDRAGON_VERSION),
+    videoUrl: skillVideos?.P || null,
+    cooldownBurn: null as string | null,
+    costBurn: null as string | null,
+    costType: null as string | null,
+    rangeBurn: null as string | null,
+  },
+  ...champion.spells.map((spell, i) => {
+    const key = SPELL_KEYS[i + 1];
+    return {
+      key,
+      label: key,
+      name: spell.name,
+      description: spell.description,
+      iconUrl: getSpellIconUrl(spell.image.full, DDRAGON_VERSION),
+      videoUrl: skillVideos?.[key] || null,
+      cooldownBurn: spell.cooldownBurn,
+      costBurn: spell.costBurn,
+      costType: spell.costType,
+      rangeBurn: spell.rangeBurn,
+    };
+  }),
+];
+
+function stripHtmlTags(html: string): string {
+  return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+}
+
+const sectionTag = isVi ? "KỸ NĂNG TƯỚNG" : "CHAMPION ABILITIES";
+const defaultVideo = allSkills[0]?.videoUrl || "";
+const firstSkill = allSkills[0];
+---
+
+<section
+  id="champion-spells-section"
+  class="relative w-full overflow-hidden select-none"
+  style="background: #04080b;"
+>
+  <!-- Atmospheric layers -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute top-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(201,154,69,0.45), transparent);"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(201,154,69,0.2), transparent);"></div>
+    <!-- Asymmetric left column accent light -->
+    <div class="absolute top-0 left-0 bottom-0 w-[2px]" style="background: linear-gradient(180deg, transparent, rgba(201,154,69,0.3) 30%, rgba(201,154,69,0.15) 70%, transparent);"></div>
+    <!-- Ambient glow top-right -->
+    <div class="absolute -top-24 right-0 w-[500px] h-[500px] rounded-full" style="background: radial-gradient(circle, rgba(201,154,69,0.07) 0%, transparent 70%);"></div>
+  </div>
+
+  <div class="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 pt-20 pb-24 lg:pt-28 lg:pb-32">
+
+    <!-- ── TITLE (kept exactly as specified) ── -->
+    <div class="flex flex-col items-center mb-14 lg:mb-18">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="w-8 h-px bg-gradient-to-r from-transparent to-[#c99a45]/70"></span>
+        <span class="text-[#c99a45] font-title text-xs sm:text-sm tracking-[0.35em] font-bold uppercase drop-shadow-[0_2px_10px_rgba(201,154,69,0.5)]">
+          {sectionTag}
+        </span>
+        <span class="w-8 h-px bg-gradient-to-l from-transparent to-[#c99a45]/70"></span>
+      </div>
+      <h2 class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#f0e6d2] tracking-wide uppercase">
+        {champion.name} — <span class="text-[#c99a45]">{champion.title}</span>
+      </h2>
+    </div>
+
+    <!-- ── ASYMMETRIC LAYOUT: VIDEO LEFT (wide) + SKILL INFO RIGHT (narrow) ── -->
+    <div class="skill-stage relative grid grid-cols-1 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px] gap-0 items-stretch">
+
+      <!-- ─── LEFT: Video Column ─── -->
+      <div class="skill-video-col relative flex flex-col">
+
+        <!-- Video frame -->
+        <div
+          class="video-frame relative w-full overflow-hidden"
+          style="background:#020406; border:1px solid rgba(201,154,69,0.28); border-right: none; aspect-ratio: 16/9;"
+        >
+          <!-- Hextech corner marks -->
+          <div class="absolute top-0 left-0 w-4 h-4 border-t-[2px] border-l-[2px] border-[#c99a45] z-30 pointer-events-none"></div>
+          <div class="absolute top-0 right-0 w-4 h-4 border-t-[2px] border-r-[2px] border-[#c99a45]/50 z-30 pointer-events-none"></div>
+          <div class="absolute bottom-0 left-0 w-4 h-4 border-b-[2px] border-l-[2px] border-[#c99a45] z-30 pointer-events-none"></div>
+          <div class="absolute bottom-0 right-0 w-4 h-4 border-b-[2px] border-r-[2px] border-[#c99a45]/50 z-30 pointer-events-none"></div>
+
+          <video
+            id="ability-video"
+            class="w-full h-full object-cover"
+            src={defaultVideo}
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+          ></video>
+
+          <!-- Gradient vignette at bottom of video -->
+          <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10" style="background: linear-gradient(to top, rgba(4,8,11,0.85), transparent);"></div>
+
+          <!-- Skill name watermark over video bottom-left -->
+          <div class="absolute bottom-5 left-5 z-20 flex items-center gap-2.5">
+            <div id="vid-key-badge" class="w-7 h-7 flex items-center justify-center font-title font-black text-[11px] text-[#04080b]" style="background:#c99a45; clip-path: polygon(14%0%,86%0%,100%14%,100%86%,86%100%,14%100%,0%86%,0%14%);">
+              {firstSkill?.key}
+            </div>
+            <span id="vid-skill-name" class="font-display font-bold text-sm uppercase tracking-wide text-[#f0e6d2] drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]">
+              {firstSkill?.name}
+            </span>
+          </div>
+
+          <!-- Play/pause -->
+          <button
+            type="button"
+            id="vid-toggle"
+            class="absolute bottom-5 right-5 z-20 w-8 h-8 flex items-center justify-center cursor-pointer transition-colors"
+            style="background: rgba(4,8,11,0.75); border: 1px solid rgba(201,154,69,0.4);"
+            aria-label="Play / Pause"
+          >
+            <svg id="ico-pause" class="w-3.5 h-3.5 fill-[#f0e6d2]" viewBox="0 0 16 16"><path d="M5 3h2v10H5V3zm4 0h2v10H9V3z"/></svg>
+            <svg id="ico-play" class="w-3.5 h-3.5 fill-[#f0e6d2] hidden" viewBox="0 0 16 16"><path d="M4 3l9 5-9 5V3z"/></svg>
+          </button>
+
+          <!-- Video Loading Overlay (Hextech Spinner) -->
+          <div
+            id="vid-loader"
+            class="absolute inset-0 z-25 flex flex-col items-center justify-center bg-[#020406]/60 backdrop-blur-[2px] transition-opacity duration-300 pointer-events-none opacity-0"
+          >
+            <!-- Hextech Rune Ring Spinner -->
+            <div class="relative w-12 h-12 mb-3 flex items-center justify-center">
+              <div class="absolute inset-0 rounded-full border-2 border-[#c99a45]/20 border-t-[#c99a45] animate-spin" style="animation-duration: 0.85s;"></div>
+              <div class="w-3 h-3 bg-[#c99a45] rotate-45 shadow-[0_0_12px_#c99a45] animate-pulse"></div>
+            </div>
+            <span class="font-title text-[10px] font-bold tracking-[0.25em] uppercase text-[#c99a45]/80">
+              {isVi ? "Đang tải..." : "Loading..."}
+            </span>
+          </div>
+
+          <!-- No video fallback -->
+          <div id="vid-fallback" class={`absolute inset-0 flex flex-col items-center justify-center z-20 ${defaultVideo ? "hidden" : ""}`} style="background:#040810;">
+            <svg class="w-10 h-10 mb-3" style="color:rgba(201,154,69,0.5);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+            <p class="font-title text-xs tracking-widest uppercase" style="color:rgba(201,154,69,0.6);">
+              {isVi ? "Video sắp cập nhật" : "Video coming soon"}
+            </p>
+          </div>
+        </div>
+
+        <!-- ── PILL STRIP SELECTOR (P Q W E R) — sat below video ── -->
+        <div
+          class="pill-strip relative flex items-stretch"
+          style="border: 1px solid rgba(201,154,69,0.28); border-top: none; border-right: none; background: rgba(6,12,16,0.9);"
+        >
+          {allSkills.map((skill, idx) => (
+            <button
+              type="button"
+              class={`pill-btn relative flex-1 flex flex-col items-center justify-center gap-1.5 py-3 px-1 cursor-pointer transition-all duration-250 focus:outline-none group${idx === 0 ? " pill-btn--active" : ""}`}
+              data-skill-index={idx}
+              data-video-url={skill.videoUrl || ""}
+              aria-label={`${skill.key}: ${skill.name}`}
+            >
+              <!-- Top highlight bar -->
+              <div class="pill-bar absolute top-0 left-2 right-2 h-[2px] opacity-0 transition-opacity duration-250" style="background:#c99a45;"></div>
+
+              <!-- Icon -->
+              <div
+                class="pill-icon relative w-9 h-9 sm:w-10 sm:h-10 overflow-hidden border border-[#c99a45]/25 group-hover:border-[#c99a45]/60 transition-colors duration-250"
+                style="clip-path: polygon(14%0%,86%0%,100%14%,100%86%,86%100%,14%100%,0%86%,0%14%);"
+              >
+                <div class="pill-icon-dim absolute inset-0 bg-black/50 transition-colors duration-250 z-10"></div>
+                <img
+                  src={skill.iconUrl}
+                  alt={skill.name}
+                  width="40"
+                  height="40"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-250"
+                  loading="lazy"
+                />
+              </div>
+
+              <!-- Key label -->
+              <span class="pill-key font-title text-[10px] font-bold uppercase tracking-wider transition-colors duration-250" style="color:rgba(201,154,69,0.5);">
+                {skill.key}
+              </span>
+
+              <!-- Separator line between pills (not after last) -->
+              {idx < allSkills.length - 1 && (
+                <div class="absolute right-0 top-3 bottom-3 w-px" style="background:rgba(201,154,69,0.1);"></div>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- ─── RIGHT: Skill Info Panel ─── -->
+      <div
+        class="skill-info-col relative flex flex-col"
+        style="border: 1px solid rgba(201,154,69,0.28); border-left: 1px solid rgba(201,154,69,0.45); background: rgba(7,11,15,0.97);"
+      >
+        <!-- Gold top line -->
+        <div class="absolute top-0 left-0 right-0 h-[2px] z-10" style="background: linear-gradient(90deg, rgba(201,154,69,0.8), rgba(201,154,69,0.1));"></div>
+
+        <!-- Panels -->
+        {allSkills.map((skill, idx) => (
+          <div
+            class={`info-panel absolute inset-0 flex flex-col overflow-hidden ${idx === 0 ? "info-panel--active" : ""}`}
+            data-info-index={idx}
+          >
+
+            <!-- ① TOP BLOCK: Icon + Identity -->
+            <div class="flex-shrink-0 px-6 pt-8 pb-6 flex flex-col items-center text-center" style="border-bottom: 1px solid rgba(201,154,69,0.12);">
+              
+              <!-- Large skill icon with gold halo ring -->
+              <div class="relative mb-4">
+                <!-- Outer glowing ring -->
+                <div class="absolute -inset-2 rounded-full opacity-40" style="background: radial-gradient(circle, rgba(201,154,69,0.45), transparent 70%);"></div>
+                <!-- Icon holder -->
+                <div
+                  class="relative w-16 h-16 overflow-hidden"
+                  style="clip-path: polygon(14%0%,86%0%,100%14%,100%86%,86%100%,14%100%,0%86%,0%14%); border: 2px solid rgba(201,154,69,0.65); box-shadow: 0 0 18px rgba(201,154,69,0.3);"
+                >
+                  <img
+                    src={skill.iconUrl}
+                    alt={skill.name}
+                    width="64"
+                    height="64"
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- Key badge -->
+                <div
+                  class="absolute -bottom-1.5 -right-1.5 w-6 h-6 flex items-center justify-center font-title text-[11px] font-black"
+                  style="background:#c99a45; color:#04080b; clip-path: polygon(14%0%,86%0%,100%14%,100%86%,86%100%,14%100%,0%86%,0%14%);"
+                >
+                  {skill.key}
+                </div>
+              </div>
+
+              <!-- Key label & Skill name -->
+              <span class="font-title text-[10px] font-bold uppercase tracking-[0.3em] mb-1.5" style="color:rgba(201,154,69,0.7);">
+                {skill.key === "P" ? (isVi ? "Nội Tại" : "Passive") : (isVi ? `Chiêu Thức ${skill.key}` : `Ability ${skill.key}`)}
+              </span>
+              <h3 class="font-display font-bold uppercase tracking-wide text-[#f0e6d2] leading-tight" style="font-size:clamp(1.1rem,1.6vw + 0.4rem,1.5rem);">
+                {skill.name}
+              </h3>
+            </div>
+
+            <!-- ② STAT BLOCK: Labelled row list -->
+            {(skill.cooldownBurn || skill.costBurn || skill.rangeBurn) && (
+              <div class="flex-shrink-0 px-6 py-4 flex flex-col gap-0" style="border-bottom: 1px solid rgba(201,154,69,0.1);">
+                
+                {skill.cooldownBurn && skill.cooldownBurn !== "0" && (
+                  <div class="stat-row flex items-center justify-between py-2.5" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-3 h-3 flex-shrink-0" style="color:#8db4d9;" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="8" cy="8" r="6.5"/>
+                        <path d="M8 4.5v4l2.5 2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <span class="font-title text-[10px] uppercase tracking-[0.18em]" style="color:rgba(181,173,160,0.6);">
+                        {isVi ? "Hồi chiêu" : "Cooldown"}
+                      </span>
+                    </div>
+                    <span class="font-sub text-sm font-semibold tabular-nums" style="color:#8db4d9;">{skill.cooldownBurn}s</span>
+                  </div>
+                )}
+
+                {skill.costBurn && skill.costBurn !== "0" && (
+                  <div class="stat-row flex items-center justify-between py-2.5" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-3 h-3 flex-shrink-0" style="color:#5fb2e0;" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 2C5.79 2 4 3.79 4 6c0 1.38.7 2.6 1.76 3.33L5 14h6l-.76-4.67C11.3 8.6 12 7.38 12 6c0-2.21-1.79-4-4-4z" opacity="0.9"/>
+                      </svg>
+                      <span class="font-title text-[10px] uppercase tracking-[0.18em]" style="color:rgba(181,173,160,0.6);">
+                        {skill.costType || (isVi ? "Tiêu hao" : "Cost")}
+                      </span>
+                    </div>
+                    <span class="font-sub text-sm font-semibold tabular-nums" style="color:#5fb2e0;">{skill.costBurn}</span>
+                  </div>
+                )}
+
+                {skill.rangeBurn && skill.rangeBurn !== "self" && skill.rangeBurn !== "0" && (
+                  <div class="stat-row flex items-center justify-between py-2.5">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-3 h-3 flex-shrink-0" style="color:#b5ada0;" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M2 8h12M10 5l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <span class="font-title text-[10px] uppercase tracking-[0.18em]" style="color:rgba(181,173,160,0.6);">
+                        {isVi ? "Tầm đánh" : "Range"}
+                      </span>
+                    </div>
+                    <span class="font-sub text-sm font-semibold tabular-nums" style="color:#b5ada0;">{skill.rangeBurn}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <!-- ③ DESCRIPTION BLOCK: Scrollable body -->
+            <div class="flex-1 min-h-0 overflow-y-auto px-6 py-5 description-scroll">
+              <!-- Decorative left accent -->
+              <div class="relative pl-4" >
+                <p class="font-body text-[13px] sm:text-sm leading-[1.9]" style="color:#9a9088;">
+                  {stripHtmlTags(skill.description)}
+                </p>
+              </div>
+            </div>
+
+            <!-- ④ BOTTOM FOOTER: keyboard hint -->
+            <div class="flex-shrink-0 px-6 py-3 flex items-center gap-2" style="border-top: 1px solid rgba(255,255,255,0.04); background: rgba(4,8,11,0.6);">
+              {skill.key !== "P" ? (
+                <>
+                  <kbd class="inline-flex items-center justify-center w-5 h-5 font-title text-[10px] font-bold" style="background:rgba(201,154,69,0.1); border:1px solid rgba(201,154,69,0.3); color:#c99a45; letter-spacing:.05em;">
+                    {skill.key}
+                  </kbd>
+                  <span class="font-sub text-[11px]" style="color:rgba(181,173,160,0.45);">
+                    {isVi ? "phím tắt xem video" : "keyboard shortcut"}
+                  </span>
+                </>
+              ) : (
+                <span class="font-sub text-[11px]" style="color:rgba(181,173,160,0.35);">
+                  {isVi ? "Kỹ năng thụ động — luôn hoạt động" : "Passive — always active"}
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Skill info column — fixed height so absolute panels fill correctly */
+  .skill-info-col {
+    position: relative;
+    min-height: 420px;
+  }
+
+  /* Description scrollbar — thin gold tint */
+  .description-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201,154,69,0.2) transparent;
+  }
+  .description-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .description-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .description-scroll::-webkit-scrollbar-thumb {
+    background: rgba(201,154,69,0.2);
+    border-radius: 2px;
+  }
+  .description-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(201,154,69,0.4);
+  }
+
+  /* Mobile: remove border-left asymmetry, stack vertically */
+  @media (max-width: 1023px) {
+    .skill-video-col {
+      border-right: 1px solid rgba(201,154,69,0.28) !important;
+    }
+    .skill-info-col {
+      border-left: 1px solid rgba(201,154,69,0.28) !important;
+      border-top: none !important;
+      min-height: unset;
+    }
+    .skill-info-col .info-panel {
+      position: relative !important;
+      inset: unset !important;
+      min-height: 360px;
+    }
+  }
+
+  /* Info panel: hidden by default, shown when active */
+  .info-panel {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    transform: translateY(10px);
+  }
+  .info-panel--active {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Pill button active states */
+  .pill-btn--active .pill-bar { opacity: 1; }
+  .pill-btn--active .pill-icon {
+    border-color: rgba(201,154,69,0.8);
+    box-shadow: 0 0 10px rgba(201,154,69,0.35);
+  }
+  .pill-btn--active .pill-icon-dim { background-color: transparent; }
+  .pill-btn--active .pill-key { color: #c99a45 !important; }
+
+  /* Pill strip — allow horizontal scroll on very small screens */
+  .pill-strip {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .pill-strip::-webkit-scrollbar { display: none; }
+  .pill-btn { min-width: 52px; }
+</style>
+
+<script>
+  function initAbilitySection() {
+    const section = document.getElementById("champion-spells-section");
+    if (!section) return;
+
+    const pillBtns     = section.querySelectorAll<HTMLButtonElement>(".pill-btn");
+    const infoPanels    = section.querySelectorAll<HTMLElement>(".info-panel");
+    const video         = section.querySelector<HTMLVideoElement>("#ability-video");
+    const fallback      = section.querySelector<HTMLElement>("#vid-fallback");
+    const loader        = section.querySelector<HTMLElement>("#vid-loader");
+    const vidKeyBadge   = section.querySelector<HTMLElement>("#vid-key-badge");
+    const vidSkillName  = section.querySelector<HTMLElement>("#vid-skill-name");
+    const toggleBtn     = section.querySelector<HTMLButtonElement>("#vid-toggle");
+    const icoPause      = section.querySelector<SVGElement>("#ico-pause");
+    const icoPlay       = section.querySelector<SVGElement>("#ico-play");
+
+    function showLoader() {
+      if (loader) loader.classList.remove("opacity-0");
+    }
+
+    function hideLoader() {
+      if (loader) loader.classList.add("opacity-0");
+    }
+
+    // Video status listeners
+    if (video) {
+      video.addEventListener("waiting", showLoader);
+      video.addEventListener("canplay", hideLoader);
+      video.addEventListener("playing", hideLoader);
+      video.addEventListener("error", () => {
+        hideLoader();
+        fallback?.classList.remove("hidden");
+      });
+    }
+
+    // Play/Pause
+    toggleBtn?.addEventListener("click", () => {
+      if (!video) return;
+      if (video.paused) {
+        video.play();
+        icoPause?.classList.remove("hidden");
+        icoPlay?.classList.add("hidden");
+      } else {
+        video.pause();
+        icoPause?.classList.add("hidden");
+        icoPlay?.classList.remove("hidden");
+      }
+    });
+
+    function selectSkill(idx: number) {
+      const btn = pillBtns[idx];
+      if (!btn) return;
+
+      // 1. Pills
+      pillBtns.forEach(b => b.classList.remove("pill-btn--active"));
+      btn.classList.add("pill-btn--active");
+
+      // 2. Info panels
+      infoPanels.forEach(p => p.classList.remove("info-panel--active"));
+      const panel = section!.querySelector<HTMLElement>(`[data-info-index="${idx}"]`);
+      if (panel) {
+        void panel.offsetWidth; // reflow
+        panel.classList.add("info-panel--active");
+      }
+
+      // 3. Video
+      const url = btn.getAttribute("data-video-url") || "";
+      const keyText   = btn.querySelector(".pill-key")?.textContent?.trim() || "";
+      const skillName = panel?.querySelector("h3")?.textContent?.trim() || "";
+
+      if (vidKeyBadge)  vidKeyBadge.textContent  = keyText;
+      if (vidSkillName) vidSkillName.textContent  = skillName;
+
+      if (video) {
+        if (url) {
+          fallback?.classList.add("hidden");
+          showLoader();
+          video.style.opacity = "0.3";
+          video.src = url;
+          video.load();
+          video.play().catch(() => {});
+          video.addEventListener("loadeddata", () => {
+            video.style.opacity = "1";
+            hideLoader();
+          }, { once: true });
+          icoPause?.classList.remove("hidden");
+          icoPlay?.classList.add("hidden");
+        } else {
+          hideLoader();
+          video.style.opacity = "0";
+          fallback?.classList.remove("hidden");
+        }
+      }
+    }
+
+    // Click
+    pillBtns.forEach((btn, i) => btn.addEventListener("click", () => selectSkill(i)));
+
+    // Keyboard shortcuts
+    const keyMap: Record<string, number> = {
+      p:0,P:0,"1":0, q:1,Q:1,"2":1, w:2,W:2,"3":2, e:3,E:3,"4":3, r:4,R:4,"5":4,
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (["INPUT","TEXTAREA"].includes((e.target as HTMLElement)?.tagName ?? "")) return;
+      if (keyMap[e.key] !== undefined) selectSkill(keyMap[e.key]);
+    };
+    window.addEventListener("keydown", onKey);
+
+    // Cleanup on Astro page transitions
+    document.addEventListener("astro:before-swap", () => window.removeEventListener("keydown", onKey), { once: true });
+  }
+
+  initAbilitySection();
+  document.addEventListener("astro:after-swap", initAbilitySection);
+</script>
