@@ -176,3 +176,13 @@ const champions: Champion[] = propChampions ?? (await getChampions(lang));
   document.addEventListener("astro:page-load", setupChampionFilters);
   document.addEventListener("astro:after-swap", setupChampionFilters);
 </script>
+
+<style is:global>
+  /* Tối ưu hóa hiệu năng cuộn danh sách lớn (CSS DOM Virtualization) */
+  .champion-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 200px 360px;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+</style>

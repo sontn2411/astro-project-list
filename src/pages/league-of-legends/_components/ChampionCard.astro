@@ -16,7 +16,7 @@ const validTags = (champ.tags || []).filter((tag) => ROLE_ICONS[tag]);
 
 <a
   href={`/league-of-legends/${lang}/champions/${champ.id}`}
-  class="champion-card group relative block rounded-md overflow-hidden bg-[#0a1014] border border-[#23313d] hover:border-[#c99a45] transition-all duration-300 shadow-md hover:shadow-[0_8px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(201,154,69,0.25)] hover:-translate-y-1.5 cursor-pointer aspect-[308/560] w-full"
+  class="champion-card group relative block rounded-md overflow-hidden bg-[#0a1014] border border-[#23313d] hover:border-[#c99a45] transition-[border-color,box-shadow,transform] duration-250 ease-out shadow-md hover:shadow-[0_8px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(201,154,69,0.25)] hover:-translate-y-1.5 cursor-pointer aspect-[308/560] w-full"
   data-name={champ.name.toLowerCase()}
   data-title={champ.title.toLowerCase()}
   data-tags={(champ.tags || []).join(",")}
@@ -24,10 +24,10 @@ const validTags = (champ.tags || []).filter((tag) => ROLE_ICONS[tag]);
   <!-- Khung viền mỏng bên trong -->
   <div class="absolute inset-1 border border-white/5 group-hover:border-[#c99a45]/20 rounded-[4px] pointer-events-none z-10 transition-colors"></div>
 
-  <!-- Nút Bookmark -->
+  <!-- Nút Bookmark (đã tối ưu bỏ backdrop-blur tốn GPU) -->
   <button
     type="button"
-    class="absolute top-2.5 right-2.5 z-20 w-7 h-7 rounded flex items-center justify-center bg-black/50 backdrop-blur-sm border border-[#c99a45]/30 text-[#c99a45] hover:text-[#e2b866] hover:border-[#c99a45] hover:bg-black/75 transition-all opacity-80 group-hover:opacity-100 shadow-sm"
+    class="absolute top-2.5 right-2.5 z-20 w-7 h-7 rounded flex items-center justify-center bg-[#070b0d]/85 border border-[#c99a45]/30 text-[#c99a45] hover:text-[#e2b866] hover:border-[#c99a45] hover:bg-[#070b0d] transition-colors opacity-80 group-hover:opacity-100 shadow-sm"
     aria-label={`Bookmark ${champ.name}`}
     onclick="event.preventDefault(); event.stopPropagation();"
   >

@@ -1,12 +1,4 @@
-import FighterIcon from "../_assets/icons/Fighter_icon.webp";
-import MageIcon from "../_assets/icons/Mage_icon.webp";
-import MarksmanIcon from "../_assets/icons/Marksman_icon.webp";
-import SlayerIcon from "../_assets/icons/Slayer_icon.webp";
-import SupportIcon from "../_assets/icons/Support_icon.webp";
-import TankIcon from "../_assets/icons/Tank_icon.webp";
-import ControllerIcon from "../_assets/icons/Controller_icon.webp";
-import SpecialistIcon from "../_assets/icons/Specialist_icon.webp";
-import type { ImageMetadata } from "astro";
+export * from "./icons";
 
 export const DDRAGON_VERSION = "16.17.1";
 
@@ -129,48 +121,6 @@ export interface ChampionDetailResponse {
   format: string;
   version: string;
   data: Record<string, ChampionDetail>;
-}
-
-export interface RoleInfo {
-  key: string;
-  label: string;
-  viLabel: string;
-  icon: ImageMetadata;
-}
-
-export const ALL_ROLES: Record<string, RoleInfo> = {
-  Assassin: { key: "Assassin", label: "Assassin", viLabel: "Sát Thủ", icon: SlayerIcon },
-  Slayer: { key: "Slayer", label: "Slayer", viLabel: "Sát Thủ", icon: SlayerIcon },
-  Fighter: { key: "Fighter", label: "Fighter", viLabel: "Đấu Sĩ", icon: FighterIcon },
-  Mage: { key: "Mage", label: "Mage", viLabel: "Pháp Sư", icon: MageIcon },
-  Marksman: { key: "Marksman", label: "Marksman", viLabel: "Xạ Thủ", icon: MarksmanIcon },
-  Support: { key: "Support", label: "Support", viLabel: "Hỗ Trợ", icon: SupportIcon },
-  Tank: { key: "Tank", label: "Tank", viLabel: "Đỡ Đòn", icon: TankIcon },
-  Controller: { key: "Controller", label: "Controller", viLabel: "Khống Chế", icon: ControllerIcon },
-  Specialist: { key: "Specialist", label: "Specialist", viLabel: "Đặc Biệt", icon: SpecialistIcon },
-};
-
-// 6 vai trò tiêu chuẩn dùng cho Filter Bar
-export const ROLES_LIST: RoleInfo[] = [
-  ALL_ROLES.Assassin,
-  ALL_ROLES.Fighter,
-  ALL_ROLES.Mage,
-  ALL_ROLES.Marksman,
-  ALL_ROLES.Support,
-  ALL_ROLES.Tank,
-];
-
-export const ROLE_ICONS: Record<string, ImageMetadata> = Object.fromEntries(
-  Object.entries(ALL_ROLES).map(([key, value]) => [key, value.icon])
-);
-
-/**
- * Lấy nhãn tên hiển thị của vai trò theo ngôn ngữ
- */
-export function getRoleLabel(roleKey: string, lang: string = "vi_VN"): string {
-  const role = ALL_ROLES[roleKey];
-  if (!role) return roleKey;
-  return lang === "vi_VN" ? role.viLabel : role.label;
 }
 
 /**

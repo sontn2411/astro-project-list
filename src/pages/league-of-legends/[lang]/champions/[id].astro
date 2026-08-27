@@ -53,8 +53,9 @@ const skillVideos = await getChampionSkillVideos(champion.id, champion.key);
   desc={champion.blurb}
   lang={currentLang}
 >
-<script is:inline define:vars={{ champion }}> 
+<script is:inline define:vars={{ champion,  universeData}}> 
 console.log(">>> Champion:", champion);
+console.log(">>> universeData:", universeData);
 
 </script>
   <div class="champion-detail-page relative w-full flex flex-col">

@@ -1,0 +1,255 @@
+﻿{
+  "id": "faction-browse",
+  "name": "Faction Browse",
+  "locale": "en_us",
+  "subheadline": "Take a look at the different worlds in Runeterra",
+  "factions": [
+    {
+      "type": "faction",
+      "name": "Bandle City",
+      "slug": "bandle-city",
+      "image": {
+        "title": "bandle-city_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/109f1c35b08e87598eaa1e0755a992e17d9425c2-1920x1080.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 0,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Bilgewater",
+      "slug": "bilgewater",
+      "image": {
+        "title": "bilgewater_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/9700d7bf76ec15c8c526f7fea2a960e3846e44a6-2825x1080.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 1,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Demacia",
+      "slug": "demacia",
+      "image": {
+        "title": "demacia-hallvalor.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/5b80fe8ddd3d935c3f258f3e145b8aed4b7460bf-1920x887.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 2,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Ionia",
+      "slug": "ionia",
+      "image": {
+        "title": "ionia-01.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/1691574092da433ea3a4c896c96f8c87d5f7e45a-1920x888.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 3,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Ixtal",
+      "slug": "ixtal",
+      "image": {
+        "title": "ixtal_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/1a75d072fa01ec3d0cda3f87fc1bf18dce736424-5000x2811.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 4,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Noxus",
+      "slug": "noxus",
+      "image": {
+        "title": "noxus_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/6310fe5db818f80b84ee784a746cc28ee1273e6b-1920x1080.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 5,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Piltover",
+      "slug": "piltover",
+      "image": {
+        "title": "piltover_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/6c77423961def6e3a82d9a36545782f1a06386e0-4681x2114.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 6,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Shadow Isles",
+      "slug": "shadow-isles",
+      "image": {
+        "title": "shadow-isles_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/94e4bf2e1b30ba553b4fc0f93e94983837082210-2503x1080.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 7,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Shurima",
+      "slug": "shurima",
+      "image": {
+        "title": "shurima_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/3f24f923ba9871dd870c0d3565075ff8140f44b8-1920x1080.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 8,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Targon",
+      "slug": "mount-targon",
+      "image": {
+        "title": "mount-targon_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/8ad3cfba4b5d7cb812562108a6e90d07e0865b3f-1920x1041.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 9,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "The Freljord",
+      "slug": "freljord",
+      "image": {
+        "title": "freljord_splash.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/ee60551d26850cfbff088f571bc5e1688b1a143b-2034x1080.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 10,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "The Void",
+      "slug": "void",
+      "image": {
+        "title": "void-an-unknowable-power.jpg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/7107e5dbca7887931748e7ae0924e6eda17ef6f4-1920x1064.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 11,
+      "associated-champions": null
+    },
+    {
+      "type": "faction",
+      "name": "Zaun",
+      "slug": "zaun",
+      "image": {
+        "title": "zaun_splash.jpeg",
+        "subtitle": "",
+        "description": "",
+        "uri": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/universe/56d6fa8581379d60cc17951edbe3d686e52bf51b-1730x1080.jpg?accountingTag=LoL",
+        "encoding": "image/jpeg",
+        "width": null,
+        "height": null,
+        "x": null,
+        "y": null,
+        "featured-champions": []
+      },
+      "echelon": 12,
+      "associated-champions": null
+    }
+  ]
+}

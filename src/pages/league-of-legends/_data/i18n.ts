@@ -19,6 +19,7 @@ export const translations: Record<
       champions: string;
       universe: string;
       news: string;
+      regions: string
     };
     championsHero: {
       tagline: string;
@@ -66,6 +67,7 @@ export const translations: Record<
       champions: 'Tướng',
       universe: 'Vũ trụ',
       news: 'Tin tức',
+      regions: 'Vùng đất'
     },
     championsHero: {
       tagline: 'CHIẾN TRƯỜNG LÀ CỦA CHÚNG TA',
@@ -112,6 +114,8 @@ export const translations: Record<
       champions: 'Champions',
       universe: 'Universe',
       news: 'News',
+      regions: 'Regions'
+
     },
     championsHero: {
       tagline: 'THE RIFT IS OURS',
