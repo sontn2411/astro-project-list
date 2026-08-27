@@ -1,0 +1,143 @@
+---
+import { getI18n } from "../_data/i18n";
+import type { Region } from "../_data/regions";
+
+interface Props {
+  region: Region;
+  lang?: string;
+}
+
+const { region, lang = "vi_VN" } = Astro.props;
+const { t } = getI18n(lang);
+
+const isVi = lang === "vi_VN";
+const displayName = isVi ? region.viName : region.name;
+const displaySubtitle = isVi ? region.viTitle : region.sectionTitle;
+---
+
+<a
+  href={`/league-of-legends/${lang}/regions/${region.slug}`}
+  class="region-card group relative rounded-lg overflow-hidden bg-[#0a1014] border border-[#23313d] hover:border-[#c99a45] transition-all duration-300 ease-out shadow-lg hover:shadow-[0_12px_40px_rgba(0,0,0,0.9),0_0_25px_rgba(201,154,69,0.25)] hover:-translate-y-1.5 flex flex-col justify-end cursor-pointer h-[420px] sm:h-[450px]"
+  data-slug={region.slug}
+  data-name={displayName.toLowerCase()}
+  data-en-name={region.name.toLowerCase()}
+  data-vi-name={region.viName.toLowerCase()}
+>
+  <!-- Background Splash Art -->
+  <div class="absolute inset-0 z-0 overflow-hidden">
+    <img
+      src={region.image.uri}
+      alt={displayName}
+      width="800"
+      height="450"
+      loading="lazy"
+      decoding="async"
+      class="w-full h-full object-cover object-center scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+    />
+
+    <!-- Multi-layer cinematic overlays -->
+    <div class="absolute inset-0 bg-gradient-to-t from-[#070b0d] via-[#070b0d]/75 via-45% to-black/30 transition-opacity duration-300"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40"></div>
+    <!-- Hover Gold Tint Overlay -->
+    <div class="absolute inset-0 bg-[#c99a45]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+  </div>
+
+  <!-- Khung viền góc Hextech trang trí -->
+  <div class="absolute inset-1.5 border border-white/5 group-hover:border-[#c99a45]/30 rounded-[6px] pointer-events-none z-10 transition-colors">
+    <!-- 4 góc vàng kim -->
+    <span class="absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-[#c99a45]/0 group-hover:border-[#e2b866] transition-colors"></span>
+    <span class="absolute top-0 right-0 w-2.5 h-2.5 border-t-2 border-r-2 border-[#c99a45]/0 group-hover:border-[#e2b866] transition-colors"></span>
+    <span class="absolute bottom-0 left-0 w-2.5 h-2.5 border-b-2 border-l-2 border-[#c99a45]/0 group-hover:border-[#e2b866] transition-colors"></span>
+    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-[#c99a45]/0 group-hover:border-[#e2b866] transition-colors"></span>
+  </div>
+
+  <!-- Huy hiệu Crest Icon ở góc trên bên trái -->
+  <div class="absolute top-4 left-4 z-20 flex items-center gap-3">
+    {region.crestIcon ? (
+      <div class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#070b0d]/80 border border-[#c99a45]/40 group-hover:border-[#e2b866] p-2 flex items-center justify-center backdrop-blur-sm transition-all duration-300 shadow-md group-hover:shadow-[0_0_15px_rgba(201,154,69,0.4)] group-hover:scale-105">
+        <img
+          src={region.crestIcon.src}
+          alt={`${displayName} crest`}
+          class="w-full h-full object-contain filter drop-shadow-[0_2px_6px_rgba(201,154,69,0.5)]"
+        />
+      </div>
+    ) : (
+      <div class="w-12 h-12 rounded-full bg-[#070b0d]/80 border border-[#c99a45]/40 flex items-center justify-center">
+        <span class="text-[#c99a45] text-xs font-bold uppercase">{region.name.slice(0, 2)}</span>
+      </div>
+    )}
+
+    <!-- Tagline vùng đất -->
+    <div class="flex flex-col">
+      <span class="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-[#c99a45] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+        {region.tagline}
+      </span>
+      <span class="text-[9px] text-[#a89f90] tracking-wider uppercase font-medium">
+        {region.name}
+      </span>
+    </div>
+  </div>
+
+  <!-- Badge Tướng ở góc trên bên phải -->
+  <div class="absolute top-4 right-4 z-20">
+    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#070b0d]/85 border border-[#2d3435] group-hover:border-[#c99a45]/60 text-ivory text-[10px] font-semibold tracking-wider backdrop-blur-sm shadow-sm transition-colors">
+      <svg class="w-3 h-3 text-[#e2b866]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <span>{region.championsCount} {isVi ? "Tướng" : "Champs"}</span>
+    </div>
+  </div>
+
+  <!-- Card Content ở dưới đáy -->
+  <div class="relative z-20 p-5 sm:p-6 flex flex-col justify-end">
+    <!-- Tiêu đề vùng đất -->
+    <h3 class="font-display text-xl sm:text-2xl font-black text-[#ffffff] uppercase tracking-wider group-hover:text-[#f0e6d2] transition-colors leading-snug drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+      {displayName}
+    </h3>
+
+    <p class="text-[#c99a45] text-xs font-semibold uppercase tracking-[0.16em] mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] line-clamp-1">
+      {displaySubtitle}
+    </p>
+
+    <!-- Trích đoạn mô tả -->
+    <p class="text-[#c8c0b2] text-xs font-body leading-relaxed line-clamp-2 mb-4 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)] group-hover:text-white/95 transition-colors">
+      {region.cleanDescription}
+    </p>
+
+    <!-- Nút hành động xem chi tiết -->
+    <div class="pt-3 border-t border-[#2d3435]/60 group-hover:border-[#c99a45]/40 flex items-center justify-between transition-colors">
+      <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#e2b866] group-hover:text-white flex items-center gap-2 transition-colors">
+        {t.regionsPage.viewDetails}
+        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1.5 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </span>
+
+      <!-- Preview avatar 3 tướng đầu tiên nếu có -->
+      {region.associatedChampions.length > 0 && (
+        <div class="flex items-center -space-x-2">
+          {region.associatedChampions.slice(0, 3).map((champ) => (
+            <div class="w-6 h-6 rounded-full border border-[#c99a45]/60 overflow-hidden bg-[#070b0d]" title={champ.name}>
+              {champ.imageUri ? (
+                <img src={champ.imageUri} alt={champ.name} class="w-full h-full object-cover" loading="lazy" />
+              ) : (
+                <div class="w-full h-full bg-[#121c21] flex items-center justify-center text-[8px] text-white">
+                  {champ.name.slice(0, 1)}
+                </div>
+              )}
+            </div>
+          ))}
+          {region.associatedChampions.length > 3 && (
+            <div class="w-6 h-6 rounded-full border border-[#2d3435] bg-[#070b0d] flex items-center justify-center text-[9px] text-[#a89f90] font-semibold">
+              +{region.associatedChampions.length - 3}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+
+  </div>
+</a>

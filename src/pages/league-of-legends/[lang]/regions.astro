@@ -1,6 +1,9 @@
 ---
 import Layout from "../_components/Layout.astro";
+import RegionHero from "../_components/RegionHero.astro";
+import RegionList from "../_components/RegionList.astro";
 import { getI18n, supportedLocales } from "../_data/i18n";
+import { getRegions } from "../_data/regions";
 
 export function getStaticPaths() {
   return supportedLocales.map((locale) => ({
@@ -10,13 +13,13 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params;
 const { t, lang: currentLang } = getI18n(lang);
+const regions = await getRegions();
 ---
 
 <Layout
-  title={`${t.nav.regions} | ${t.meta.title}`}
-  desc={t.universePage.desc}
+  title={`${t.nav.regions} - ${t.regionsPage.title} | ${t.meta.title}`}
+  desc={t.regionsPage.desc}
   lang={currentLang}
 >
-  <h1>regions</h1>
- 
+  <RegionHero lang={currentLang} regions={regions} />
 </Layout>

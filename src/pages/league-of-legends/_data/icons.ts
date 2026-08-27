@@ -159,6 +159,7 @@ export const REGION_CREST_ICONS: Record<string, ImageMetadata> = {
   ixtal: IxtalCrestIcon,
   targon: MtTargonCrestIcon,
   "mt-targon": MtTargonCrestIcon,
+  "mount-targon": MtTargonCrestIcon,
   mttargon: MtTargonCrestIcon,
   noxus: NoxusCrestIcon,
   piltover: PiltoverCrestIcon,

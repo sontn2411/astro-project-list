@@ -47,6 +47,18 @@ export const translations: Record<
       title: string;
       desc: string;
     };
+    regionsPage: {
+      tagline: string;
+      title: string;
+      desc: string;
+      searchPlaceholder: string;
+      totalRegionsLabel: string;
+      associatedChampionsLabel: string;
+      viewDetails: string;
+      noResultsTitle: string;
+      noResultsDesc: string;
+      clearFilter: string;
+    };
     newsPage: {
       title: string;
       desc: string;
@@ -95,6 +107,18 @@ export const translations: Record<
       title: 'Vũ Trụ Runeterra',
       desc: 'Khám phá lịch sử, vùng đất và câu chuyện sử thi của các vị tướng Runeterra.',
     },
+    regionsPage: {
+      tagline: 'VÙNG ĐẤT RUNETERRA',
+      title: 'CÁC VÙNG ĐẤT',
+      desc: 'Từ vương quốc Demacia kiêu hãnh đến xứ tuyết băng giá Freljord và cõi hư không The Void huyền bí. Khám phá các vùng đất tạo nên thế giới Liên Minh Huyền Thoại.',
+      searchPlaceholder: 'Tìm kiếm vùng đất hoặc thủ phủ...',
+      totalRegionsLabel: 'TỔNG SỐ VÙNG ĐẤT',
+      associatedChampionsLabel: 'Tướng trực thuộc',
+      viewDetails: 'KHÁM PHÁ CHI TIẾT',
+      noResultsTitle: 'Không tìm thấy vùng đất nào',
+      noResultsDesc: 'Hãy thử tìm kiếm với tên vùng đất hoặc từ khóa khác.',
+      clearFilter: 'XÓA TÌM KIẾM',
+    },
     newsPage: {
       title: 'Tin Tức & Bản Cập Nhật',
       desc: 'Cập nhật tin tức sự kiện, bản vá và thông báo mới nhất từ Riot Games.',
@@ -142,6 +166,18 @@ export const translations: Record<
     universePage: {
       title: 'Runeterra Universe',
       desc: 'Explore the lore, regions, and epic stories behind the champions of Runeterra.',
+    },
+    regionsPage: {
+      tagline: 'REALMS OF RUNETERRA',
+      title: 'REGIONS',
+      desc: 'From the proud kingdom of Demacia to the frozen wastes of the Freljord and the mysterious Void. Explore the factions and realms that shape the League of Legends universe.',
+      searchPlaceholder: 'Search regions or territories...',
+      totalRegionsLabel: 'TOTAL REGIONS',
+      associatedChampionsLabel: 'Champions',
+      viewDetails: 'EXPLORE REGION',
+      noResultsTitle: 'No regions found',
+      noResultsDesc: 'Try searching with a different region name or keyword.',
+      clearFilter: 'CLEAR SEARCH',
     },
     newsPage: {
       title: 'News & Patch Notes',
