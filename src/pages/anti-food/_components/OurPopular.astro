@@ -1,0 +1,196 @@
+---
+import SectionTitle from "./SectionTitle.astro";
+import { Icon } from "astro-icon/components";
+import leaf1 from '../_assets/leaf-1.png';
+import leaf2 from '../_assets/leaf-2.png';
+
+const categories = [
+  {
+    id: 1,
+    name: "Breakfast",
+    subtitle: "Start Your Day",
+    image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=80",
+    link: "#breakfast",
+  },
+  {
+    id: 2,
+    name: "Main Course",
+    subtitle: "Hearty & Delicious",
+    image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
+    link: "#main-course",
+  },
+  {
+    id: 3,
+    name: "Pasta",
+    subtitle: "Classic Favorites",
+    image: "https://images.unsplash.com/photo-1621996346565-e3d5d6281240?w=500&auto=format&fit=crop&q=80",
+    link: "#pasta",
+  },
+  {
+    id: 4,
+    name: "Pizza",
+    subtitle: "Wood Fired",
+    image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80",
+    link: "#pizza",
+  },
+  {
+    id: 5,
+    name: "Desserts",
+    subtitle: "Sweet Moments",
+    image: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=500&auto=format&fit=crop&q=80",
+    link: "#desserts",
+  },
+  {
+    id: 6,
+    name: "Beverages",
+    subtitle: "Fresh & Refreshing",
+    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    link: "#beverages",
+  },
+  {
+    id: 7,
+    name: "Salad Bowls",
+    subtitle: "Healthy & Green",
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&auto=format&fit=crop&q=80",
+    link: "#salads",
+  },
+];
+---
+
+<section class="py-8 md:py-14 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative">
+    <!-- Header Title -->
+    <SectionTitle
+      tag="WHAT WE SERVE"
+      title="Our Popular Categories"
+      desc="Explore our diverse menu crafted with the freshest ingredients and a passion for great taste."
+      theme="light"
+    />
+    <div class="absolute top-0 left-0 pointer-events-none select-none">
+      <img src={leaf1.src} alt='leaf-1' class='w-[100%] h-[100%] object-contain  origin-top-left' />
+    </div>
+
+      <div class="absolute top-10 right-10 pointer-events-none select-none">
+      <img src={leaf2.src} alt='leaf-2' class='w-[100%] h-[100%] object-contain  origin-top-right' />
+    </div>
+
+    <!-- Swiper Carousel -->
+    <div class="relative mt-10 md:mt-12">
+      <!-- Navigation Buttons -->
+      <!-- <div class="hidden sm:flex items-center justify-end gap-2 mb-4">
+        <button
+          class="popular-prev w-9 h-9 rounded-full border border-gray-200 text-gray-700 flex items-center justify-center hover:bg-primary-4 hover:border-primary-4 hover:text-[#1b3229] transition-all cursor-pointer shadow-sm active:scale-90"
+          aria-label="Previous Slide"
+        >
+          <Icon name="lucide:chevron-left" class="w-4 h-4" />
+        </button>
+        <button
+          class="popular-next w-9 h-9 rounded-full border border-gray-200 text-gray-700 flex items-center justify-center hover:bg-primary-4 hover:border-primary-4 hover:text-[#1b3229] transition-all cursor-pointer shadow-sm active:scale-90"
+          aria-label="Next Slide"
+        >
+          <Icon name="lucide:chevron-right" class="w-4 h-4" />
+        </button>
+      </div> -->
+
+      <!-- Slider Main Container -->
+      <div class="swiper popular-swiper !py-4 !px-1">
+        <div class="swiper-wrapper">
+          {
+            categories.map((item) => (
+              <div class="swiper-slide h-auto">
+                <a
+                  href={item.link}
+                  class="h-full bg-white rounded-3xl p-6 sm:p-7 flex flex-col items-center text-center  border border-gray-100 transition-all duration-300 group hover:-translate-y-1 block"
+                >
+                  <!-- Hình ảnh tròn -->
+                  <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden mb-5 ring-4 ring-gray-50/80 shadow-md group-hover:scale-105 transition-transform duration-500">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  <!-- Tên danh mục -->
+                  <h3 class="font-bold text-gray-900 text-lg sm:text-xl font-['Cormorant_Garamond',serif] tracking-tight group-hover:text-amber-600 transition-colors">
+                    {item.name}
+                  </h3>
+
+                  <!-- Mô tả phụ -->
+                  <p class="text-xs sm:text-sm text-gray-500 mt-1">
+                    {item.subtitle}
+                  </p>
+
+                  <!-- Nút mũi tên tròn màu đen -->
+                  <div class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center mt-6 group-hover:bg-primary-4 group-hover:text-[#1b3229] transition-all duration-300 shadow-sm">
+                    <Icon
+                      name="lucide:arrow-right"
+                      class="w-4 h-4 transition-transform group-hover:translate-x-0.5"
+                    />
+                  </div>
+                </a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Autoplay } from "swiper/modules";
+  import "swiper/css";
+
+  function initPopularSwiper() {
+    const el = document.querySelector(".popular-swiper") as any;
+    if (el && !el.swiper) {
+      el.swiper = new Swiper(el, {
+        modules: [Navigation, Autoplay],
+        slidesPerView: 1.2,
+        spaceBetween: 20,
+        grabCursor: true,
+        loop: true,
+        autoplay: {
+          delay: 3500,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        navigation: {
+          prevEl: ".popular-prev",
+          nextEl: ".popular-next",
+        },
+        breakpoints: {
+          480: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 24,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 24,
+          },
+          1280: {
+            slidesPerView: 5,
+            spaceBetween: 24,
+          },
+        },
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", initPopularSwiper);
+
+  document.addEventListener("astro:before-swap", () => {
+    const el = document.querySelector(".popular-swiper") as any;
+    if (el && el.swiper) {
+      el.swiper.destroy(true, true);
+      el.swiper = null;
+    }
+  });
+</script>

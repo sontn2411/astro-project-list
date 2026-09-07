@@ -1,4 +1,9 @@
 @theme {
   /* Brand colors */
   --color-primary-4: #fcc640;
+  --color-dark-green: #0b2114;
+  --color-cream-bg: #fbf8f2;
+
+  /* Fonts */
+  --font-pacifico: "Pacifico", cursive;
 }

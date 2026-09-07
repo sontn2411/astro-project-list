@@ -1,0 +1,238 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<section id="reservation" class="bg-dark-green py-16 md:py-24 relative overflow-hidden text-white scroll-mt-20">
+  <!-- Culinary background image on the right -->
+  <div class="absolute right-0 top-0 bottom-0 w-full lg:w-3/5 xl:w-2/3 pointer-events-none select-none z-0 overflow-hidden">
+    <div class="relative w-full h-full">
+      <img
+        src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80"
+        alt="Restaurant Ambience"
+        class="w-full h-full object-cover object-right opacity-70 sm:opacity-80 scale-105"
+        loading="lazy"
+      />
+      <!-- Gradient overlays: blends smoothly into dark-green on the left, top, and bottom -->
+      <div class="absolute inset-0 bg-gradient-to-r from-dark-green via-dark-green/65 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-dark-green via-transparent to-dark-green"></div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+      
+      <!-- Cột bên trái: Content & Thông tin liên hệ -->
+      <div class="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-8">
+        <!-- Tag / Eyebrow -->
+        <p class="text-primary-4 text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-1.5">
+          <span>#</span>
+          <span>BOOK A TABLE</span>
+        </p>
+
+        <!-- Tiêu đề lớn Serif -->
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-['Cormorant_Garamond',serif] leading-[1.15] tracking-tight text-white">
+          Reserve Your <br />
+          Table Today
+        </h2>
+
+        <!-- Đoạn mô tả -->
+        <p class="text-white/70 text-sm sm:text-base leading-relaxed max-w-lg font-['Mulish',sans-serif]">
+          Experience the perfect blend of great food, warm ambiance and exceptional service.
+        </p>
+
+        <!-- Thông tin Giờ hoạt động & Địa chỉ -->
+        <div class="space-y-4 pt-2">
+          <!-- Mon - Sun -->
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full   flex items-center justify-center text-primary-4 shrink-0 shadow-md">
+              <Icon name="lucide:clock" class="w-5 h-5 text-primary-4" />
+            </div>
+            <div>
+              <p class="text-white font-bold text-sm sm:text-base leading-snug">
+                Mon - Sun:
+              </p>
+              <p class="text-white/70 text-xs sm:text-sm">
+                11:00 AM - 11:00 PM
+              </p>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full   flex items-center justify-center text-primary-4 shrink-0 shadow-md">
+              <Icon name="lucide:map-pin" class="w-5 h-5 text-primary-4" />
+            </div>
+            <div>
+              <p class="text-white font-bold text-sm sm:text-base leading-snug">
+                Location
+              </p>
+              <p class="text-white/70 text-xs sm:text-sm">
+                123 Food Street, New York
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chữ viết tay 'Good Food Good Mood' và mũi tên vẽ tay -->
+        <div class="pt-6 sm:pt-10 flex items-center gap-4 sm:gap-6 select-none">
+          <div class="font-pacifico text-primary-4 text-2xl sm:text-3xl -rotate-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+           " Good Food<br />Good Mood " 
+          </div>
+
+          <!-- Mũi tên uốn cong chỉ sang form đặt bàn -->
+          <svg
+            class="w-16 sm:w-20 h-auto text-white/70 drop-shadow-sm -rotate-6"
+            viewBox="0 0 80 40"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M 6 28 C 24 32, 54 26, 72 12"></path>
+            <path d="M 62 8 L 74 11 L 67 22"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Cột bên phải: Form Đặt Bàn (White Card) -->
+      <div class="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl w-full max-w-lg text-gray-900">
+          <form class="space-y-4 sm:space-y-5" id="booking-form">
+            <!-- Full Name -->
+            <div>
+              <label for="fullName" class="block text-xs sm:text-sm font-bold text-gray-800 mb-1.5 font-['Mulish',sans-serif]">
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Your name"
+                required
+                class="w-full px-4 py-3 rounded-xl bg-gray-50/90 border border-gray-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-primary-4 focus:ring-2 focus:ring-primary-4/20 transition-all font-['Mulish',sans-serif]"
+              />
+            </div>
+
+            <!-- Phone Number -->
+            <div>
+              <label for="phoneNumber" class="block text-xs sm:text-sm font-bold text-gray-800 mb-1.5 font-['Mulish',sans-serif]">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                placeholder="+1 234 567 8900"
+                required
+                class="w-full px-4 py-3 rounded-xl bg-gray-50/90 border border-gray-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-primary-4 focus:ring-2 focus:ring-primary-4/20 transition-all font-['Mulish',sans-serif]"
+              />
+            </div>
+
+            <!-- Date & Time (2 columns) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Date -->
+              <div>
+                <label for="bookingDate" class="block text-xs sm:text-sm font-bold text-gray-800 mb-1.5 font-['Mulish',sans-serif]">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  id="bookingDate"
+                  name="bookingDate"
+                  required
+                  class="w-full px-4 py-3 rounded-xl bg-gray-50/90 border border-gray-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-primary-4 focus:ring-2 focus:ring-primary-4/20 transition-all font-['Mulish',sans-serif]"
+                />
+              </div>
+
+              <!-- Time -->
+              <div>
+                <label for="bookingTime" class="block text-xs sm:text-sm font-bold text-gray-800 mb-1.5 font-['Mulish',sans-serif]">
+                  Time
+                </label>
+                <div class="relative">
+                  <select
+                    id="bookingTime"
+                    name="bookingTime"
+                    required
+                    class="w-full px-4 py-3 rounded-xl bg-gray-50/90 border border-gray-200 text-sm text-gray-800 appearance-none focus:outline-none focus:border-primary-4 focus:ring-2 focus:ring-primary-4/20 transition-all font-['Mulish',sans-serif] pr-10 cursor-pointer"
+                  >
+                    <option value="" disabled selected>Select time</option>
+                    <option value="11:00 AM">11:00 AM</option>
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="01:00 PM">01:00 PM</option>
+                    <option value="06:00 PM">06:00 PM</option>
+                    <option value="07:00 PM">07:00 PM</option>
+                    <option value="08:00 PM">08:00 PM</option>
+                    <option value="09:00 PM">09:00 PM</option>
+                  </select>
+                  <Icon
+                    name="lucide:chevron-down"
+                    class="w-4 h-4 text-gray-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Number of Guests -->
+            <div>
+              <label for="guests" class="block text-xs sm:text-sm font-bold text-gray-800 mb-1.5 font-['Mulish',sans-serif]">
+                Number of Guests
+              </label>
+              <div class="relative">
+                <select
+                  id="guests"
+                  name="guests"
+                  required
+                  class="w-full px-4 py-3 rounded-xl bg-gray-50/90 border border-gray-200 text-sm text-gray-800 appearance-none focus:outline-none focus:border-primary-4 focus:ring-2 focus:ring-primary-4/20 transition-all font-['Mulish',sans-serif] pr-10 cursor-pointer"
+                >
+                  <option value="1 Guest">1 Guest</option>
+                  <option value="2 Guests" selected>2 Guests</option>
+                  <option value="3 Guests">3 Guests</option>
+                  <option value="4 Guests">4 Guests</option>
+                  <option value="5 Guests">5 Guests</option>
+                  <option value="6+ Guests">6+ Guests</option>
+                </select>
+                <Icon
+                  name="lucide:chevron-down"
+                  class="w-4 h-4 text-gray-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-2">
+              <button
+                type="submit"
+                class="w-full py-3.5 sm:py-4 rounded-xl bg-primary-4 text-[#1b3229] font-bold text-sm sm:text-base hover:bg-primary-4/90 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 active:scale-[0.98] cursor-pointer group"
+              >
+                <span>Book a Table</span>
+                <Icon
+                  name="lucide:arrow-right"
+                  class="w-4 h-4 transition-transform group-hover:translate-x-1"
+                />
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupBookingForm() {
+    const form = document.getElementById("booking-form") as HTMLFormElement | null;
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Thank you! Your table reservation has been received.");
+      form.reset();
+    });
+  }
+
+  setupBookingForm();
+  document.addEventListener("astro:page-load", setupBookingForm);
+</script>

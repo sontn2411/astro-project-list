@@ -1,0 +1,104 @@
+---
+import SectionTitle from "./SectionTitle.astro";
+import { Icon } from "astro-icon/components";
+
+const testimonials = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    role: "Food Blogger",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80",
+    rating: 5,
+    comment:
+      "Anti is hands down the best restaurant in town! The food, ambience and service are absolutely amazing.",
+  },
+  {
+    id: 2,
+    name: "Michael Smith",
+    role: "Regular Customer",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
+    rating: 5,
+    comment:
+      "Every dish we tried was perfect. Fresh ingredients, creative flavors and a cozy atmosphere. Highly recommended!",
+  },
+  {
+    id: 3,
+    name: "Emily Davis",
+    role: "Travel Blogger",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&auto=format&fit=crop&q=80",
+    rating: 5,
+    comment:
+      "A hidden gem! The pasta and pizza were incredible. The staff is so friendly and made our experience even better.",
+  },
+];
+---
+
+<section class="py-16 md:py-24 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header Title -->
+    <SectionTitle
+      tag="TESTIMONIALS"
+      title="What Our Guests Are Saying"
+      desc="Real stories from our amazing customers."
+      align="center"
+    />
+
+    <!-- Testimonials Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-12 md:mt-16">
+      {
+        testimonials.map((item) => (
+          <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-black/5 border border-black/5 flex flex-col justify-between hover:-translate-y-1.5 transition-all duration-300 group">
+            <div class="space-y-4">
+              <!-- Customer Profile -->
+              <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-gray-100 shadow-sm bg-gray-50">
+                  <img
+                    src={item.avatar}
+                    alt={item.name}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <h3 class="font-bold text-gray-900 text-base sm:text-lg leading-snug">
+                    {item.name}
+                  </h3>
+                  <p class="text-xs sm:text-sm text-gray-500 font-['Mulish',sans-serif]">
+                    {item.role}
+                  </p>
+                </div>
+              </div>
+
+              <!-- 5 Stars Rating -->
+              <div class="flex items-center gap-1 text-amber-400">
+                {Array.from({ length: item.rating }).map(() => (
+                  <Icon
+                    name="lucide:star"
+                    class="w-4 h-4 fill-amber-400 text-amber-400"
+                  />
+                ))}
+              </div>
+
+              <!-- Review Text -->
+              <p class="text-gray-600 text-sm sm:text-base leading-relaxed font-['Mulish',sans-serif]">
+                "{item.comment}"
+              </p>
+            </div>
+
+            <!-- Stylized Quote Icon at bottom -->
+            <div class="pt-6 select-none pointer-events-none text-gray-300/80 group-hover:text-primary-4/50 transition-colors">
+              <svg
+                class="w-8 h-8"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

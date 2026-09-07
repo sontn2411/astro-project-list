@@ -1,0 +1,386 @@
+---
+import SectionTitle from "./SectionTitle.astro";
+
+const categories = [
+  { id: "all", name: "All" },
+  { id: "breakfast", name: "Breakfast" },
+  { id: "main-course", name: "Main Course" },
+  { id: "pasta", name: "Pasta" },
+  { id: "pizza", name: "Pizza" },
+  { id: "desserts", name: "Desserts" },
+  { id: "drinks", name: "Drinks" },
+];
+
+const menuItems = [
+  {
+    id: 1,
+    name: "Avocado Toast",
+    category: "breakfast",
+    description: "Fresh avocado, sourdough, herbs",
+    price: "$8.00",
+    image: "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 2,
+    name: "Margherita Pizza",
+    category: "pizza",
+    description: "Fresh tomato, mozzarella, basil",
+    price: "$10.00",
+    image: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 3,
+    name: "Chicken Caesar Salad",
+    category: "breakfast",
+    description: "Grilled chicken, romaine, parmesan",
+    price: "$10.00",
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 4,
+    name: "Thai Green Curry",
+    category: "main-course",
+    description: "Chicken, coconut milk, herbs",
+    price: "$11.00",
+    image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 5,
+    name: "Spaghetti Carbonara",
+    category: "pasta",
+    description: "Creamy sauce, parmesan, bacon",
+    price: "$11.00",
+    image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 6,
+    name: "Beef Steak",
+    category: "main-course",
+    description: "Grilled steak, seasonal veg",
+    price: "$15.00",
+    image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 7,
+    name: "BBQ Burger",
+    category: "main-course",
+    description: "Beef patty, cheddar, BBQ sauce",
+    price: "$12.00",
+    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 8,
+    name: "Chocolate Lava Cake",
+    category: "desserts",
+    description: "Warm cake, vanilla ice cream",
+    price: "$6.00",
+    image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 9,
+    name: "Truffle Fettuccine",
+    category: "pasta",
+    description: "Wild mushrooms, black truffle cream, parmigiano",
+    price: "$14.00",
+    image: "https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 10,
+    name: "Pepperoni & Honey Pizza",
+    category: "pizza",
+    description: "Artisan pepperoni, hot honey, mozzarella",
+    price: "$13.00",
+    image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 11,
+    name: "Classic Italian Tiramisu",
+    category: "desserts",
+    description: "Espresso soaked ladyfingers, mascarpone cream",
+    price: "$7.50",
+    image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 12,
+    name: "Berry Sparkler Mocktail",
+    category: "drinks",
+    description: "Fresh wild berries, garden mint, sparkling soda",
+    price: "$5.50",
+    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 13,
+    name: "Matcha Citrus Cooler",
+    category: "drinks",
+    description: "Ceremonial Uji matcha, fresh yuzu, tonic",
+    price: "$6.00",
+    image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 14,
+    name: "Pan-Seared Salmon",
+    category: "main-course",
+    description: "Crispy skin salmon, asparagus, lemon butter",
+    price: "$16.00",
+    image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 15,
+    name: "Four Cheese Gnocchi",
+    category: "pasta",
+    description: "Handmade potato gnocchi, gorgonzola sauce",
+    price: "$13.50",
+    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 16,
+    name: "Burrata Caprese Salad",
+    category: "breakfast",
+    description: "Creamy burrata, heirloom tomatoes, pesto",
+    price: "$11.00",
+    image: "https://images.unsplash.com/photo-1592417817098-8f3d6910985b?w=400&auto=format&fit=crop&q=80",
+  },
+];
+---
+
+<section id="menu" class="py-16 md:py-24 relative overflow-hidden scroll-mt-20">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header Title -->
+    <SectionTitle
+      tag="Restaurant Menu"
+      title="Our Menu"
+      desc="Taste the authenticity of Italian cuisine, prepared with love"
+      align="center"
+    />
+
+    <!-- Category Tabs -->
+    <div class="flex items-center justify-center flex-wrap gap-2 sm:gap-3 mt-8 sm:mt-10">
+      {
+        categories.map((cat, index) => (
+          <button
+            type="button"
+            data-category-tab={cat.id}
+            class:list={[
+              "menu-tab px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer select-none",
+              index === 0
+                ? "bg-primary-4 text-[#1b3229] shadow-md active-tab"
+                : "bg-white/80 hover:bg-white text-gray-600 hover:text-gray-900 border border-gray-200/80 shadow-xs",
+            ]}
+          >
+            {cat.name}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Menu Items Wrapper with fixed minimum height to prevent layout shifting -->
+    <div class="mt-12 sm:mt-14 min-h-[460px] md:min-h-[500px]">
+      <div
+        id="menu-items-grid"
+        class="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-x-14 gap-y-7 sm:gap-y-8 content-start"
+      >
+        {
+          menuItems.map((item) => (
+            <div
+              data-menu-item
+              data-item-category={item.category}
+              class="menu-item flex items-center gap-4 sm:gap-5 group p-2 rounded-2xl hover:bg-white/60 transition-all duration-300"
+            >
+              <!-- Circular Dish Image -->
+              <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden shrink-0 shadow-md border-2 border-white bg-amber-50">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+
+              <!-- Dish Info -->
+              <div class="flex-1 min-w-0">
+                <h3 class="font-['Cormorant_Garamond',serif] font-bold text-lg sm:text-xl text-gray-900 group-hover:text-amber-700 transition-colors truncate">
+                  {item.name}
+                </h3>
+                <p class="text-xs sm:text-sm text-gray-500 mt-0.5 font-['Mulish',sans-serif] line-clamp-1">
+                  {item.description}
+                </p>
+                <p class="font-bold text-base sm:text-lg text-gray-900 mt-1 font-['Mulish',sans-serif]">
+                  {item.price}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Dynamic Pagination Bar -->
+    <div
+      id="menu-pagination"
+      class="flex items-center justify-center gap-2 sm:gap-2.5 mt-10 sm:mt-12 select-none"
+    >
+      <!-- Populated dynamically via JavaScript -->
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupMenuTabsAndPagination() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>("[data-category-tab]");
+    const allItems = Array.from(document.querySelectorAll<HTMLElement>("[data-menu-item]"));
+    const paginationEl = document.getElementById("menu-pagination");
+
+    const ITEMS_PER_PAGE = 8;
+    let currentCategory = "all";
+    let currentPage = 1;
+
+    function render() {
+      // 1. Filter items by category
+      const filteredItems = allItems.filter((item) => {
+        const itemCategory = item.getAttribute("data-item-category");
+        return currentCategory === "all" || itemCategory === currentCategory;
+      });
+
+      const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+      if (currentPage > totalPages && totalPages > 0) {
+        currentPage = totalPages;
+      }
+      if (currentPage < 1) {
+        currentPage = 1;
+      }
+
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = startIndex + ITEMS_PER_PAGE;
+
+      // 2. Hide all items first
+      allItems.forEach((item) => {
+        item.style.display = "none";
+      });
+
+      // 3. Display items for current page with fade/scale effect
+      filteredItems.forEach((item, index) => {
+        if (index >= startIndex && index < endIndex) {
+          item.style.display = "flex";
+          item.style.opacity = "0";
+          item.style.transform = "scale(0.96)";
+          requestAnimationFrame(() => {
+            item.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+            item.style.opacity = "1";
+            item.style.transform = "scale(1)";
+          });
+        }
+      });
+
+      // 4. Render Pagination Controls
+      if (!paginationEl) return;
+
+      if (totalPages <= 1) {
+        paginationEl.innerHTML = "";
+        paginationEl.style.display = "none";
+        return;
+      }
+
+      paginationEl.style.display = "flex";
+      let html = "";
+
+      // Prev Button
+      const isPrevDisabled = currentPage === 1;
+      html += `
+        <button
+          type="button"
+          data-page="prev"
+          ${isPrevDisabled ? "disabled" : ""}
+          class="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-gray-200/80 text-gray-700 hover:bg-amber-50 hover:text-gray-900 transition-all duration-200 shadow-xs cursor-pointer disabled:opacity-40 disabled:pointer-events-none"
+          aria-label="Previous page"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+      `;
+
+      // Page Number Buttons
+      for (let p = 1; p <= totalPages; p++) {
+        const isActive = p === currentPage;
+        html += `
+          <button
+            type="button"
+            data-page="${p}"
+            class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200 shadow-xs cursor-pointer ${
+              isActive
+                ? "bg-primary-4 text-[#1b3229] shadow-md scale-105"
+                : "bg-white hover:bg-amber-50 text-gray-700 border border-gray-200/80"
+            }"
+          >
+            ${p}
+          </button>
+        `;
+      }
+
+      // Next Button
+      const isNextDisabled = currentPage === totalPages;
+      html += `
+        <button
+          type="button"
+          data-page="next"
+          ${isNextDisabled ? "disabled" : ""}
+          class="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-gray-200/80 text-gray-700 hover:bg-amber-50 hover:text-gray-900 transition-all duration-200 shadow-xs cursor-pointer disabled:opacity-40 disabled:pointer-events-none"
+          aria-label="Next page"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      `;
+
+      paginationEl.innerHTML = html;
+
+      // Attach pagination button click listeners
+      paginationEl.querySelectorAll<HTMLButtonElement>("[data-page]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const action = btn.getAttribute("data-page");
+          if (action === "prev" && currentPage > 1) {
+            currentPage--;
+          } else if (action === "next" && currentPage < totalPages) {
+            currentPage++;
+          } else if (action && !isNaN(Number(action))) {
+            currentPage = Number(action);
+          }
+          render();
+
+          // Smooth scroll to top of menu section if user is scrolled down
+          const menuSection = document.getElementById("menu");
+          if (menuSection) {
+            const rect = menuSection.getBoundingClientRect();
+            if (rect.top < 0) {
+              menuSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }
+        });
+      });
+    }
+
+    // Tab click listeners
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const cat = tab.getAttribute("data-category-tab") || "all";
+        currentCategory = cat;
+        currentPage = 1; // Reset to page 1 on category change
+
+        // Update active tab styles
+        tabs.forEach((t) => {
+          t.classList.remove("bg-primary-4", "text-[#1b3229]", "shadow-md", "active-tab");
+          t.classList.add("bg-white/80", "text-gray-600", "border", "border-gray-200/80", "shadow-xs");
+        });
+
+        tab.classList.add("bg-primary-4", "text-[#1b3229]", "shadow-md", "active-tab");
+        tab.classList.remove("bg-white/80", "text-gray-600", "border", "border-gray-200/80", "shadow-xs");
+
+        render();
+      });
+    });
+
+    // Initial render
+    render();
+  }
+
+  // Setup on page load and astro page swap
+  setupMenuTabsAndPagination();
+  document.addEventListener("astro:page-load", setupMenuTabsAndPagination);
+</script>

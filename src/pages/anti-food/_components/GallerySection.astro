@@ -1,0 +1,182 @@
+---
+import SectionTitle from "./SectionTitle.astro";
+
+const categories = [
+  { id: "all", name: "All" },
+  { id: "food", name: "Food" },
+  { id: "interior", name: "Interior" },
+  { id: "events", name: "Events" },
+];
+
+const galleryItems = [
+  {
+    id: 1,
+    title: "Gourmet Pasta",
+    category: "food",
+    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 2,
+    title: "Warm Ambience",
+    category: "interior",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 3,
+    title: "Artisan Pizza",
+    category: "food",
+    image: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 4,
+    title: "Signature Cocktail",
+    category: "events",
+    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 5,
+    title: "Chocolate Fondant",
+    category: "food",
+    image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 6,
+    title: "Cozy Dining Room",
+    category: "interior",
+    image: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 7,
+    title: "Prime Beef Steak",
+    category: "food",
+    image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 8,
+    title: "Cocktail Evening",
+    category: "events",
+    image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 9,
+    title: "Bar Atmosphere",
+    category: "interior",
+    image: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=700&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 10,
+    title: "Celebration Gathering",
+    category: "events",
+    image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=700&auto=format&fit=crop&q=80",
+  },
+];
+---
+
+<section id="gallery" class="bg-dark-green py-16 md:py-24 relative overflow-hidden text-white scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header Title -->
+    <SectionTitle
+      tag="OUR GALLERY"
+      title="A Glimpse of Our Food & Vibes"
+      desc="Take a look at some of our favorite moments, dishes and cozy atmosphere."
+      theme="dark"
+      align="center"
+    />
+
+    <!-- Filter Category Tabs -->
+    <div class="flex items-center justify-center flex-wrap gap-2.5 sm:gap-3.5 mt-8 sm:mt-10">
+      {
+        categories.map((cat, index) => (
+          <button
+            type="button"
+            data-gallery-tab={cat.id}
+            class:list={[
+              "gallery-tab px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer select-none",
+              index === 0
+                ? "bg-primary-4 text-[#1b3229] shadow-md active-tab"
+                : "bg-[#112a1c] hover:bg-[#183926] text-white/80 hover:text-white border border-white/10 hover:border-primary-4/40 shadow-xs",
+            ]}
+          >
+            {cat.name}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Gallery Grid (5 columns on large screen, matching reference) -->
+    <div class="mt-12 sm:mt-14 min-h-[360px] sm:min-h-[420px]">
+      <div
+        id="gallery-grid"
+        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-5 content-start"
+      >
+        {
+          galleryItems.map((item) => (
+            <div
+              data-gallery-item
+              data-item-category={item.category}
+              class="gallery-item group relative aspect-3/4 sm:aspect-4/5 lg:aspect-3/4 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-[#112a1c] border border-white/10"
+            >
+              <img
+                src={item.image}
+                alt={item.title}
+                class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                loading="lazy"
+              />
+
+              <!-- Hover Gradient Overlay & Title -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-5">
+                <span class="text-white font-['Cormorant_Garamond',serif] font-bold text-base sm:text-lg tracking-wide transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                  {item.title}
+                </span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupGalleryTabs() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>("[data-gallery-tab]");
+    const items = document.querySelectorAll<HTMLElement>("[data-gallery-item]");
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const category = tab.getAttribute("data-gallery-tab");
+
+        // Update active tab styles
+        tabs.forEach((t) => {
+          t.classList.remove("bg-primary-4", "text-[#1b3229]", "shadow-md", "active-tab");
+          t.classList.add("bg-[#112a1c]", "text-white/80", "border", "border-white/10", "shadow-xs");
+        });
+
+        tab.classList.add("bg-primary-4", "text-[#1b3229]", "shadow-md", "active-tab");
+        tab.classList.remove("bg-[#112a1c]", "text-white/80", "border", "border-white/10", "shadow-xs");
+
+        // Filter gallery items with smooth fade & scale
+        items.forEach((item) => {
+          const itemCategory = item.getAttribute("data-item-category");
+          const shouldShow = category === "all" || itemCategory === category;
+
+          if (shouldShow) {
+            item.style.display = "block";
+            item.style.opacity = "0";
+            item.style.transform = "scale(0.95)";
+            requestAnimationFrame(() => {
+              item.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+              item.style.opacity = "1";
+              item.style.transform = "scale(1)";
+            });
+          } else {
+            item.style.display = "none";
+          }
+        });
+      });
+    });
+  }
+
+  setupGalleryTabs();
+  document.addEventListener("astro:page-load", setupGalleryTabs);
+</script>

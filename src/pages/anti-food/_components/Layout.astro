@@ -1,10 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import Header from './Header.astro';
-
-
-
-
+import { Icon } from "astro-icon/components";
 
 interface Props {
   title: string;
@@ -20,17 +17,64 @@ const { title, desc } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Pacifico&display=swap"
       rel="stylesheet"
     />
   </Fragment>
 
-  
-
-  <main transition:animate="fade" class="font-sans space-y-10 mb-20">
+  <div class="bg-[#fbf8f2] min-h-screen text-gray-800 relative">
     <Header />
-    <slot />
-  </main>
+    <main transition:animate="fade" class="font-sans">
+      <slot />
+    </main>
 
- 
+    <!-- Nút Scroll to Top ở góc phải dưới -->
+    <button
+      id="back-to-top"
+      type="button"
+      aria-label="Back to top"
+      class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-primary-4 text-[#1b3229] shadow-xl shadow-black/25 flex items-center justify-center hover:bg-primary-4/90 hover:scale-110 active:scale-95 transition-all duration-300 opacity-0 translate-y-6 pointer-events-none cursor-pointer border border-black/10 group"
+    >
+      <Icon
+        name="lucide:arrow-up"
+        class="w-5 h-5 transition-transform group-hover:-translate-y-0.5"
+      />
+    </button>
+  </div>
 </Layout>
+
+<script>
+  function setupBackToTop() {
+    const btn = document.getElementById("back-to-top");
+    if (!btn) return;
+
+    function checkScroll() {
+      if (window.scrollY > 350) {
+        btn?.classList.remove("opacity-0", "translate-y-6", "pointer-events-none");
+        btn?.classList.add("opacity-100", "translate-y-0", "pointer-events-auto");
+      } else {
+        btn?.classList.add("opacity-0", "translate-y-6", "pointer-events-none");
+        btn?.classList.remove("opacity-100", "translate-y-0", "pointer-events-auto");
+      }
+    }
+
+    btn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+
+    window.addEventListener("scroll", checkScroll, { passive: true });
+    checkScroll();
+  }
+
+  setupBackToTop();
+  document.addEventListener("astro:page-load", setupBackToTop);
+</script>
+
+<style is:global>
+  body {
+    background-color: #fbf8f2;
+  }
+</style>

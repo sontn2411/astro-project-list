@@ -5,75 +5,192 @@ const dataMenu = [
   {
     id: 1,
     name: "Home",
-    path: '#',
+    path: "#home",
     active: true,
   },
   {
     id: 2,
     name: "About",
-    path: '#about',
+    path: "#about",
     active: false,
   },
   {
     id: 3,
     name: "Menu",
-    path: '#menu',
+    path: "#menu",
     active: false,
   },
   {
     id: 6,
     name: "Gallery",
-    path: '#gallery',
+    path: "#gallery",
     active: false,
   },
   {
     id: 5,
     name: "Reservation",
-    path: '#reservation',
+    path: "#reservation",
     active: false,
   },
   {
     id: 4,
     name: "Contact",
-    path: '#contact',
+    path: "#contact",
     active: false,
-  }
-]
-
+  },
+];
 ---
 
-<header class="fixed top-0 left-0 w-full z-50">
-  <div class="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+<header
+  id="main-header"
+  class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent"
+>
+  <div
+    id="header-inner"
+    class="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 transition-all duration-300"
+  >
     <!-- Logo -->
-    <a href="#" class="flex items-center">
-      <img src={logo.src} alt="logo" class="h-20 sm:h-24 w-auto object-contain" />
+    <a href="#home" data-nav-link class="flex items-center group">
+      <img
+        id="header-logo"
+        src={logo.src}
+        alt="Anti Food Logo"
+        class="h-16 sm:h-20 w-auto object-contain transition-all duration-300 group-hover:scale-105"
+      />
     </a>
 
     <!-- Menu -->
-    <nav class="hidden md:flex items-center space-x-8">
-      {dataMenu.map((item) => (
-        <a
-          href={item.path}
-          class:list={[
-            "relative py-2 font-medium text-sm lg:text-base tracking-wide transition-colors duration-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-4 after:rounded-full after:origin-left after:transition-transform after:duration-300",
-            item.active
-              ? "text-primary-4 font-semibold after:scale-x-100"
-              : "text-white/80 hover:text-white after:scale-x-0 hover:after:scale-x-100",
-          ]}
-        >
-          {item.name}
-        </a>
-      ))}
+    <nav class="hidden md:flex items-center space-x-8" id="nav-menu">
+      {
+        dataMenu.map((item) => (
+          <a
+            href={item.path}
+            data-nav-link
+            data-section={item.path.replace("#", "")}
+            class:list={[
+              "nav-item relative py-2 font-medium text-sm lg:text-base tracking-wide transition-colors duration-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-4 after:rounded-full after:origin-left after:transition-transform after:duration-300",
+              item.active
+                ? "text-primary-4 font-semibold after:scale-x-100 active"
+                : "text-white/85 hover:text-white after:scale-x-0 hover:after:scale-x-100",
+            ]}
+          >
+            {item.name}
+          </a>
+        ))
+      }
     </nav>
 
     <!-- CTA Button -->
     <div class="flex items-center">
       <a
         href="#reservation"
-        class="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-primary-4 text-[#1b3229] hover:bg-primary-4/90 font-semibold text-sm tracking-wide transition-all duration-300 shadow-sm"
+        data-nav-link
+        class="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-primary-4 text-[#1b3229] hover:bg-primary-4/90 font-semibold text-sm tracking-wide transition-all duration-300 shadow-sm hover:scale-105 active:scale-95 cursor-pointer"
       >
         Book a today
       </a>
     </div>
   </div>
 </header>
+
+<script>
+  function setupHeader() {
+    const header = document.getElementById("main-header");
+    const headerInner = document.getElementById("header-inner");
+    const headerLogo = document.getElementById("header-logo");
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>("a[data-nav-link]");
+    const menuItems = document.querySelectorAll<HTMLAnchorElement>(".nav-item");
+
+    if (!header) return;
+
+    // 1. Smooth scroll when clicking menu / logo / CTA links
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const href = link.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          e.preventDefault();
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      });
+    });
+
+    // 2. Scroll event: Handle sticky glassmorphic background & ScrollSpy
+    const sections = ["home", "about", "menu", "gallery", "reservation", "contact"]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    function onScroll() {
+      const scrollY = window.scrollY;
+
+      // Header styling on scroll
+      if (scrollY > 30) {
+        header?.classList.add(
+          "bg-[#0b2114]/92",
+          "backdrop-blur-md",
+          "shadow-xl",
+          "border-b",
+          "border-white/10"
+        );
+        header?.classList.remove("bg-transparent");
+
+        headerInner?.classList.remove("py-3");
+        headerInner?.classList.add("py-1.5", "sm:py-2");
+
+        headerLogo?.classList.remove("h-16", "sm:h-20");
+        headerLogo?.classList.add("h-12", "sm:h-14");
+      } else {
+        header?.classList.remove(
+          "bg-[#0b2114]/92",
+          "backdrop-blur-md",
+          "shadow-xl",
+          "border-b",
+          "border-white/10"
+        );
+        header?.classList.add("bg-transparent");
+
+        headerInner?.classList.remove("py-1.5", "sm:py-2");
+        headerInner?.classList.add("py-3");
+
+        headerLogo?.classList.remove("h-12", "sm:h-14");
+        headerLogo?.classList.add("h-16", "sm:h-20");
+      }
+
+      // ScrollSpy: highlight active menu item based on scroll position
+      let currentSectionId = "home";
+      const scrollPosition = scrollY + 120;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (scrollPosition >= section.offsetTop) {
+          currentSectionId = section.id;
+          break;
+        }
+      }
+
+      menuItems.forEach((item) => {
+        const sectionAttr = item.getAttribute("data-section");
+        if (sectionAttr === currentSectionId) {
+          item.classList.add("text-primary-4", "font-semibold", "after:scale-x-100", "active");
+          item.classList.remove("text-white/85", "after:scale-x-0");
+        } else {
+          item.classList.remove("text-primary-4", "font-semibold", "after:scale-x-100", "active");
+          item.classList.add("text-white/85", "after:scale-x-0");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // initial check
+  }
+
+  setupHeader();
+  document.addEventListener("astro:page-load", setupHeader);
+</script>

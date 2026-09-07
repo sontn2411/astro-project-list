@@ -1,0 +1,61 @@
+---
+interface Props {
+  tag?: string;
+  title: string;
+  desc?: string;
+  theme?: "dark" | "light";
+  align?: "center" | "left";
+  class?: string;
+}
+
+const {
+  tag,
+  title,
+  desc,
+  theme = "light",
+  align = "center",
+  class: className = "",
+} = Astro.props;
+
+const isDark = theme === "dark";
+---
+
+<div
+  class:list={[
+    "max-w-2xl space-y-3",
+    align === "center" ? "text-center mx-auto" : "text-left",
+    className,
+  ]}
+>
+  {tag && (
+    <p
+      class:list={[
+        "text-primary-4 text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-1.5",
+        align === "center" ? "justify-center" : "justify-start",
+      ]}
+    >
+      <span>{tag}</span>
+    </p>
+  )}
+
+  <h2
+    class:list={[
+      "text-3xl sm:text-4xl md:text-5xl font-bold font-['Cormorant_Garamond',serif] tracking-tight",
+      isDark ? "text-white" : "text-gray-900",
+    ]}
+  >
+    {title}
+  </h2>
+
+  {desc && (
+    <p
+      class:list={[
+        "text-sm sm:text-base leading-relaxed max-w-lg",
+        align === "center" ? "mx-auto" : "",
+        isDark ? "text-white/70" : "text-gray-500",
+      ]}
+    >
+      {desc}
+    </p>
+  )}
+</div>

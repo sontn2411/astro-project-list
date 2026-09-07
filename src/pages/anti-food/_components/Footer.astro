@@ -1,0 +1,170 @@
+---
+import { Icon } from "astro-icon/components";
+import logo from "../_assets/logo-anti.png";
+import leaf1 from "../_assets/leaf-1.png";
+
+const quickLinks = [
+  { name: "Home", href: "#" },
+  { name: "About Us", href: "#about" },
+  { name: "Menu", href: "#menu" },
+  { name: "Gallery", href: "#gallery" },
+  { name: "Reservation", href: "#reservation" },
+  { name: "Contact", href: "#contact" },
+];
+
+const contactInfo = [
+  {
+    icon: "lucide:map-pin",
+    text: "123 Food Street, New York, NY 10001",
+    isLink: false,
+  },
+  {
+    icon: "lucide:phone",
+    text: "+1 234 567 8900",
+    href: "tel:+12345678900",
+    isLink: true,
+  },
+  {
+    icon: "lucide:mail",
+    text: "hello@anti.com",
+    href: "mailto:hello@anti.com",
+    isLink: true,
+  },
+  {
+    icon: "lucide:clock",
+    text: "Mon - Sun: 11:00 AM - 11:00 PM",
+    isLink: false,
+  },
+];
+
+const socialLinks = [
+  { name: "Facebook", icon: "lucide:facebook", href: "#" },
+  { name: "Instagram", icon: "lucide:instagram", href: "#" },
+  { name: "Twitter", icon: "lucide:twitter", href: "#" },
+  { name: "YouTube", icon: "lucide:youtube", href: "#" },
+];
+---
+
+<footer id="contact" class="bg-dark-green text-white relative overflow-hidden border-t border-white/10">
+  <!-- Botanical leaves background decoration on the right edge -->
+  <!-- <div class="absolute -right-8 top-6 pointer-events-none select-none z-0 rotate-180 opacity-70">
+    <img
+      src={leaf1.src}
+      alt="leaf"
+      class="w-28 sm:w-36 md:w-44 object-contain"
+    />
+  </div>
+  <div class="absolute -right-6 bottom-4 pointer-events-none select-none z-0 opacity-70">
+    <img
+      src={leaf1.src}
+      alt="leaf"
+      class="w-24 sm:w-32 md:w-40 object-contain"
+    />
+  </div> -->
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 pb-8 sm:pb-12 relative z-10">
+    <!-- Main Footer Grid (3 Columns) -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16">
+      
+      <!-- Column 1: Brand, Tagline, Bio & Social Icons -->
+      <div class="md:col-span-5 space-y-4">
+        <!-- Logo -->
+        <a href="#" class="inline-block">
+          <img
+            src={logo.src}
+            alt="Anti Food"
+            class="h-14 sm:h-16 w-auto object-contain"
+          />
+        </a>
+
+        <!-- Tagline -->
+        <p class="text-primary-4 font-bold text-sm sm:text-base tracking-wide">
+          Good Food, Great Vibes.
+        </p>
+
+        <!-- Bio description -->
+        <p class="text-white/70 text-xs sm:text-sm leading-relaxed max-w-sm font-['Mulish',sans-serif]">
+          At Anti, we believe in creating memorable dining experiences with fresh ingredients, creative dishes and warm hospitality.
+        </p>
+
+        <!-- Social Icons -->
+        <div class="flex items-center gap-3 pt-2">
+          {
+            socialLinks.map((item) => (
+              <a
+                href={item.href}
+                aria-label={item.name}
+                class="w-9 h-9 rounded-full bg-white text-[#0b2114] flex items-center justify-center hover:bg-primary-4 hover:text-[#1b3229] transition-all duration-300 shadow-md hover:scale-110 active:scale-95"
+              >
+                <Icon name={item.icon} class="w-4 h-4 fill-current" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="md:col-span-3">
+        <h3 class="font-['Cormorant_Garamond',serif] font-bold text-lg sm:text-xl text-primary-4 mb-4 tracking-wide">
+          Quick Links
+        </h3>
+        <ul class="space-y-2.5 font-['Mulish',sans-serif]">
+          {
+            quickLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-white/70 hover:text-primary-4 text-xs sm:text-sm transition-colors inline-block py-0.5"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact Info -->
+      <div class="md:col-span-4">
+        <h3 class="font-['Cormorant_Garamond',serif] font-bold text-lg sm:text-xl text-primary-4 mb-4 tracking-wide">
+          Contact Info
+        </h3>
+        <ul class="space-y-3.5 font-['Mulish',sans-serif]">
+          {
+            contactInfo.map((info) => (
+              <li class="flex items-start gap-3 text-xs sm:text-sm text-white/75">
+                <div class="text-primary-4 shrink-0 mt-0.5">
+                  <Icon name={info.icon} class="w-4 h-4" />
+                </div>
+                {info.isLink ? (
+                  <a
+                    href={info.href}
+                    class="hover:text-primary-4 transition-colors"
+                  >
+                    {info.text}
+                  </a>
+                ) : (
+                  <span>{info.text}</span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright & Policies Bar -->
+    <div class="border-t border-white/10 mt-12 sm:mt-16 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-white/50 font-['Mulish',sans-serif]">
+      <p>© 2025 Anti. All rights reserved.</p>
+      <div class="flex items-center gap-6 sm:gap-8">
+        <a href="#privacy" class="hover:text-white transition-colors">
+          Privacy Policy
+        </a>
+        <a href="#terms" class="hover:text-white transition-colors">
+          Terms & Conditions
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

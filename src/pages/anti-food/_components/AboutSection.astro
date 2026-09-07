@@ -1,0 +1,142 @@
+---
+import { Icon } from "astro-icon/components";
+import leaf2 from "../_assets/leaf-2.png";
+
+const features = [
+  {
+    icon: "lucide:salad",
+    title: "Fresh",
+    subtitle: "Ingredients",
+  },
+  {
+    icon: "lucide:chef-hat",
+    title: "Skilled",
+    subtitle: "Chefs",
+  },
+  {
+    icon: "lucide:sparkles",
+    title: "Cozy",
+    subtitle: "Ambience",
+  },
+];
+---
+
+<section id="about" class="py-16 md:py-24 relative overflow-hidden scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      
+      <!-- Cột bên trái: Image với nút Play và Our Story -->
+      <div class="relative flex justify-center lg:justify-start">
+        <div class="relative rounded-3xl overflow-hidden shadow-2xl w-full max-w-md lg:max-w-none aspect-3/4 sm:aspect-4/5 lg:aspect-3/4 lg:h-[580px] group">
+          <img
+            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&auto=format&fit=crop&q=80"
+            alt="Anti Food Ambience"
+            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+
+          <!-- Lớp phủ tối nhẹ để làm nổi bật nút Play và chữ -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-black/25 pointer-events-none"></div>
+
+          <!-- Nút Play ở chính giữa -->
+          <button
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white text-[#0b2114] shadow-[0_10px_35px_rgba(0,0,0,0.45)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 group/play cursor-pointer"
+            aria-label="Play video our story"
+          >
+            <!-- Hiệu ứng sóng lan tỏa (ripple) -->
+            <span class="absolute inset-0 rounded-full bg-white/40 animate-ping pointer-events-none opacity-60"></span>
+            <Icon
+              name="lucide:play"
+              class="w-6 h-6 sm:w-7 sm:h-7 fill-[#0b2114] ml-1 transition-transform group-hover/play:scale-110"
+            />
+          </button>
+
+          <!-- Text 'Our Story' nghệ thuật với mũi tên vẽ tay -->
+          <div class="absolute bottom-8 sm:bottom-12 left-6 sm:left-8 z-20 -rotate-6 select-none pointer-events-none">
+            <span class="text-white font-pacifico text-2xl sm:text-3xl tracking-wide drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] block">
+              Our Story
+            </span>
+            <!-- Mũi tên vẽ tay giống hình mẫu -->
+            <svg
+              class="w-20 sm:w-24 h-auto text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] mt-0.5"
+              viewBox="0 0 100 42"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M 8 10 Q 50 18 85 8"></path>
+              <path d="M 18 12 Q 12 25 10 32"></path>
+              <path d="M 5 25 L 10 33 L 17 28"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột bên phải: Content -->
+      <div class="space-y-6 relative">
+        <!-- Họa tiết lá ở góc trên phải -->
+        <div class="absolute -top-6 right-0 sm:right-6 pointer-events-none select-none">
+          <img
+            src={leaf2.src}
+            alt="leaf"
+            class="w-10 sm:w-12 h-auto object-contain opacity-75"
+          />
+        </div>
+
+        <!-- Tag / Eyebrow -->
+        <p class="text-primary-4 text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-1.5">
+          <span>-</span>
+          <span>ABOUT ANTI</span>
+        </p>
+
+        <!-- Heading -->
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 font-['Cormorant_Garamond',serif] leading-[1.15] tracking-tight">
+          A Place Where <br />
+          Good Food Meets <br />
+          Great Vibes
+        </h2>
+
+        <!-- Description -->
+        <p class="text-gray-600 text-sm sm:text-base leading-relaxed max-w-xl">
+          At Anti, we believe that food is more than just a meal — it's a way to bring people together. Our cozy ambience, creative menu and friendly team make every visit special.
+        </p>
+
+        <!-- 3 Feature Badges -->
+        <div class="flex flex-wrap items-center gap-6 sm:gap-8 pt-2">
+          {
+            features.map((item) => (
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-full bg-dark-green text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <Icon name={item.icon} class="w-5 h-5 text-white" />
+                </div>
+                <div class="flex flex-col text-left leading-tight">
+                  <span class="font-bold text-gray-900 text-sm sm:text-base">
+                    {item.title}
+                  </span>
+                  <span class="text-xs sm:text-sm text-gray-500 font-medium">
+                    {item.subtitle}
+                  </span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- CTA Button -->
+        <div class="pt-4">
+          <a
+            href="#about"
+            class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-primary-4 text-[#1b3229] font-semibold text-sm hover:bg-primary-4/90 transition-all duration-300 shadow-lg shadow-black/10 hover:scale-105 active:scale-95"
+          >
+            <span>Learn More</span>
+            <Icon name="lucide:arrow-right" class="w-4 h-4" />
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
