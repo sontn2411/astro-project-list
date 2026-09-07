@@ -26,7 +26,7 @@ const features = [
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       
       <!-- Cột bên trái: Image với nút Play và Our Story -->
-      <div class="relative flex justify-center lg:justify-start">
+      <div data-reveal="left" class="relative flex justify-center lg:justify-start">
         <div class="relative rounded-3xl overflow-hidden shadow-2xl w-full max-w-md lg:max-w-none aspect-3/4 sm:aspect-4/5 lg:aspect-3/4 lg:h-[580px] group">
           <img
             src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&auto=format&fit=crop&q=80"
@@ -86,25 +86,25 @@ const features = [
         </div>
 
         <!-- Tag / Eyebrow -->
-        <p class="text-primary-4 text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-1.5">
+        <p data-reveal="right" class="text-primary-4 text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-1.5">
           <span>-</span>
           <span>ABOUT ANTI</span>
         </p>
 
         <!-- Heading -->
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 font-['Cormorant_Garamond',serif] leading-[1.15] tracking-tight">
+        <h2 data-reveal="right" style="--delay: 100ms" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 font-['Cormorant_Garamond',serif] leading-[1.15] tracking-tight">
           A Place Where <br />
           Good Food Meets <br />
           Great Vibes
         </h2>
 
         <!-- Description -->
-        <p class="text-gray-600 text-sm sm:text-base leading-relaxed max-w-xl">
+        <p data-reveal="right" style="--delay: 180ms" class="text-gray-600 text-sm sm:text-base leading-relaxed max-w-xl">
           At Anti, we believe that food is more than just a meal — it's a way to bring people together. Our cozy ambience, creative menu and friendly team make every visit special.
         </p>
 
         <!-- 3 Feature Badges -->
-        <div class="flex flex-wrap items-center gap-6 sm:gap-8 pt-2">
+        <div data-reveal="right" style="--delay: 260ms" class="flex flex-wrap items-center gap-6 sm:gap-8 pt-2">
           {
             features.map((item) => (
               <div class="flex items-center gap-3">
@@ -125,7 +125,7 @@ const features = [
         </div>
 
         <!-- CTA Button -->
-        <div class="pt-4">
+        <div data-reveal="right" style="--delay: 340ms" class="pt-4">
           <a
             href="#about"
             class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-primary-4 text-[#1b3229] font-semibold text-sm hover:bg-primary-4/90 transition-all duration-300 shadow-lg shadow-black/10 hover:scale-105 active:scale-95"

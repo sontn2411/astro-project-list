@@ -84,7 +84,7 @@ const galleryItems = [
     />
 
     <!-- Filter Category Tabs -->
-    <div class="flex items-center justify-center flex-wrap gap-2.5 sm:gap-3.5 mt-8 sm:mt-10">
+    <div data-reveal style="--delay: 100ms" class="flex items-center justify-center flex-wrap gap-2.5 sm:gap-3.5 mt-8 sm:mt-10">
       {
         categories.map((cat, index) => (
           <button
@@ -110,8 +110,10 @@ const galleryItems = [
         class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-5 content-start"
       >
         {
-          galleryItems.map((item) => (
+          galleryItems.map((item, index) => (
             <div
+              data-reveal
+              style={`--delay: ${index * 100}ms`}
               data-gallery-item
               data-item-category={item.category}
               class="gallery-item group relative aspect-3/4 sm:aspect-4/5 lg:aspect-3/4 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-[#112a1c] border border-white/10"

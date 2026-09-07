@@ -78,8 +78,12 @@ const signatureDishes = [
     <!-- Danh sách sản phẩm (4 items) -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 md:mt-16">
       {
-        signatureDishes.map((item) => (
-          <div class="bg-[#112a1c] border border-white/10 rounded-2xl p-4 flex flex-col justify-between  transition-all duration-300 hover:-translate-y-1.5 shadow-xl group">
+        signatureDishes.map((item, index) => (
+          <div
+            data-reveal
+            style={`--delay: ${index * 120}ms`}
+            class="bg-[#112a1c] border border-white/10 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 shadow-xl group"
+          >
             <div>
               <!-- Hình ảnh món ăn -->
               <div class="aspect-4/3 sm:aspect-square rounded-xl overflow-hidden mb-4 bg-black/20">
@@ -132,7 +136,7 @@ const signatureDishes = [
     </div>
 
     <!-- Nút View Full Menu -->
-    <div class="text-center mt-12 md:mt-16">
+    <div data-reveal style="--delay: 450ms" class="text-center mt-12 md:mt-16">
       <a
         href="#menu"
         class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full border border-white text-white font-semibold text-sm hover:bg-white hover:text-[#0b2114] transition-all duration-300 hover:scale-105 active:scale-95"
