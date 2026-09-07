@@ -1,397 +1,290 @@
 ---
-import SafeImage from "../components/SafeImage.astro";
 import Layout from '../layouts/Layout.astro';
 import ambienceImg from '../assets/project-ambience-thumbnail.png';
+import antiFoodImg from './anti-food/_assets/bg-banner.jpg';
+import travelImg from './nha-trang-travel/_assets/images/banner-hero.png';
+import lolImg from './league-of-legends/_assets/images/Runeterra_Terrain_map.png';
 
 const projects = [
   {
+    slug: 'anti-food',
+    name: 'Anti Food',
+    category: 'Nhà hàng & F&B',
+    year: '2024',
+    tags: ['Restaurant', 'Fine Dining', 'Gastronomy', 'UI/UX'],
+    description: 'Trải nghiệm ẩm thực thượng hạng với phong cách sang trọng đương đại. Tích hợp thực đơn tương tác, đặt bàn online và thư viện trải nghiệm đa sắc.',
+    thumbnail: antiFoodImg.src,
+    status: 'Hoàn thành',
+    badgeColor: 'emerald',
+    index: '01',
+    url: '/anti-food',
+  },
+  {
     slug: 'ambience-interiors',
     name: 'Ambience Interiors',
-    category: 'Nội thất',
+    category: 'Kiến trúc & Nội thất',
     year: '2024',
-    tags: ['Interior', 'Luxury', 'Residential'],
-    description: 'Thương hiệu thiết kế nội thất cao cấp, tinh tế và sang trọng. Website, nhận diện thương hiệu và catalog sản phẩm.',
+    tags: ['Interior', 'Luxury', 'Residential', 'Architecture'],
+    description: 'Thương hiệu thiết kế nội thất cao cấp, tinh tế và sang trọng. Website, nhận diện thương hiệu độc bản và catalog dự án không gian sống.',
     thumbnail: ambienceImg.src,
-    status: 'Đang phát triển',
-    progress: 70,
-    index: '01',
+    status: 'Hoàn thành',
+    badgeColor: 'emerald',
+    index: '02',
+    url: '/ambience-interiors',
   },
   {
     slug: 'nha-trang-travel',
     name: 'Nha Trang Travel',
-    category: 'Thương mại điện tử',
+    category: 'Du lịch & Khám phá',
     year: '2024',
-    tags: ['E-commerce', 'UI/UX', 'Brand'],
-    description: 'Nền tảng thương mại điện tử hiện đại, tối ưu trải nghiệm người dùng và tỷ lệ chuyển đổi doanh số.',
-    thumbnail: null,
+    tags: ['Travel', 'E-commerce', 'Booking', 'Interactive'],
+    description: 'Nền tảng du lịch và đặt tour hiện đại tại Nha Trang: khám phá danh lam thắng cảnh, khách sạn nghỉ dưỡng và ẩm thực địa phương.',
+    thumbnail: travelImg.src,
     status: 'Đang phát triển',
-    progress: null,
-    index: '02',
+    badgeColor: 'amber',
+    index: '03',
+    url: '/nha-trang-travel',
+  },
+  {
+    slug: 'league-of-legends',
+    name: 'League of Legends',
+    category: 'Game Showcase',
+    year: '2024',
+    tags: ['Gaming', 'Riot Games', 'Audio/Visual', 'Data Showcase'],
+    description: 'Bách khoa toàn thư tra cứu hồ sơ hơn 160+ vị tướng Liên Minh Huyền Thoại với hiệu ứng thị giác đỉnh cao, âm thanh và hỗ trợ đa ngôn ngữ.',
+    thumbnail: lolImg.src,
+    status: 'Hoàn thành',
+    badgeColor: 'emerald',
+    index: '04',
+    url: '/league-of-legends',
   },
 ];
 
 const categories = ['Tất cả', ...new Set(projects.map(p => p.category))];
-const allTags = ['Tất cả', ...new Set(projects.flatMap(p => p.tags))];
 ---
 
-<Layout title="Projects — Portfolio" description="Tổng hợp các dự án thiết kế và phát triển">
+<Layout title="Projects I've Built — Portfolio" description="A collection of projects I've worked on, from web apps to creative tools.">
 <style>
-  /* ── CSS tokens ─────────────────────────────────────────── */
-  :root {
-    --bg:        #070D19;
-    --surface:   #0D1829;
-    --surface-2: #0F1A2E;
-    --border:    #1E293B;
-    --accent:    #10B981;
-    --accent-fg: #030712;
-    --text-1:    #F1F5F9;
-    --text-2:    #94A3B8;
-    --text-3:    #475569;
-    --text-4:    #334155;
-    --amber:     #FBBF24;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { 
+    width: 100%; 
+    min-height: 100%; 
+    background: #07090e; 
+    color: #f3f4f6;
+    overflow-x: hidden;
+  }
+  
+  canvas { 
+    display: block; 
+    width: 100vw; 
+    height: 100vh; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
   }
 
-  /* ── Filter button shared ───────────────────────────────── */
-  .filter-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 36px;          /* ≥ 36px → better touch target */
-    padding: 0.25rem 0.875rem;
-    font-size: 0.625rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-3);
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .filter-btn:hover { border-color: var(--text-2); color: var(--text-1); }
-  .filter-btn.active {
-    background: var(--accent);
-    color: var(--accent-fg);
-    border-color: var(--accent);
-    font-weight: 600;
+  .canvas-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    background: radial-gradient(circle at 50% 20%, transparent 35%, rgba(7, 9, 14, 0.75) 100%);
   }
 
-  /* ── Active filter indicator strip ─────────────────────── */
-  .active-filters { display: none; }
-  .active-filters.visible { display: flex; }
+  .project-card {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.35s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -15px rgba(129, 140, 248, 0.25);
+    border-color: rgba(167, 139, 250, 0.4);
+  }
 </style>
 
-<main style="background: var(--bg); color: var(--text-1);" class="min-h-screen">
+<!-- Background Canvas & Overlay -->
+<canvas id="canvas"></canvas>
+<div class="canvas-overlay"></div>
 
-  <!-- ── Header (compact) ──────────────────────────────────── -->
-  <header class="px-6 md:px-12 max-w-7xl mx-auto pt-12 pb-6">
-    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-      <!-- P1 FIX: Branding + identity -->
-      <div>
-        <p class="text-[10px] tracking-[0.3em] uppercase mb-3" style="color: var(--accent);">Portfolio — Sweetsoft Studio</p>
-        <h1 class="text-3xl md:text-4xl font-light tracking-tight leading-tight" style="color: var(--text-1);">Tất cả dự án</h1>
-        <!-- P3 FIX: Tách count ra khỏi h1, không render vào heading string -->
-        <p class="mt-1 text-xs" style="color: var(--text-3);">
-          <span id="header-count">{projects.length}</span> dự án · cập nhật liên tục
-        </p>
-      </div>
-      <p class="text-sm leading-relaxed max-w-[280px] sm:text-right" style="color: var(--text-3);">
-        Thiết kế và phát triển web —
-        <br class="hidden sm:block" />
-        từ thương hiệu đến trải nghiệm người dùng.
-      </p>
-    </div>
-    <div class="mt-6" style="border-top: 1px solid var(--border);"></div>
-  </header>
-
-  <!-- ── Controls ──────────────────────────────────────────── -->
-  <div class="px-6 md:px-12 max-w-7xl mx-auto pt-5 pb-8">
-
-    <!-- Row 1: Search + count -->
-    <div class="flex items-center gap-4 mb-4">
-      <div class="relative flex-1 max-w-sm">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" style="color: var(--text-3);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
-        </svg>
-        <input
-          id="project-search"
-          type="text"
-          placeholder="Tìm theo tên, danh mục, tag..."
-          autocomplete="off"
-          style="background: var(--surface-2); border: 1px solid var(--border); color: var(--text-1);"
-          class="w-full text-sm pl-9 pr-4 py-2.5 focus:outline-none focus-visible:border-[--accent] focus:border-emerald-500 transition-colors rounded-none placeholder:text-[--text-3]"
-        />
-      </div>
-      <span id="project-count" class="text-xs flex-shrink-0 ml-auto" style="color: var(--text-3);">
-        {projects.length} dự án
-      </span>
+<!-- Main Content Foreground -->
+<main class="relative z-10 min-h-screen px-6 sm:px-8 md:px-16 py-16 md:py-24 max-w-7xl mx-auto flex flex-col justify-between">
+  
+  <!-- Header Title Section -->
+  <section class="mb-12 md:mb-16">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-xs font-medium text-violet-300 mb-6 backdrop-blur-sm">
+      <span class="w-2 h-2 rounded-full bg-violet-400 animate-pulse"></span>
+      <span>Portfolio & Showcase</span>
     </div>
 
-    <!-- Row 2: Category filters -->
-    <div class="flex flex-wrap gap-2 mb-3" id="category-filters">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-5">
+      Projects <span class="bg-gradient-to-r from-[#c084fc] via-[#818cf8] to-[#93c5fd] bg-clip-text text-transparent">I’ve Built</span>
+    </h1>
+    
+    <p class="text-base sm:text-lg text-zinc-400 max-w-2xl leading-relaxed font-normal">
+      A collection of projects I've worked on, from web apps to creative tools. Each one represents a step in my journey to become a better developer.
+    </p>
+
+    <!-- Filter Pills -->
+    <div class="flex flex-wrap items-center gap-2 pt-8" id="category-filters">
       {categories.map((cat, i) => (
         <button
-          data-filter={cat}
-          data-type="category"
-          class:list={['filter-btn', i === 0 ? 'active' : '']}
+          data-category={cat}
+          class={`filter-btn px-4 py-2 text-xs sm:text-sm rounded-full font-medium transition-all duration-200 border ${
+            i === 0
+              ? 'bg-violet-600/30 border-violet-500/60 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)]'
+              : 'bg-white/[0.03] border-white/10 text-zinc-400 hover:text-white hover:bg-white/[0.08] hover:border-white/20'
+          }`}
         >
           {cat}
         </button>
       ))}
     </div>
+  </section>
 
-    <!-- Row 3: Tag filters -->
-    <div class="flex flex-wrap gap-2" id="tag-filters">
-      {allTags.map((tag, i) => (
-        <button
-          data-filter={tag}
-          data-type="tag"
-          class:list={['filter-btn', i === 0 ? 'active' : '']}
-        >
-          #{tag}
-        </button>
-      ))}
-    </div>
-
-    <!-- Active filter strip (chỉ hiện khi đang filter) -->
-    <div id="active-filter-strip" class="active-filters items-center gap-3 mt-4">
-      <span class="text-[10px] tracking-wider uppercase" style="color: var(--text-3);">Đang lọc:</span>
-      <span id="active-filter-label" class="text-[10px] px-2 py-1 border" style="color: var(--accent); border-color: var(--accent);"></span>
-      <button id="clear-all-filters" class="text-[10px] underline underline-offset-2 ml-1" style="color: var(--text-3);">Xóa tất cả</button>
-    </div>
-
-  </div>
-
-  <!-- ── Project Grid ──────────────────────────────────────── -->
-  <div class="px-6 md:px-12 max-w-7xl mx-auto pb-24">
-    <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {projects.map((project) => (
-        <a
-          href={`/${project.slug}/`}
-          class="project-card group flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-          style="background: var(--surface); border: 1px solid var(--border);"
-          data-name={project.name.toLowerCase()}
-          data-desc={project.description.toLowerCase()}
-          data-category={project.category}
-          data-tags={project.tags.join(',')}
-        >
-          <!-- Thumbnail -->
-          <div class="relative w-full aspect-video overflow-hidden" style="background: var(--surface-2);">
-            {project.thumbnail ? (
-              <SafeImage
-                src={project.thumbnail}
-                alt={project.name}
-                loading="lazy"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-75 group-hover:opacity-100"
-              />
-            ) : (
-              /* FIX P2: placeholder có hoa văn thay vì chữ cái đơn lẻ gần vô hình */
-              <div class="w-full h-full flex flex-col items-center justify-center gap-2" style="background: linear-gradient(135deg, #0D1829 0%, #111827 50%, #0D1829 100%);">
-                <svg class="w-10 h-10 opacity-20" style="color: var(--accent);" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                  <rect x="3" y="3" width="18" height="18" rx="0" />
-                  <path d="M3 9h18M9 21V9" />
-                </svg>
-                <span class="text-[10px] tracking-widest uppercase opacity-30" style="color: var(--text-2);">{project.category}</span>
-              </div>
-            )}
-
-            <!-- Index badge -->
-            <div class="absolute top-3 left-3 text-[10px] px-2 py-1 font-semibold tracking-widest" style="background: var(--accent); color: var(--accent-fg);">
-              {project.index}
-            </div>
-
-            <!-- Status badge -->
-            <div
-              class="absolute top-3 right-3 text-[9px] px-2 py-1 tracking-wider uppercase border"
-              style={project.status === 'Hoàn thành'
-                ? 'color: var(--accent); border-color: var(--accent); background: rgba(16,185,129,0.1);'
-                : 'color: var(--amber); border-color: var(--amber); background: rgba(251,191,36,0.1);'}
-            >
-              {project.status}
-            </div>
+  <!-- Projects Grid -->
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16" id="projects-grid">
+    {projects.map((project) => (
+      <a
+        href={project.url}
+        data-cat={project.category}
+        class="project-card group flex flex-col justify-between bg-[#0e121b]/80 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-md"
+      >
+        <!-- Card Thumbnail -->
+        <div class="relative w-full aspect-[16/10] overflow-hidden bg-black/40">
+          <img
+            src={project.thumbnail}
+            alt={project.name}
+            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0e121b] via-transparent to-black/20"></div>
+          
+          <!-- Category & Year Badges -->
+          <div class="absolute top-4 left-4 flex items-center gap-2">
+            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-black/60 backdrop-blur-md text-zinc-200 border border-white/10">
+              {project.category}
+            </span>
+            <span class="px-2.5 py-1 text-xs font-mono text-zinc-400 rounded-full bg-black/40 backdrop-blur-md border border-white/5">
+              {project.year}
+            </span>
           </div>
 
-          <!-- Body -->
-          <div class="p-6 flex flex-col gap-4 flex-1">
+          <!-- Status indicator -->
+          <div class="absolute top-4 right-4">
+            <span class={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md border ${
+              project.status === 'Hoàn thành'
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+            }`}>
+              <span class={`w-1.5 h-1.5 rounded-full ${project.status === 'Hoàn thành' ? 'bg-emerald-400' : 'bg-amber-400'}`}></span>
+              {project.status}
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Content -->
+        <div class="p-6 sm:p-7 flex flex-col flex-1 justify-between">
+          <div>
+            <!-- Project Title & Index -->
+            <div class="flex items-center justify-between gap-4 mb-3">
+              <h2 class="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-violet-200 group-hover:bg-clip-text transition-colors">
+                {project.name}
+              </h2>
+              <span class="font-mono text-sm font-semibold text-zinc-500 group-hover:text-violet-400 transition-colors">
+                {project.index}
+              </span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-sm text-zinc-400 leading-relaxed mb-6 line-clamp-3">
+              {project.description}
+            </p>
+          </div>
+
+          <div>
             <!-- Tags -->
-            <div class="flex flex-wrap gap-1.5">
-              {project.tags.slice(0, 3).map(tag => (
-                <span class="text-[9px] tracking-widest uppercase px-2 py-0.5 border" style="color: var(--text-3); border-color: var(--border);">
-                  {tag}
+            <div class="flex flex-wrap gap-1.5 mb-6">
+              {project.tags.map((tag) => (
+                <span class="px-2.5 py-0.5 text-[11px] rounded-md bg-white/[0.04] text-zinc-300 border border-white/5 font-medium">
+                  #{tag}
                 </span>
               ))}
             </div>
 
-            <!-- Title + Year -->
-            <div>
-              <div class="flex items-baseline justify-between gap-4 mb-2">
-                <h2 class="text-base font-normal leading-snug" style="color: var(--text-1);">
-                  {project.name}
-                </h2>
-                <span class="text-[11px] flex-shrink-0" style="color: var(--text-4);">{project.year}</span>
-              </div>
-              <p class="text-xs leading-relaxed line-clamp-2" style="color: var(--text-2);">{project.description}</p>
-            </div>
-
-            <!-- Progress Bar -->
-            {project.progress !== null && project.progress !== undefined && (
-              <div>
-                <div class="flex items-center justify-between mb-1.5">
-                  <span class="text-[9px] tracking-widest uppercase" style="color: var(--text-3);">Tiến độ</span>
-                  <span class="text-[11px] font-semibold" style="color: var(--accent);">{project.progress}%</span>
-                </div>
-                <div class="w-full h-[3px]" style="background: var(--border);">
-                  <div class="h-[3px]" style={`width: ${project.progress}%; background: var(--accent);`}></div>
-                </div>
-              </div>
-            )}
-
-            <!-- CTA — FIX P3: dùng text-2 thay vì text-4 tàng hình -->
-            <div class="flex items-center gap-2 mt-auto pt-3" style="border-top: 1px solid var(--border);">
-              <span class="text-xs tracking-widest uppercase group-hover:text-emerald-400 transition-colors duration-200" style="color: var(--text-2);">
-                Xem dự án
+            <!-- Card Bottom Action Link -->
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-wider text-zinc-300 group-hover:text-violet-300 transition-colors">
+                Khám phá dự án
               </span>
-              <svg
-                class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-all duration-300"
-                style="color: var(--accent);"
-                fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
+              <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-violet-600 group-hover:border-violet-500 transition-all duration-300">
+                <svg
+                  class="w-4 h-4 text-zinc-300 group-hover:text-white group-hover:translate-x-0.5 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </div>
             </div>
           </div>
+        </div>
+      </a>
+    ))}
+  </section>
 
-          <!-- Bottom accent bar -->
-          <div class="h-[2px] w-0 group-hover:w-full transition-all duration-500" style="background: var(--accent);"></div>
-        </a>
-      ))}
-    </div>
-
-    <!-- Empty State — P2 FIX: dynamic message phản chiếu search query -->
-    <div id="empty-state" class="hidden flex-col items-center justify-center py-24 text-center">
-      <svg class="w-10 h-10 mb-4 opacity-20" style="color: var(--text-3);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
-      </svg>
-      <p class="text-sm mb-1" style="color: var(--text-2);">Không tìm thấy kết quả cho <em id="empty-query" class="not-italic font-medium" style="color: var(--text-1);"></em></p>
-      <p class="text-xs mb-4" style="color: var(--text-3);">Thử từ khóa khác hoặc xóa bộ lọc.</p>
-      <button id="reset-filters" class="text-xs px-4 py-2 border transition-colors hover:bg-emerald-500 hover:border-emerald-500 hover:text-black" style="color: var(--accent); border-color: var(--accent);">
-        Xóa bộ lọc
-      </button>
-    </div>
-  </div>
-
+  <!-- Footer Info -->
+  <footer class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
+    <p>© {new Date().getFullYear()} Portfolio. Built with Astro & Canvas Flow Field.</p>
+    <p class="font-mono text-zinc-400">Interactive Canvas Ambient</p>
+  </footer>
 </main>
-</Layout>
+
+<script src="../scripts/flow-field.ts"></script>
 
 <script>
-  const searchInput = document.getElementById('project-search') as HTMLInputElement;
-  const categoryButtons = document.querySelectorAll('[data-type="category"]') as NodeListOf<HTMLElement>;
-  const tagButtons     = document.querySelectorAll('[data-type="tag"]')      as NodeListOf<HTMLElement>;
-  const projectCards   = document.querySelectorAll('.project-card')          as NodeListOf<HTMLElement>;
-  const countEl        = document.getElementById('project-count');
-  const headerCountEl  = document.getElementById('header-count'); // P3 FIX
-  const emptyState     = document.getElementById('empty-state');
-  const emptyQueryEl   = document.getElementById('empty-query');   // P2 FIX
-  const resetBtn       = document.getElementById('reset-filters');
-  const clearAllBtn    = document.getElementById('clear-all-filters');
-  const gridEl         = document.getElementById('project-grid');
-  const activeStrip    = document.getElementById('active-filter-strip');
-  const activeLbl      = document.getElementById('active-filter-label');
+  // Filter interaction
+  const buttons = document.querySelectorAll('#category-filters button');
+  const cards = document.querySelectorAll('#projects-grid .project-card') as NodeListOf<HTMLElement>;
 
-  let activeCategory = 'Tất cả';
-  let activeTag      = 'Tất cả';
-  let searchQuery    = '';
-
-  function applyFilters() {
-    let visible = 0;
-    projectCards.forEach(card => {
-      // FIX Minor: search cũng match description và tags
-      const name  = card.dataset.name  || '';
-      const desc  = card.dataset.desc  || '';
-      const tags  = (card.dataset.tags || '').split(',');
-      const cat   = card.dataset.category || '';
-      const q     = searchQuery.toLowerCase();
-      const matchSearch   = q === '' || name.includes(q) || desc.includes(q) || tags.some(t => t.toLowerCase().includes(q));
-      const matchCategory = activeCategory === 'Tất cả' || cat === activeCategory;
-      const matchTag      = activeTag === 'Tất cả' || tags.includes(activeTag);
-      const ok = matchSearch && matchCategory && matchTag;
-      card.style.display = ok ? '' : 'none';
-      if (ok) visible++;
-    });
-
-    if (countEl) countEl.textContent = `${visible} dự án`;
-    // P3 FIX: cập nhật header-count khi filter
-    if (headerCountEl) headerCountEl.textContent = String(visible);
-
-    // Empty state
-    if (emptyState && gridEl) {
-      const isEmpty = visible === 0;
-      emptyState.classList.toggle('hidden', !isEmpty);
-      emptyState.classList.toggle('flex', isEmpty);
-      gridEl.classList.toggle('hidden', isEmpty);
-
-      // P2 FIX: hiện query trong empty state
-      if (isEmpty && emptyQueryEl) {
-        const parts: string[] = [];
-        if (searchQuery)                  parts.push(`"​${searchQuery}​"`);
-        if (activeCategory !== 'Tất cả') parts.push(activeCategory);
-        if (activeTag !== 'Tất cả')      parts.push(`#${activeTag}`);
-        emptyQueryEl.textContent = parts.length ? parts.join(' · ') : 'bộ lọc hiện tại';
-      }
-    }
-
-    // Active filter strip
-    const isFiltering = activeCategory !== 'Tất cả' || activeTag !== 'Tất cả' || searchQuery !== '';
-    if (activeStrip) {
-      activeStrip.classList.toggle('visible', isFiltering);
-    }
-    if (activeLbl) {
-      const parts: string[] = [];
-      if (searchQuery)              parts.push(`"${searchQuery}"`);
-      if (activeCategory !== 'Tất cả') parts.push(activeCategory);
-      if (activeTag !== 'Tất cả')      parts.push(`#${activeTag}`);
-      activeLbl.textContent = parts.join(' · ');
-    }
-  }
-
-  function setActiveBtn(buttons: NodeListOf<HTMLElement>, val: string) {
-    buttons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.filter === val);
-    });
-  }
-
-  function resetAll() {
-    if (searchInput) searchInput.value = '';
-    searchQuery    = '';
-    activeCategory = 'Tất cả';
-    activeTag      = 'Tất cả';
-    setActiveBtn(categoryButtons, 'Tất cả');
-    setActiveBtn(tagButtons, 'Tất cả');
-    applyFilters();
-  }
-
-  // FIX Minor: search match description + tags (handled in applyFilters)
-  searchInput?.addEventListener('input', e => {
-    searchQuery = (e.target as HTMLInputElement).value;
-    applyFilters();
-  });
-
-  categoryButtons.forEach(btn => {
+  buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
-      activeCategory = btn.dataset.filter || 'Tất cả';
-      setActiveBtn(categoryButtons, activeCategory);
-      applyFilters();
+      const selected = btn.getAttribute('data-category');
+
+      // Update button styles
+      buttons.forEach((b) => {
+        b.classList.remove(
+          'bg-violet-600/30',
+          'border-violet-500/60',
+          'text-white',
+          'shadow-[0_0_15px_rgba(139,92,246,0.3)]'
+        );
+        b.classList.add('bg-white/[0.03]', 'border-white/10', 'text-zinc-400');
+      });
+
+      btn.classList.remove('bg-white/[0.03]', 'border-white/10', 'text-zinc-400');
+      btn.classList.add(
+        'bg-violet-600/30',
+        'border-violet-500/60',
+        'text-white',
+        'shadow-[0_0_15px_rgba(139,92,246,0.3)]'
+      );
+
+      // Filter cards
+      cards.forEach((card) => {
+        const cat = card.getAttribute('data-cat');
+        if (selected === 'Tất cả' || cat === selected) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
   });
-
-  tagButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeTag = btn.dataset.filter || 'Tất cả';
-      setActiveBtn(tagButtons, activeTag);
-      applyFilters();
-    });
-  });
-
-  resetBtn?.addEventListener('click', resetAll);
-  clearAllBtn?.addEventListener('click', resetAll);
 </script>
+</Layout>
