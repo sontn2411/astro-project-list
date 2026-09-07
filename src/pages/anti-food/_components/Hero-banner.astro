@@ -1,0 +1,189 @@
+---
+import bgBanner from "../_assets/bg-banner.jpg";
+import foodBanner from "../_assets/food-banner.png";
+import { Icon } from "astro-icon/components";
+
+const stats = [
+  {
+    icon: "lucide:star",
+    value: "4.5",
+    key: "Điểm đánh giá",
+  },
+  {
+    icon: "lucide:users",
+    value: "10k+",
+    key: "Khách hàng",
+  },
+  {
+    icon: "lucide:award",
+    value: "5+",
+    key: "Năm kinh nghiệm",
+  },
+];
+---
+
+<section
+  style={`background-image: url('${bgBanner.src}');`}
+  class="relative w-full min-h-dvh bg-cover bg-center bg-no-repeat flex items-center pt-28 pb-6 overflow-hidden"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col justify-center gap-10 lg:gap-14">
+    
+    <!-- Hàng trên: Text (trái) & Food Banner (phải) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+      
+      <!-- 1. Text -->
+      <div class="space-y-6 text-center lg:text-left">
+        <!-- Badge -->
+        <div class="animate-hero-fade-up [animation-delay:0.1s]">
+          <span class="inline-block px-3.5 py-1 rounded-sm bg-primary-4 text-[#1b3229] text-xs sm:text-sm font-bold tracking-wide">
+            Fine Dining Restaurant
+          </span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="animate-hero-fade-up [animation-delay:0.25s] text-4xl sm:text-6xl xl:text-7xl font-bold text-white leading-[1.1] tracking-tight">
+          Good Food <br />
+          Brings People <br />
+          <span class="text-primary-4 italic font-normal">Together</span>
+        </h1>
+
+        <!-- Description -->
+        <p class="animate-hero-fade-up [animation-delay:0.4s] text-white/80 text-sm sm:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
+          At Anti, we serve more than just food — we serve experiences. Fresh ingredients, bold flavors and unforgettable moments.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="animate-hero-fade-up [animation-delay:0.55s] flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+          <a
+            href="#menu"
+            class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary-4 text-[#1b3229] font-semibold text-sm hover:bg-primary-4/90 transition-all duration-300 shadow-lg shadow-black/20 hover:scale-105 active:scale-95"
+          >
+            <span>Explore Our Menu</span>
+            <span class="text-base font-bold">→</span>
+          </a>
+          <a
+            href="#gallery"
+            class="inline-flex items-center px-7 py-3.5 rounded-full border border-white/30 text-white font-medium text-sm hover:bg-white/10 hover:border-white/60 transition-all duration-300 active:scale-95"
+          >
+            View Gallery
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. Food Banner -->
+      <div class="flex items-center justify-center relative">
+        <div class="relative w-full max-w-md lg:max-w-lg flex justify-center">
+          <!-- Hiệu ứng vầng sáng phía sau đĩa món ăn -->
+          <div class="absolute inset-0 bg-primary-4/10 blur-3xl rounded-full scale-90 pointer-events-none animate-hero-fade-in [animation-delay:0.2s]"></div>
+
+          <!-- Đĩa thức ăn -->
+          <div class="relative z-10 w-full max-w-xs sm:max-w-md lg:max-w-lg animate-hero-food">
+            <img
+              src={foodBanner.src}
+              alt="Món ăn nổi bật Anti Food"
+              class="w-full h-auto object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.65)] hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          </div>
+
+          <!-- Badge vòng tròn Fresh Food Daily -->
+          <div class="absolute z-20 top-[2%] right-[2%] sm:top-[4%] sm:right-[6%] animate-hero-badge-pop">
+            <div class="flex flex-col items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-primary-4 text-[#1b3229] rotate-12 font-pacifico text-base sm:text-lg leading-tight shadow-2xl shadow-black/40 border-2 hover:scale-105 hover:rotate-6 transition-all duration-300 select-none"> 
+              <span>Fresh</span>
+              <span>Food</span>
+              <span>Daily</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 3. Đánh giá / Stats (Nằm ở dưới) -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 pt-6 lg:pt-8">
+      {stats.map((item, index) => (
+        <div
+          class="animate-hero-fade-up flex items-center gap-4"
+          style={`animation-delay: ${0.7 + index * 0.15}s;`}
+        >
+          <!-- Icon bên trái -->
+          <Icon name={item.icon} class="w-9 h-9 sm:w-10 sm:h-10 text-primary-4 shrink-0" />
+
+          <!-- Value & Key bên phải -->
+          <div class="flex flex-col">
+            <span class="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-none">
+              {item.value}
+            </span>
+            <span class="text-sm font-medium text-white/80 mt-1">
+              {item.key}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @keyframes heroFadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes heroFoodEntrance {
+    from {
+      opacity: 0;
+      transform: scale(0.82) rotate(-5deg);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes heroBadgePop {
+    0% {
+      opacity: 0;
+      transform: scale(0.2) rotate(-20deg);
+    }
+    75% {
+      opacity: 1;
+      transform: scale(1.12) rotate(14deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  .animate-hero-fade-up {
+    animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .animate-hero-fade-in {
+    animation: heroFadeIn 1.2s ease-out both;
+  }
+
+  .animate-hero-food {
+    animation: heroFoodEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  }
+
+  .animate-hero-badge-pop {
+    animation: heroBadgePop 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s both;
+  }
+</style>

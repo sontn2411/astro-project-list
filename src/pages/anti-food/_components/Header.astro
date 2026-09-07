@@ -1,0 +1,79 @@
+---
+import logo from "../_assets/logo-anti.png";
+
+const dataMenu = [
+  {
+    id: 1,
+    name: "Home",
+    path: '#',
+    active: true,
+  },
+  {
+    id: 2,
+    name: "About",
+    path: '#about',
+    active: false,
+  },
+  {
+    id: 3,
+    name: "Menu",
+    path: '#menu',
+    active: false,
+  },
+  {
+    id: 6,
+    name: "Gallery",
+    path: '#gallery',
+    active: false,
+  },
+  {
+    id: 5,
+    name: "Reservation",
+    path: '#reservation',
+    active: false,
+  },
+  {
+    id: 4,
+    name: "Contact",
+    path: '#contact',
+    active: false,
+  }
+]
+
+---
+
+<header class="fixed top-0 left-0 w-full z-50">
+  <div class="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+    <!-- Logo -->
+    <a href="#" class="flex items-center">
+      <img src={logo.src} alt="logo" class="h-20 sm:h-24 w-auto object-contain" />
+    </a>
+
+    <!-- Menu -->
+    <nav class="hidden md:flex items-center space-x-8">
+      {dataMenu.map((item) => (
+        <a
+          href={item.path}
+          class:list={[
+            "relative py-2 font-medium text-sm lg:text-base tracking-wide transition-colors duration-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-4 after:rounded-full after:origin-left after:transition-transform after:duration-300",
+            item.active
+              ? "text-primary-4 font-semibold after:scale-x-100"
+              : "text-white/80 hover:text-white after:scale-x-0 hover:after:scale-x-100",
+          ]}
+        >
+          {item.name}
+        </a>
+      ))}
+    </nav>
+
+    <!-- CTA Button -->
+    <div class="flex items-center">
+      <a
+        href="#reservation"
+        class="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-primary-4 text-[#1b3229] hover:bg-primary-4/90 font-semibold text-sm tracking-wide transition-all duration-300 shadow-sm"
+      >
+        Book a today
+      </a>
+    </div>
+  </div>
+</header>
