@@ -65,11 +65,10 @@ const categories = ['Tất cả', ...new Set(projects.map(p => p.category))];
 
 <Layout title="Projects I've Built — Portfolio" description="A collection of projects I've worked on, from web apps to creative tools.">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { 
     width: 100%; 
     min-height: 100%; 
-    background: #07090e; 
+    background: #070b0d; 
     color: #f3f4f6;
     overflow-x: hidden;
   }
@@ -82,6 +81,7 @@ const categories = ['Tất cả', ...new Set(projects.map(p => p.category))];
     top: 0;
     left: 0;
     z-index: 0;
+    pointer-events: none;
   }
 
   .canvas-overlay {
@@ -112,29 +112,25 @@ const categories = ['Tất cả', ...new Set(projects.map(p => p.category))];
 <div class="canvas-overlay"></div>
 
 <!-- Main Content Foreground -->
-<main class="relative z-10 min-h-screen px-6 sm:px-8 md:px-16 py-16 md:py-24 max-w-7xl mx-auto flex flex-col justify-between">
+<main class="relative z-10 min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-16 md:py-20 max-w-7xl mx-auto w-full">
   
-  <!-- Header Title Section -->
-  <section class="mb-12 md:mb-16">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-xs font-medium text-violet-300 mb-6 backdrop-blur-sm">
-      <span class="w-2 h-2 rounded-full bg-violet-400 animate-pulse"></span>
-      <span>Portfolio & Showcase</span>
-    </div>
-
-    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-5">
+  <!-- Title & Description Section -->
+  <section class="mb-10 md:mb-14">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-4">
       Projects <span class="bg-gradient-to-r from-[#c084fc] via-[#818cf8] to-[#93c5fd] bg-clip-text text-transparent">I’ve Built</span>
     </h1>
     
     <p class="text-base sm:text-lg text-zinc-400 max-w-2xl leading-relaxed font-normal">
-      A collection of projects I've worked on, from web apps to creative tools. Each one represents a step in my journey to become a better developer.
+      Tổng hợp các dự án web application, thiết kế giao diện sáng tạo và trải nghiệm số đã thực hiện. Mỗi dự án là một bước tiến trong hành trình phát triển sản phẩm chất lượng cao.
     </p>
 
     <!-- Filter Pills -->
-    <div class="flex flex-wrap items-center gap-2 pt-8" id="category-filters">
+    <div class="flex flex-wrap items-center gap-2 pt-6 sm:pt-8" id="category-filters">
       {categories.map((cat, i) => (
         <button
+          type="button"
           data-category={cat}
-          class={`filter-btn px-4 py-2 text-xs sm:text-sm rounded-full font-medium transition-all duration-200 border ${
+          class={`filter-btn px-4 py-1.5 text-xs sm:text-sm rounded-full font-medium transition-all duration-200 border cursor-pointer ${
             i === 0
               ? 'bg-violet-600/30 border-violet-500/60 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)]'
               : 'bg-white/[0.03] border-white/10 text-zinc-400 hover:text-white hover:bg-white/[0.08] hover:border-white/20'
@@ -147,7 +143,7 @@ const categories = ['Tất cả', ...new Set(projects.map(p => p.category))];
   </section>
 
   <!-- Projects Grid -->
-  <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16" id="projects-grid">
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8" id="projects-grid">
     {projects.map((project) => (
       <a
         href={project.url}
@@ -188,7 +184,7 @@ const categories = ['Tất cả', ...new Set(projects.map(p => p.category))];
         </div>
 
         <!-- Card Content -->
-        <div class="p-6 sm:p-7 flex flex-col flex-1 justify-between">
+        <div class="p-6 sm:p-7 flex flex-col flex-1 justify-between gap-6">
           <div>
             <!-- Project Title & Index -->
             <div class="flex items-center justify-between gap-4 mb-3">
@@ -201,21 +197,12 @@ const categories = ['Tất cả', ...new Set(projects.map(p => p.category))];
             </div>
 
             <!-- Description -->
-            <p class="text-sm text-zinc-400 leading-relaxed mb-6 line-clamp-3">
+            <p class="text-sm text-zinc-400 leading-relaxed line-clamp-3">
               {project.description}
             </p>
           </div>
 
           <div>
-            <!-- Tags -->
-            <div class="flex flex-wrap gap-1.5 mb-6">
-              {project.tags.map((tag) => (
-                <span class="px-2.5 py-0.5 text-[11px] rounded-md bg-white/[0.04] text-zinc-300 border border-white/5 font-medium">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-
             <!-- Card Bottom Action Link -->
             <div class="pt-4 border-t border-white/10 flex items-center justify-between">
               <span class="text-xs font-semibold uppercase tracking-wider text-zinc-300 group-hover:text-violet-300 transition-colors">
@@ -237,54 +224,55 @@ const categories = ['Tất cả', ...new Set(projects.map(p => p.category))];
       </a>
     ))}
   </section>
-
-  <!-- Footer Info -->
-  <footer class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
-    <p>© {new Date().getFullYear()} Portfolio. Built with Astro & Canvas Flow Field.</p>
-    <p class="font-mono text-zinc-400">Interactive Canvas Ambient</p>
-  </footer>
 </main>
 
 <script src="../scripts/flow-field.ts"></script>
 
 <script>
-  // Filter interaction
-  const buttons = document.querySelectorAll('#category-filters button');
-  const cards = document.querySelectorAll('#projects-grid .project-card') as NodeListOf<HTMLElement>;
+  function initProjectFilters() {
+    const buttons = document.querySelectorAll('#category-filters button');
+    const cards = document.querySelectorAll('#projects-grid .project-card') as NodeListOf<HTMLElement>;
 
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const selected = btn.getAttribute('data-category');
+    if (!buttons.length || !cards.length) return;
 
-      // Update button styles
-      buttons.forEach((b) => {
-        b.classList.remove(
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const selected = btn.getAttribute('data-category');
+
+        // Update button styles
+        buttons.forEach((b) => {
+          b.classList.remove(
+            'bg-violet-600/30',
+            'border-violet-500/60',
+            'text-white',
+            'shadow-[0_0_15px_rgba(139,92,246,0.3)]'
+          );
+          b.classList.add('bg-white/[0.03]', 'border-white/10', 'text-zinc-400');
+        });
+
+        btn.classList.remove('bg-white/[0.03]', 'border-white/10', 'text-zinc-400');
+        btn.classList.add(
           'bg-violet-600/30',
           'border-violet-500/60',
           'text-white',
           'shadow-[0_0_15px_rgba(139,92,246,0.3)]'
         );
-        b.classList.add('bg-white/[0.03]', 'border-white/10', 'text-zinc-400');
-      });
 
-      btn.classList.remove('bg-white/[0.03]', 'border-white/10', 'text-zinc-400');
-      btn.classList.add(
-        'bg-violet-600/30',
-        'border-violet-500/60',
-        'text-white',
-        'shadow-[0_0_15px_rgba(139,92,246,0.3)]'
-      );
-
-      // Filter cards
-      cards.forEach((card) => {
-        const cat = card.getAttribute('data-cat');
-        if (selected === 'Tất cả' || cat === selected) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+        // Filter cards
+        cards.forEach((card) => {
+          const cat = card.getAttribute('data-cat');
+          if (selected === 'Tất cả' || cat === selected) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
       });
     });
-  });
+  }
+
+  // Khởi chạy khi load và khi chuyển trang qua ClientRouter
+  initProjectFilters();
+  document.addEventListener('astro:page-load', initProjectFilters);
 </script>
 </Layout>
