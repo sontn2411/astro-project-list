@@ -8,12 +8,12 @@ import ButtonBrush from "./ButtonBrush.astro";
 ---
 
 
-<section id="hero-section" class="relative w-full min-h-screen overflow-hidden">
+<section id="hero-section" class="relative isolate w-full min-h-screen overflow-hidden">
   <!-- Ảnh nền tối ưu LCP -->
   <Image 
     src={bgHero} 
     alt="Banner Hero" 
-    class="hero-bg absolute inset-0 w-full h-full object-cover -z-10 transform-gpu" 
+    class="hero-bg absolute inset-0 w-full h-full object-cover pointer-events-none transform-gpu" 
     loading="eager"
   />
   <!-- Nội dung đè lên trên ảnh (Mobile có nền giấy paper-bg, Desktop trong suốt theo nền chính) -->
