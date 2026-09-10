@@ -1,0 +1,197 @@
+---
+import { Image } from "astro:assets";
+import bgHero from "../_assets/bg-hero.png";
+import bgText from '../_assets/bg-text.png';
+import paperBg from "../_assets/paper-bg.png";
+import DividerOrnament from "./DividerOrnament.astro";
+import ButtonBrush from "./ButtonBrush.astro";
+---
+
+
+<section id="hero-section" class="relative w-full min-h-screen overflow-hidden">
+  <!-- Ảnh nền tối ưu LCP -->
+  <Image 
+    src={bgHero} 
+    alt="Banner Hero" 
+    class="hero-bg absolute inset-0 w-full h-full object-cover -z-10 transform-gpu" 
+    loading="eager"
+  />
+  <!-- Nội dung đè lên trên ảnh (Mobile có nền giấy paper-bg, Desktop trong suốt theo nền chính) -->
+  <div 
+    class="hero-card absolute z-10 top-1/2 left-4 right-4 sm:left-8 sm:right-8 md:left-14 md:right-auto lg:left-[7%] xl:left-[8%] -translate-y-1/2 max-w-[92vw] sm:max-w-md md:max-w-lg lg:max-w-[460px] xl:max-w-[500px] px-6 pt-8 pb-9 sm:px-9 sm:pt-10 sm:pb-11 md:p-0 bg-[image:var(--paper-bg)] md:bg-none bg-[length:100%_100%] bg-center bg-no-repeat drop-shadow-[0_12px_28px_rgba(0,0,0,0.38)] md:drop-shadow-none transform-gpu"
+    style={`--paper-bg: url('${paperBg.src}');`}
+  >
+    <div class="flex items-center gap-3.5 sm:gap-5 md:gap-6">
+      <!-- Badge Mâm Cơm dạng vệt sơn thư pháp đục rỗng chữ (Hiệu ứng đóng dấu triện Stamp) -->
+      <div class="hero-seal relative shrink-0 w-13 sm:w-16 md:w-20 aspect-[1/1.75] select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)] transform-gpu">
+        <svg class="w-full h-full overflow-visible" viewBox="0 0 100 175" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <mask id="seal-text-mask">
+              <!-- Nền trắng giữ lại hình ảnh vệt sơn đỏ -->
+              <rect width="100" height="175" fill="white" />
+              <!-- Chữ màu đen đục rỗng để lộ hoàn toàn nền giấy phía sau -->
+              <text 
+                x="50" 
+                y="68" 
+                text-anchor="middle" 
+                fill="black" 
+                font-family="'Charm', cursive"
+                font-size="34" 
+                font-weight="700"
+              >Mâm</text>
+              <text 
+                x="50" 
+                y="120" 
+                text-anchor="middle" 
+                fill="black" 
+                font-family="'Charm', cursive"
+                font-size="34" 
+                font-weight="700"
+              >Cơm</text>
+            </mask>
+          </defs>
+          <image 
+            href={bgText.src} 
+            width="100" 
+            height="175" 
+            preserveAspectRatio="none" 
+            mask="url(#seal-text-mask)" 
+          />
+        </svg>
+      </div>
+
+      <!-- Khối Text Tiêu đề -->
+      <div class="space-y-1.5 sm:space-y-2 md:space-y-3">
+        <p class="hero-subtitle font-serif-vintage! text-xs sm:text-sm md:text-base uppercase tracking-[0.2em] text-[#331a0b] font-bold flex items-center gap-1.5">
+          Từ những điều bình dị <span class="opacity-90 font-bold">~</span>
+        </p>
+        <h2 class="hero-title font-serif-vintage! text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#120702] font-semibold md:font-bold leading-[1.18] tracking-tight">
+          Ký ức trong<br />
+          một vòng tròn
+        </h2>
+      </div>
+    </div>
+
+    <!-- Đoạn mô tả (Description) -->
+    <p class="hero-desc mt-4 sm:mt-5 md:mt-7 font-serif-vintage! text-sm sm:text-base md:text-lg lg:text-xl text-[#200f06] font-medium md:font-semibold leading-relaxed max-w-md">
+      Mâm cơm Việt không chỉ là sự kết hợp của những món ăn, mà còn là nơi hội tụ của tinh thần, văn hóa và ký ức.
+    </p>
+
+    <!-- Họa tiết phân cách (Divider Ornament) -->
+    <div class="hero-divider mt-3.5 sm:mt-4 md:mt-5 origin-center">
+      <DividerOrnament class="w-36 sm:w-44 md:w-56 text-[#261307] opacity-50" strokeWidth="1.4" />
+    </div>
+
+    <!-- Khối trích dẫn & Nút bấm khám phá -->
+    <div class="mt-4 sm:mt-5 md:mt-6 space-y-3.5 sm:space-y-4 md:space-y-5">
+      <!-- Câu nói / Trích dẫn -->
+      <p class="hero-quote font-serif-vintage! italic font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl text-[#1a0b04] leading-snug tracking-wide">
+        “Cơm lành, canh ngọt.<br />
+        Nhà mình cùng ăn.”
+      </p>
+
+      <!-- Nút bấm Khám phá mâm cơm -->
+      <div class="hero-btn inline-block">
+        <ButtonBrush 
+          text="Khám phá mâm cơm" 
+          href="#kham-pha" 
+          class="w-56 sm:w-68 md:w-80 lg:w-[330px]" 
+        />
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  let heroCtx: gsap.Context | null = null;
+
+  function initHeroAnimations() {
+    // Dọn dẹp context cũ để tránh trùng lặp timeline
+    if (heroCtx) {
+      heroCtx.revert();
+    }
+
+    const heroSection = document.querySelector("#hero-section");
+    if (!heroSection) return;
+
+    heroCtx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.out" }
+      });
+
+      // 1. Khối nội dung xuất hiện êm ái
+      tl.fromTo(
+        ".hero-card",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.7 },
+        0.05
+      );
+
+      // 2. Hiệu ứng con dấu Mâm Cơm (nảy nhẹ mềm mại)
+      tl.fromTo(
+        ".hero-seal",
+        { scale: 1.6, opacity: 0, rotation: -8 },
+        { scale: 1, opacity: 1, rotation: 0, duration: 0.6, ease: "back.out(1.8)" },
+        0.25
+      );
+
+      // 3. Phụ đề & Tiêu đề
+      tl.fromTo(
+        ".hero-subtitle",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.45 },
+        0.4
+      );
+
+      tl.fromTo(
+        ".hero-title",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.55 },
+        0.5
+      );
+
+      // 4. Đoạn mô tả
+      tl.fromTo(
+        ".hero-desc",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.5 },
+        0.65
+      );
+
+      // 5. Họa tiết mở rộng từ tâm
+      tl.fromTo(
+        ".hero-divider",
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 0.5, duration: 0.55 },
+        0.75
+      );
+
+      // 6. Câu trích dẫn
+      tl.fromTo(
+        ".hero-quote",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.5 },
+        0.85
+      );
+
+      // 7. Nút bấm cọ
+      tl.fromTo(
+        ".hero-btn",
+        { opacity: 0, scale: 0.92, y: 12 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "back.out(1.5)" },
+        0.95
+      );
+    }, heroSection);
+  }
+
+  // Khởi tạo an toàn không bị lặp
+  document.addEventListener("astro:page-load", initHeroAnimations);
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    initHeroAnimations();
+  } else {
+    document.addEventListener("DOMContentLoaded", initHeroAnimations);
+  }
+</script>

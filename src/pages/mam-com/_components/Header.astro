@@ -1,0 +1,63 @@
+---
+import bgHeader from "../_assets/bg-header.png";
+---
+
+<header class="fixed top-0 inset-x-0 z-50 w-full max-w-6xl mx-auto px-4 pt-3 pb-1 font-be-vietnam">
+  <div class="relative w-full h-16 sm:h-20 flex items-center justify-between px-8 sm:px-14">
+    <span class="sr-only">Thanh điều hướng nền giấy xé 4 cạnh</span>
+    
+    <!-- SVG Torn Paper Background with Repeating Image Pattern -->
+    <svg 
+      class="absolute inset-0 w-full h-full pointer-events-none" 
+      viewBox="0 0 680 140" 
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <!-- Repeating Image Pattern -->
+        <pattern 
+          id="headerBgPattern" 
+          patternUnits="userSpaceOnUse" 
+          width="111" 
+          height="69"
+        >
+          <image 
+            href={bgHeader.src} 
+            width="111" 
+            height="69" 
+            preserveAspectRatio="none"
+          />
+        </pattern>
+
+        <!-- Filter Torn All 4 Sides -->
+        <filter id="tornAllSides" x="-15%" y="-45%" width="130%" height="190%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="4" seed="17" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+
+      <!-- Torn Paper Rectangle on all 4 sides -->
+      <rect 
+        x="30" 
+        y="25" 
+        width="620" 
+        height="90" 
+        fill="url(#headerBgPattern)" 
+        filter="url(#tornAllSides)"
+      />
+    </svg>
+
+    <!-- Header Content -->
+    <div class="relative z-10 w-full flex items-center justify-between px-4">
+      <a href="/mam-com" class="font-semibold text-base sm:text-lg text-[#4a3423] tracking-wide hover:opacity-80 transition-opacity">
+        Brand
+      </a>
+      <nav class="flex items-center gap-4 sm:gap-7">
+        <a href="#" class="text-[#4a3423] text-xs sm:text-sm font-medium hover:text-[#2a1d13] transition-colors">Trang chủ</a>
+        <a href="#" class="text-[#4a3423] text-xs sm:text-sm font-medium hover:text-[#2a1d13] transition-colors">Sản phẩm</a>
+        <a href="#" class="text-[#4a3423] text-xs sm:text-sm font-medium hover:text-[#2a1d13] transition-colors">Giới thiệu</a>
+        <a href="#" class="text-[#4a3423] text-xs sm:text-sm font-medium hover:text-[#2a1d13] transition-colors">Liên hệ</a>
+      </nav>
+    </div>
+  </div>
+</header>
