@@ -187,11 +187,12 @@ import ButtonBrush from "./ButtonBrush.astro";
     }, heroSection);
   }
 
-  // Khởi tạo an toàn không bị lặp
+  // Khởi tạo duy nhất qua astro:page-load để tương thích Astro ClientRouter
   document.addEventListener("astro:page-load", initHeroAnimations);
-  if (document.readyState === "complete" || document.readyState === "interactive") {
-    initHeroAnimations();
-  } else {
-    document.addEventListener("DOMContentLoaded", initHeroAnimations);
-  }
+  document.addEventListener("astro:before-swap", () => {
+    if (heroCtx) {
+      heroCtx.revert();
+      heroCtx = null;
+    }
+  });
 </script>
